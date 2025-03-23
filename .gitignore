@@ -1,0 +1,15 @@
+# Ignore Dart and Flutter generated files
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+pubspec.lock
+
+# Ignore editor files from VS Code and Android Studio
+.idea/
+.vscode/
+
+# Ignore build files for iOS and Android
+ios/
+android/
+web/build/
