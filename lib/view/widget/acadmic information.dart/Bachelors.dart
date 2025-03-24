@@ -11,7 +11,7 @@ import '../../../controller/dropdown_filter_controllers.dart';
 import '../../../controller/home_page_controller.dart';
 import '../../../theme.dart';
 import '../../pages/UploadImage/controller/UploadImageController.dart';
-import '../Coustom Calender.dart';
+import '../coustom_calender.dart';
 import '../DropDownCostom.dart';
 import '../GifImageCostom.dart';
 import '../IconButtonostom.dart';
@@ -148,8 +148,7 @@ class Bachelors extends StatelessWidget {
           return Container(
             decoration: BoxDecoration(
                 color: KprimeryColor,
-                borderRadius:
-                const BorderRadius.all(Radius.circular(19))),
+                borderRadius: const BorderRadius.all(Radius.circular(19))),
             margin: const EdgeInsets.only(top: 12, right: 12, left: 12),
             child: SingleChildScrollView(
               child: Form(
@@ -201,7 +200,8 @@ class Bachelors extends StatelessWidget {
                                 controller.universityValue.value = value;
                                 controller.fillterColleges(
                                     value, 'bachelorsColleges');
-                                fullDataAcademicInformation?.universityId = value;
+                                fullDataAcademicInformation?.universityId =
+                                    value;
                                 universityId = value;
                                 controller.update();
                               },
@@ -232,9 +232,11 @@ class Bachelors extends StatelessWidget {
                               return DropDownList(
                                 value: int.tryParse(collegesId.toString()),
                                 title: "الكلية",
-                                validator: (value) => isDropdownListValid(value),
+                                validator: (value) =>
+                                    isDropdownListValid(value),
                                 onchange: (val) {
-                                  academicInformation.collegesId = val.toString();
+                                  academicInformation.collegesId =
+                                      val.toString();
                                   controller.departmentsData();
                                   collegesId = val;
                                   departmentId = null;
@@ -257,7 +259,8 @@ class Bachelors extends StatelessWidget {
                             initialValue: collegesId.toString(),
                             width: 250,
                             title: "الكلية",
-                            validator: (value) => validateTextWithoutAnyCharacterNumber(value),
+                            validator: (value) =>
+                                validateTextWithoutAnyCharacterNumber(value),
                             onchange: (value) {
                               academicInformation.collegesId = value;
                             },
@@ -270,11 +273,13 @@ class Bachelors extends StatelessWidget {
                               value: int.tryParse(departmentId.toString()),
                               validator: (value) => isDropdownListValid(value),
                               onchange: (val) {
-                                academicInformation.departmentId = val.toString();
+                                academicInformation.departmentId =
+                                    val.toString();
                                 departmentId = val;
                                 controller.update();
                               },
-                              DropdownMenuItems: controller.superData!.department!
+                              DropdownMenuItems: controller
+                                  .superData!.department!
                                   .map((e) => DropdownMenuItem(
                                         value: e.departmentId,
                                         child: Center(
@@ -288,7 +293,8 @@ class Bachelors extends StatelessWidget {
                             initialValue: departmentId.toString(),
                             width: 250,
                             title: "القسم",
-                            validator: (value) => validateTextWithoutAnyCharacterNumber(value),
+                            validator: (value) =>
+                                validateTextWithoutAnyCharacterNumber(value),
                             onchange: (value) {
                               academicInformation.departmentId = value;
                             },
@@ -309,7 +315,8 @@ class Bachelors extends StatelessWidget {
                                   .map((e) => DropdownMenuItem(
                                         value: e.specializationId,
                                         child: Center(
-                                          child: Text('${e.specializationName}'),
+                                          child:
+                                              Text('${e.specializationName}'),
                                         ),
                                       ))
                                   .toList(),
@@ -319,7 +326,8 @@ class Bachelors extends StatelessWidget {
                             initialValue: specializationId.toString(),
                             width: 300,
                             title: "التخصص",
-                            validator: (value) => validateTextWithoutAnyCharacterNumber(value),
+                            validator: (value) =>
+                                validateTextWithoutAnyCharacterNumber(value),
                             onchange: (value) {
                               academicInformation.specializationId = value;
                             },
@@ -404,7 +412,8 @@ class Bachelors extends StatelessWidget {
                         firstQuarter = value ? 1 : 0;
                         controller.update();
                       },
-                      title: "هل انت من الربع الاول بالنسبة للكليات الهندسية والطبية؟ :",
+                      title:
+                          "هل انت من الربع الاول بالنسبة للكليات الهندسية والطبية؟ :",
                       initialValue: firstQuarter == 1,
                     ),
                     TitleAndTextStyle(
@@ -420,14 +429,16 @@ class Bachelors extends StatelessWidget {
                     CustomCalendar(
                       controller: bachelorCalenderController,
                       title: "تاريخ وثيقة البكلوريوس :",
-                      constrainWidth: 450,
+                      constrainWidth: 250,
+                      firstDate: DateTime(DateTime.now().year - 100),
+                      initialDate: DateTime.now(),
+                      lastDate: DateTime.now(),
                       onChange: (value) async {
                         debugPrint("value date = $value");
                       },
                     ),
-                    Obx(() =>
-                        checkFirstStudentAverage.value ?
-                         Row(
+                    Obx(() => checkFirstStudentAverage.value
+                        ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TitleAndTextStyle(
@@ -461,12 +472,11 @@ class Bachelors extends StatelessWidget {
                                     "تاريخ كتاب تأييد توفر او عدم توفر معدل الطالب الاول",
                               ),
                             ],
-                          ) : Container()
-                       ),
+                          )
+                        : Container()),
                     const SizedBox(
                       width: double.infinity,
                     ),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -504,8 +514,10 @@ class Bachelors extends StatelessWidget {
                                     endorsementCalenderController.text;
                                 // endorsementLetter.documentsNumber =
                                 //     documentsNumberController.text;
-                                endorsementLetter.documentsTypeId = DocumentsType
-                                    .firstStudentAverageConfirmationLetter.id;
+                                endorsementLetter.documentsTypeId =
+                                    DocumentsType
+                                        .firstStudentAverageConfirmationLetter
+                                        .id;
                                 academicInformation.documents
                                     ?.add(endorsementLetter);
                               }

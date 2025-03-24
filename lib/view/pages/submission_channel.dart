@@ -609,6 +609,7 @@ class SubmissionChannel extends StatelessWidget {
                                                   );
                                                 }
                                               }
+                                              Get.back();
                                             } catch (e) {
                                               // Hide loading dialog in case of error
                                               Get.back();

@@ -19,6 +19,7 @@ class TitleAndTextStyle extends StatefulWidget {
   final Function(String)? onchange;
   final bool? obscureText;
   final Future<void> Function()? onEnter; // Accept asynchronous callback
+  final bool enabled;
 
   const TitleAndTextStyle({
     super.key,
@@ -37,7 +38,8 @@ class TitleAndTextStyle extends StatefulWidget {
     this.mouseCursor,
     this.obscureText,
     this.isPassword,
-    this.onEnter, // Add onEnter as a constructor parameter
+    this.onEnter,
+    this.enabled = true, // Add onEnter as a constructor parameter
   });
 
   @override
@@ -105,13 +107,18 @@ class _TitleAndTextStyleState extends State<TitleAndTextStyle> {
                     Expanded(
                       child: Focus(
                         onKeyEvent: (FocusNode node, KeyEvent event) {
-                          if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.enter) {
+                          if (event is KeyDownEvent &&
+                              event.logicalKey == LogicalKeyboardKey.enter) {
                             widget.onEnter?.call();
                             return KeyEventResult.handled;
                           }
                           return KeyEventResult.ignored;
                         },
                         child: TextFormField(
+                          enabled: widget.enabled,
+                          style: widget.enabled
+                              ? null
+                              : const TextStyle(color: Colors.black),
                           obscuringCharacter: "*",
                           obscureText: widget.obscureText ?? false,
                           mouseCursor: widget.mouseCursor ??
@@ -145,6 +152,7 @@ class _TitleAndTextStyleState extends State<TitleAndTextStyle> {
                             return m;
                           },
                           decoration: InputDecoration(
+                              disabledBorder: outlinecostom(),
                               focusedErrorBorder: outlinecostom(),
                               hoverColor: Colors.transparent,
                               filled: true,

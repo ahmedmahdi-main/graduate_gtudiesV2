@@ -3,7 +3,7 @@ import 'package:graduate_gtudiesV2/view/widget/titleandtextstyle.dart';
 
 import '../../Models/SuperData.dart';
 import '../../ValidatorFunction/text_validator.dart';
-import 'Coustom Calender.dart';
+import 'coustom_calender.dart';
 
 class AddDocumentsTypesWidgets extends StatelessWidget {
   final List<ChannelsDataDocumentsTypes>? documents;

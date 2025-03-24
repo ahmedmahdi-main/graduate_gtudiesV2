@@ -69,10 +69,7 @@ class CustomCalendar extends StatefulWidget {
 }
 
 class _CustomCalendarState extends State<CustomCalendar> {
-  late OverlayEntry _overlayEntry;
-
-  final LayerLink _layerLink = LayerLink();
-  bool isclicked = false;
+  bool isClicked = false;
   late DateTime? _selectedDate;
   late DateTime _firstDate;
   late DateTime _lastDate;
@@ -83,8 +80,8 @@ class _CustomCalendarState extends State<CustomCalendar> {
   void initState() {
     super.initState();
     _selectedDate = widget.initialDate;
-    _firstDate = widget.firstDate ?? DateTime(1900);
-    _lastDate = widget.lastDate ?? DateTime(2100);
+    _firstDate = DateTime(1900);
+    _lastDate = DateTime(2100);
   }
 
   void onChange(DateTime? selectedDate) {
@@ -93,49 +90,11 @@ class _CustomCalendarState extends State<CustomCalendar> {
     // _controller.text = _selectedDate.parseToString(widget.dateformat);
 
     // _focusNode.unfocus();
-    _overlayEntry.remove();
-    isclicked = false;
 
     String m = selectedDate.parseToString('yyyy/MM/dd');
     setState(() {
       _effectiveController.text = m;
     });
-  }
-
-  OverlayEntry _createOverlayEntry() {
-    final RenderBox renderBox = context.findRenderObject() as RenderBox;
-    final size = renderBox.size;
-    final offset = renderBox.localToGlobal(Offset.zero);
-
-    bool isSpaceAbove =
-        offset.dy >= 250; // Checks if there's enough space above
-    bool isSpaceBelow =
-        MediaQuery.of(context).size.height - (offset.dy + size.height) >=
-            250; // Checks if there's enough space below
-
-    return OverlayEntry(
-      builder: (context) => Positioned(
-        left: offset.dx,
-        top: isSpaceBelow ? offset.dy + size.height : null,
-        bottom: isSpaceAbove
-            ? MediaQuery.of(context).size.height - offset.dy
-            : null,
-        child: Material(
-          elevation: 5.0,
-          child: SizedBox(
-            width: size.width.clamp(
-                200, 400), // Ensures the width stays within 200 to 400 pixels
-            height: 250, // Sets a fixed height of 250 pixels for the calendar
-            child: CalendarDatePicker(
-              firstDate: _firstDate,
-              lastDate: _lastDate,
-              initialDate: _selectedDate ?? DateTime.now(),
-              onDateChanged: onChange,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   TextEditingController textEditingController = TextEditingController();
@@ -149,7 +108,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
       context: Get.context!,
       initialDate: DateTime.now(),
       lastDate: DateTime.now(),
-      firstDate: DateTime((DateTime.now().year - 10)),
+      firstDate: DateTime((DateTime.now().year - 100)),
       cancelText: 'إلغاء',
       confirmText: 'تم',
     );
@@ -160,18 +119,6 @@ class _CustomCalendarState extends State<CustomCalendar> {
     } else {
       _effectiveController.text = 'حدد التاريخ';
     }
-    // if (isclicked) {
-    //   _overlayEntry.remove();
-    //   setState(() {
-    //     isclicked = false;
-    //   });
-    // } else {
-    //   _overlayEntry = _createOverlayEntry();
-    //   Overlay.of(context).insert(_overlayEntry);
-    //   setState(() {
-    //     isclicked = true;
-    //   });
-    // }
   }
 
   String formatDate(DateTime picked) {
@@ -180,91 +127,47 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    return CompositedTransformTarget(
-      link: _layerLink,
-      child: MouseRegion(onEnter: (_) {
+    return MouseRegion(
+      onEnter: (_) {
         setState(() {
           _isEnterDateField = true;
         });
-      }, onExit: (_) {
+      },
+      onExit: (_) {
         setState(() {
           _isEnterDateField = false;
         });
-      }, child: Builder(builder: (context) {
-        return GestureDetector(
-          child: TitleAndTextStyle(
-            width: widget.constrainWidth,
-            mouseCursor: WidgetStateMouseCursor.clickable,
+      },
+      child: Builder(
+        builder: (context) {
+          return GestureDetector(
             onTap: _onTap,
+            child: TitleAndTextStyle(
+              enabled: false,
+              width: widget.constrainWidth,
+              mouseCursor: WidgetStateMouseCursor.clickable,
 
-            readOnly: true,
-            // autovalidateMode: AutovalidateMode.always,
-            validator: (value) {
-              if (value == null ||
-                  value.isEmpty ||
-                  (value.length != 10 || !value.contains("/"))) {
-                return "خطأ بالتاريخ";
-              }
-              return null;
-            },
-            widget: Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: IconButton(
-                splashColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                onPressed: _onTap,
-                icon: const Icon(Icons.calendar_month_outlined),
-              ),
-            ),
-            controller: _effectiveController,
-            title: widget.title,
-          ),
-        );
-      })),
-    );
-  }
-
-  Center iconw(BuildContext context) {
-    return Center(
-      child: IconButton(
-        icon: const Icon(Icons.calendar_month_outlined),
-        onPressed: isclicked
-            ? () {}
-            : () {
-                _overlayEntry = _createOverlayEntry();
-                Overlay.of(context).insert(_overlayEntry);
-                setState(() {
-                  isclicked = true;
-                });
-                // _controller.clear();
-                // _selectedDate = null;
+              readOnly: true,
+              // autovalidateMode: AutovalidateMode.always,
+              validator: (value) {
+                if (_effectiveController.text == '') {
+                  return "خطأ بالتاريخ";
+                }
+                return null;
               },
-        splashRadius: 16,
+              widget: Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Icon(
+                  Icons.calendar_month_outlined,
+                ),
+              ),
+              controller: _effectiveController,
+              title: widget.title,
+            ),
+          );
+        },
       ),
     );
-  }
-
-  Widget _buildPrefixIcon() {
-    if (_isEnterDateField) {
-      return IconButton(
-        icon: const Icon(Icons.calendar_month_outlined),
-        onPressed: () {
-          _overlayEntry.remove();
-          // _controller.clear();
-          // _selectedDate = null;
-        },
-        splashRadius: 16,
-      );
-    } else {
-      return widget.prefix ??
-          IconButton(
-              onPressed: () {
-                _overlayEntry = _createOverlayEntry();
-                Overlay.of(context).insert(_overlayEntry);
-              },
-              icon: const Icon(Icons.calendar_month));
-    }
   }
 }
 

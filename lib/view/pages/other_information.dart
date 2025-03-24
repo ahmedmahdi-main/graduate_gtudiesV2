@@ -15,9 +15,9 @@ import '../../controller/certificate_data_controller.dart';
 import '../../controller/exam_centers_controller.dart';
 import '../../controller/home_page_controller.dart';
 import '../../theme.dart';
-import '../widget/Coustom Calender.dart';
 import '../widget/GifImageCostom.dart';
 import '../widget/buttonsyle.dart';
+import '../widget/coustom_calender.dart';
 import '../widget/custom switcher.dart';
 import '../widget/dropdownlistt.dart';
 import '../widget/titleandtextstyle.dart';
@@ -598,49 +598,78 @@ class OtherInformation extends StatelessWidget {
 
                                       try {
                                         // Clear and add new certificate documents and competencies
-                                        certificateDataController.certificateData.documents = [];
-                                        certificateDataController.certificateData.certificateCompetency = [];
+                                        certificateDataController
+                                            .certificateData.documents = [];
+                                        certificateDataController
+                                            .certificateData
+                                            .certificateCompetency = [];
 
                                         if (olmped.value) {
-                                          sportDocument.documentsDate = sportDocumentDate.text;
-                                          certificateDataController.certificateData.documents!.add(sportDocument);
+                                          sportDocument.documentsDate =
+                                              sportDocumentDate.text;
+                                          certificateDataController
+                                              .certificateData.documents!
+                                              .add(sportDocument);
                                         }
 
                                         // Add certificate competencies
-                                        certificateDataController.certificateData.certificateCompetency!
+                                        certificateDataController
+                                            .certificateData
+                                            .certificateCompetency!
                                             .add(certificateCompetencyComputer);
 
-                                        if (certificateCompetencyEnglish.examCenterId != null) {
-                                          certificateDataController.certificateData.certificateCompetency!
-                                              .add(certificateCompetencyEnglish);
+                                        if (certificateCompetencyEnglish
+                                                .examCenterId !=
+                                            null) {
+                                          certificateDataController
+                                              .certificateData
+                                              .certificateCompetency!
+                                              .add(
+                                                  certificateCompetencyEnglish);
                                         }
 
-                                        certificateDataController.certificateData.certificateCompetency!
+                                        certificateDataController
+                                            .certificateData
+                                            .certificateCompetency!
                                             .add(certificateCompetencyArabic);
 
-                                        if (certificateCompetencyIlits.examCenterId != null) {
-                                          certificateDataController.certificateData.certificateCompetency!
+                                        if (certificateCompetencyIlits
+                                                .examCenterId !=
+                                            null) {
+                                          certificateDataController
+                                              .certificateData
+                                              .certificateCompetency!
                                               .add(certificateCompetencyIlits);
                                         }
 
                                         // Upload data
-                                        var status = await certificateDataController.uploadData();
-                                        homePageController.otherInformation.isFull.value = status;
+                                        var status =
+                                            await certificateDataController
+                                                .uploadData();
+                                        homePageController.otherInformation
+                                            .isFull.value = status;
 
                                         // Hide the loading dialog
                                         Get.back();
 
                                         if (status) {
                                           // Change to the next page
-                                          homePageController.pageChange(homePageController.uploadImagePage.index);
+                                          homePageController.pageChange(
+                                              homePageController
+                                                  .uploadImagePage.index);
 
                                           // Optionally show a confirmation dialog if there's a serial number
-                                          if (homePageController.fullStudentData.value.serial != null) {
-                                            DilogCostom.confirmFinishEditing(onSubmit: () async {
-                                              await homePageController.modifyComplete();
+                                          if (homePageController.fullStudentData
+                                                  .value.serial !=
+                                              null) {
+                                            DilogCostom.confirmFinishEditing(
+                                                onSubmit: () async {
+                                              await homePageController
+                                                  .modifyComplete();
                                             });
                                           }
                                         }
+                                        Get.back();
                                       } catch (e) {
                                         // Hide the loading dialog in case of an error
                                         Get.back();
@@ -648,13 +677,13 @@ class OtherInformation extends StatelessWidget {
                                         // Handle exception by showing an error dialog
                                         DilogCostom.dilogSecss(
                                           isErorr: true,
-                                          title: "حدث خطأ أثناء معالجة البيانات، يرجى المحاولة مرة أخرى",
+                                          title:
+                                              "حدث خطأ أثناء معالجة البيانات، يرجى المحاولة مرة أخرى",
                                           icons: Icons.error,
                                           color: Colors.redAccent,
                                         );
                                       }
-                                    }
-,
+                                    },
                                   ),
                                 ])
                           ],

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Models/full_student_data.dart';
@@ -16,10 +15,10 @@ class UploadImagePage extends StatelessWidget {
 
   // Sample instance of ImageInformation to provide initial images
 
-
   @override
   Widget build(BuildContext context) {
-    final ImageInformation? imageInfo = homePageController.fullStudentData.value.imageInformation;
+    final ImageInformation? imageInfo =
+        homePageController.fullStudentData.value.imageInformation;
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(16),
@@ -44,7 +43,7 @@ class UploadImagePage extends StatelessWidget {
                             initialImage: imageInfo?.personalPhoto,
                             onTap: () async {
                               controller.personalPhoto =
-                              await controller.pickImage();
+                                  await controller.pickImage();
                               controller.update();
                               return controller.personalPhoto;
                             },
@@ -55,7 +54,7 @@ class UploadImagePage extends StatelessWidget {
                             initialImage: imageInfo?.nationalCardFace1,
                             onTap: () async {
                               controller.nationalCardFace1 =
-                              await controller.pickImage();
+                                  await controller.pickImage();
                               controller.update();
                               return controller.nationalCardFace1;
                             },
@@ -66,7 +65,7 @@ class UploadImagePage extends StatelessWidget {
                             initialImage: imageInfo?.nationalCardFace2,
                             onTap: () async {
                               controller.nationalCardFace2 =
-                              await controller.pickImage();
+                                  await controller.pickImage();
                               controller.update();
                               return controller.nationalCardFace2;
                             },
@@ -77,7 +76,7 @@ class UploadImagePage extends StatelessWidget {
                             initialImage: imageInfo?.residenceCardFace1,
                             onTap: () async {
                               controller.residenceCardFace1 =
-                              await controller.pickImage();
+                                  await controller.pickImage();
                               controller.update();
                               return controller.residenceCardFace1;
                             },
@@ -88,7 +87,7 @@ class UploadImagePage extends StatelessWidget {
                             initialImage: imageInfo?.residenceCardFace2,
                             onTap: () async {
                               controller.residenceCardFace2 =
-                              await controller.pickImage();
+                                  await controller.pickImage();
                               controller.update();
                               return controller.residenceCardFace2;
                             },
@@ -99,7 +98,7 @@ class UploadImagePage extends StatelessWidget {
                             initialImage: imageInfo?.graduationDocument,
                             onTap: () async {
                               controller.graduationDocument =
-                              await controller.pickImage();
+                                  await controller.pickImage();
                               controller.update();
                               return controller.graduationDocument;
                             },
@@ -111,7 +110,7 @@ class UploadImagePage extends StatelessWidget {
                               initialImage: imageInfo?.firstStudentAverage,
                               onTap: () async {
                                 controller.firstStudentAverage =
-                                await controller.pickImage();
+                                    await controller.pickImage();
                                 controller.update();
                                 return controller.firstStudentAverage;
                               },
@@ -121,10 +120,11 @@ class UploadImagePage extends StatelessWidget {
                             UploadImageWidget(
                               title: "اضافة الامر الجامعي الخاص بالدبلوم",
                               image: controller.universityOrderForDiploma,
-                              initialImage: imageInfo?.universityOrderForDiploma,
+                              initialImage:
+                                  imageInfo?.universityOrderForDiploma,
                               onTap: () async {
                                 controller.universityOrderForDiploma =
-                                await controller.pickImage();
+                                    await controller.pickImage();
                                 controller.update();
                                 return controller.universityOrderForDiploma;
                               },
@@ -133,23 +133,27 @@ class UploadImagePage extends StatelessWidget {
                               .haveUniversityOrderForTheMastersDegree.value)
                             UploadImageWidget(
                               title: "اضافة الامر الجامعي الخاص بالماجستير",
-                              image: controller.universityOrderForTheMastersDegree,
-                              initialImage: imageInfo?.universityOrderForTheMastersDegree,
+                              image:
+                                  controller.universityOrderForTheMastersDegree,
+                              initialImage:
+                                  imageInfo?.universityOrderForTheMastersDegree,
                               onTap: () async {
                                 controller.universityOrderForTheMastersDegree =
-                                await controller.pickImage();
+                                    await controller.pickImage();
                                 controller.update();
-                                return controller.universityOrderForTheMastersDegree;
+                                return controller
+                                    .universityOrderForTheMastersDegree;
                               },
                             ),
-                          if (homePageController.havePeopleWithSpecialNeeds.value)
+                          if (homePageController
+                              .havePeopleWithSpecialNeeds.value)
                             UploadImageWidget(
                               title: "اضافة كتاب ذوي الاحتياجات الخاصة",
                               image: controller.peopleWithSpecialNeeds,
                               initialImage: imageInfo?.peopleWithSpecialNeeds,
                               onTap: () async {
                                 controller.peopleWithSpecialNeeds =
-                                await controller.pickImage();
+                                    await controller.pickImage();
                                 controller.update();
                                 return controller.peopleWithSpecialNeeds;
                               },
@@ -161,7 +165,7 @@ class UploadImagePage extends StatelessWidget {
                               initialImage: imageInfo?.politicalPrisoners,
                               onTap: () async {
                                 controller.politicalPrisoners =
-                                await controller.pickImage();
+                                    await controller.pickImage();
                                 controller.update();
                                 return controller.politicalPrisoners;
                               },
@@ -173,7 +177,7 @@ class UploadImagePage extends StatelessWidget {
                               initialImage: imageInfo?.martyrsFoundation,
                               onTap: () async {
                                 controller.martyrsFoundation =
-                                await controller.pickImage();
+                                    await controller.pickImage();
                                 controller.update();
                                 return controller.martyrsFoundation;
                               },
@@ -185,12 +189,15 @@ class UploadImagePage extends StatelessWidget {
                               title: "أمر جامعي بالحصول على لقب العلمي",
                               image: controller
                                   .universityOrderRegardingObtainingAnAcademicTitle,
-                              initialImage: imageInfo?.universityOrderRegardingObtainingAnAcademicTitle,
+                              initialImage: imageInfo
+                                  ?.universityOrderRegardingObtainingAnAcademicTitle,
                               onTap: () async {
-                                controller.universityOrderRegardingObtainingAnAcademicTitle =
-                                await controller.pickImage();
+                                controller
+                                        .universityOrderRegardingObtainingAnAcademicTitle =
+                                    await controller.pickImage();
                                 controller.update();
-                                return controller.universityOrderRegardingObtainingAnAcademicTitle;
+                                return controller
+                                    .universityOrderRegardingObtainingAnAcademicTitle;
                               },
                             ),
                           if (homePageController.haveStudyApproval.value)
@@ -200,7 +207,7 @@ class UploadImagePage extends StatelessWidget {
                               initialImage: imageInfo?.studyApproval,
                               onTap: () async {
                                 controller.studyApproval =
-                                await controller.pickImage();
+                                    await controller.pickImage();
                                 controller.update();
                                 return controller.studyApproval;
                               },
@@ -210,38 +217,48 @@ class UploadImagePage extends StatelessWidget {
                             UploadImageWidget(
                               title: "شهادة كفاءة الحاسوب",
                               image: controller.computerProficiencyCertificate,
-                              initialImage: imageInfo?.computerProficiencyCertificate,
+                              initialImage:
+                                  imageInfo?.computerProficiencyCertificate,
                               onTap: () async {
                                 controller.computerProficiencyCertificate =
-                                await controller.pickImage();
+                                    await controller.pickImage();
                                 controller.update();
-                                return controller.computerProficiencyCertificate;
+                                return controller
+                                    .computerProficiencyCertificate;
                               },
                             ),
                           if (homePageController
                               .haveEnglishLanguageProficiencyCertificate.value)
                             UploadImageWidget(
                               title: "شهادة الامتحان الوطني  ",
-                              image: controller.englishLanguageProficiencyCertificate,
-                              initialImage: imageInfo?.englishLanguageProficiencyCertificate,
+                              image: controller
+                                  .englishLanguageProficiencyCertificate,
+                              initialImage: imageInfo
+                                  ?.englishLanguageProficiencyCertificate,
                               onTap: () async {
-                                controller.englishLanguageProficiencyCertificate =
-                                await controller.pickImage();
+                                controller
+                                        .englishLanguageProficiencyCertificate =
+                                    await controller.pickImage();
                                 controller.update();
-                                return controller.englishLanguageProficiencyCertificate;
+                                return controller
+                                    .englishLanguageProficiencyCertificate;
                               },
                             ),
                           if (homePageController
                               .haveArabicLanguageProficiencyCertificate.value)
                             UploadImageWidget(
                               title: "شهادة كفاءة اللغة العربية",
-                              image: controller.arabicLanguageProficiencyCertificate,
-                              initialImage: imageInfo?.arabicLanguageProficiencyCertificate,
+                              image: controller
+                                  .arabicLanguageProficiencyCertificate,
+                              initialImage: imageInfo
+                                  ?.arabicLanguageProficiencyCertificate,
                               onTap: () async {
-                                controller.arabicLanguageProficiencyCertificate =
-                                await controller.pickImage();
+                                controller
+                                        .arabicLanguageProficiencyCertificate =
+                                    await controller.pickImage();
                                 controller.update();
-                                return controller.arabicLanguageProficiencyCertificate;
+                                return controller
+                                    .arabicLanguageProficiencyCertificate;
                               },
                             ),
                           if (homePageController.haveIletsCertificate.value)
@@ -251,7 +268,7 @@ class UploadImagePage extends StatelessWidget {
                               initialImage: imageInfo?.iletsCertificate,
                               onTap: () async {
                                 controller.iletsCertificate =
-                                await controller.pickImage();
+                                    await controller.pickImage();
                                 controller.update();
                                 return controller.iletsCertificate;
                               },
@@ -263,7 +280,7 @@ class UploadImagePage extends StatelessWidget {
                               initialImage: imageInfo?.olympicCommitteeBook,
                               onTap: () async {
                                 controller.olympicCommitteeBook =
-                                await controller.pickImage();
+                                    await controller.pickImage();
                                 controller.update();
                                 return controller.olympicCommitteeBook;
                               },
@@ -271,7 +288,9 @@ class UploadImagePage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 16,),
+                    const SizedBox(
+                      height: 16,
+                    ),
                     Row(
                       children: [
                         const Spacer(),
@@ -294,7 +313,8 @@ class UploadImagePage extends StatelessWidget {
                             try {
                               var status = await controller.uploadFiles();
                               Get.back();
-                              homePageController.uploadImagePage.isFull.value = status;
+                              homePageController.uploadImagePage.isFull.value =
+                                  status;
                             } on Exception catch (e) {
                               debugPrint('uploadFiles ===== $e');
                             } finally {
@@ -303,11 +323,12 @@ class UploadImagePage extends StatelessWidget {
                             }
 
                             // Navigate to the next page if the operation was successful
-                            if (homePageController.uploadImagePage.isFull.value) {
-                              homePageController.pageChange(homePageController.pledgesPage.index);
+                            if (homePageController
+                                .uploadImagePage.isFull.value) {
+                              homePageController.pageChange(
+                                  homePageController.pledgesPage.index);
                             }
-                          }
-,
+                          },
                         ),
                       ],
                     ),

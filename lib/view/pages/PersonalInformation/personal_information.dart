@@ -14,7 +14,7 @@ import 'Controller/PersonalInformationController.dart';
 import 'StudentPersonalInformation.dart';
 import '../../../module/cetiyclass.dart';
 import '../../../theme.dart';
-import '../../widget/Coustom Calender.dart';
+import '../../widget/coustom_calender.dart';
 import '../../widget/buttonsyle.dart';
 import '../../widget/custom switcher.dart';
 import '../../widget/dropdownlistt.dart';
