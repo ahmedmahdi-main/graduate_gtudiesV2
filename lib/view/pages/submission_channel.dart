@@ -23,7 +23,9 @@ class SubmissionChannel extends StatelessWidget {
   SubmissionChannel({super.key});
 
   SubmissionController submissionController = Get.put(SubmissionController());
-  HomePageController homePageController = Get.put(HomePageController());
+
+  HomePageController homePageController =
+      Get.put(HomePageController(), permanent: false);
   bool isDateCommencementValid = false;
 
   var documents = Documents();
@@ -346,6 +348,8 @@ class SubmissionChannel extends StatelessWidget {
                                                 controller.update(['القسم']);
                                                 submissionController.submission
                                                     .departmentId = value;
+                                                homePageController
+                                                    .departmentId.value = value;
                                                 scientificBackgroundId = null;
                                                 specializationId = null;
                                                 departmentId = value;

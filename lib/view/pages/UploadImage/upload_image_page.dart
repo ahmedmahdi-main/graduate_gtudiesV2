@@ -304,7 +304,8 @@ class UploadImagePage extends StatelessWidget {
                             if (!_formKey.currentState!.validate()) {
                               return;
                             }
-
+                            debugPrint(
+                                'homePageController.departmentId.value ===== ${homePageController.departmentId.value}');
                             // Show loading dialog using AwesomeDialog
                             LoadingDialog.showLoadingDialog(
                                 message: 'جاري الرفع');
