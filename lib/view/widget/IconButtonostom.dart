@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduate_gtudiesV2/Services/DilogCostom.dart';
 
 import '../../controller/home_page_controller.dart';
 import 'buttonsyle.dart';
@@ -23,8 +24,15 @@ class IconButtonostom extends StatelessWidget {
       isleft: false,
       icon: Icons.delete_outline,
       title: 'حذف الشهادة',
-      onTap: () {
+      onTap: () async {
         _controller.removeDegree(index, dgree);
+        _controller.haveInsertBachelor.value = false;
+        await DilogCostom.dilogSecss(
+          isErorr: false,
+          title: " حذف الشهادة تم بنجاح",
+          icons: Icons.close,
+          color: Colors.greenAccent,
+        );
       },
     );
     // Tooltip(

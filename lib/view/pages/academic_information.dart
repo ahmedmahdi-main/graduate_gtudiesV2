@@ -51,8 +51,7 @@ class _AcademicInformationState extends State<AcademicInformation> {
       masterDegree.value = academicInformationList.any(
         (data) => data.certificateTypeId == CertificateType.masters.id,
       );
-      homePageController
-          .haveMaster.value =  masterDegree.value;
+      homePageController.haveMaster.value = masterDegree.value;
       diplomaDegree.value = academicInformationList.any(
         (data) => data.certificateTypeId == CertificateType.diploma.id,
       );
@@ -89,8 +88,7 @@ class _AcademicInformationState extends State<AcademicInformation> {
                       title: "هل لديك شهادة ماجستير ..؟",
                       onChanged: (value) {
                         masterDegree.value = value;
-                        homePageController
-                            .haveMaster.value = value;
+                        homePageController.haveMaster.value = value;
                         homePageController
                             .haveUniversityOrderForTheMastersDegree
                             .value = value;
@@ -120,6 +118,18 @@ class _AcademicInformationState extends State<AcademicInformation> {
                 icon: Icons.arrow_forward_ios,
                 title: "حفظ وانتقال للصفحة التالية",
                 onTap: () async {
+                  debugPrint(
+                      "homePageController.haveInsertBachelor.value = ${homePageController.haveInsertBachelor.value}");
+                  if (!homePageController.haveInsertBachelor.value) {
+                    await DilogCostom.dilogSecss(
+                      isErorr: true,
+                      title: "يرجى حفظ شهادة البكالوريوس اولا ",
+                      icons: Icons.error,
+                      color: Colors.redAccent,
+                    );
+                    return;
+                  }
+
                   var status = await academicInformationController
                       .printAcademicInformation();
                   homePageController.academicInformation.isFull.value = status;
@@ -130,10 +140,10 @@ class _AcademicInformationState extends State<AcademicInformation> {
                             .academicInformationModel?.academicInformation);
                     homePageController
                         .pageChange(homePageController.submissionChannel.index);
-                    if (homePageController.fullStudentData.value.serial != null) {
+                    if (homePageController.fullStudentData.value.serial !=
+                        null) {
                       DilogCostom.confirmFinishEditing(onSubmit: () async {
                         await homePageController.modifyComplete();
-
                       });
                     }
                   }
@@ -226,8 +236,7 @@ class _AcademicInformationState extends State<AcademicInformation> {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   // Show loading dialog using AwesomeDialog
-                  LoadingDialog.showLoadingDialog(
-                      message: loadingText);
+                  LoadingDialog.showLoadingDialog(message: loadingText);
 
                   try {
                     // Update degree and index values
@@ -235,7 +244,8 @@ class _AcademicInformationState extends State<AcademicInformation> {
                     indexx++;
 
                     // Remove certificate from the list
-                    homePageController.removeCertificateList(selectedValue.toString());
+                    homePageController
+                        .removeCertificateList(selectedValue.toString());
 
                     // Perform the fullStudent action
                     await homePageController.fullStudent();
@@ -252,14 +262,14 @@ class _AcademicInformationState extends State<AcademicInformation> {
                     // Handle exception by showing error dialog
                     DilogCostom.dilogSecss(
                       isErorr: true,
-                      title: "حدث خطأ أثناء معالجة البيانات، يرجى المحاولة مرة أخرى",
+                      title:
+                          "حدث خطأ أثناء معالجة البيانات، يرجى المحاولة مرة أخرى",
                       icons: Icons.error,
                       color: Colors.redAccent,
                     );
                   }
                 }
-              }
-,
+              },
             ),
           ],
         );

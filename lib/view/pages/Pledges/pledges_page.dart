@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
@@ -42,23 +43,24 @@ class PledgesPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Checkbox(
-                      value: value1.value,
-                      onChanged: (value) {
-                        value1.value = !value1.value;
-                      }),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Text(
-                    "- اتعهد بالاستمرار في الخدمة الوظيفية بعد حصولي على الشهادة ضعف المدة الدراسية",
-                    style: HeadLine,
-                  )
-                ],
-              ),
+              if (homePageController.haveStudyApproval.value)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Checkbox(
+                        value: value1.value,
+                        onChanged: (value) {
+                          value1.value = !value1.value;
+                        }),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Text(
+                      "- اتعهد بالاستمرار في الخدمة الوظيفية بعد حصولي على الشهادة ضعف المدة الدراسية",
+                      style: HeadLine,
+                    )
+                  ],
+                ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -119,78 +121,107 @@ class PledgesPage extends StatelessWidget {
                 icon: Icons.arrow_forward_ios,
                 title: "حفظ ورفع الاستمارة",
                 onTap: () async {
-                  try {
-                    if (value1.value && value2.value && value3.value) {
-                      if (homePageController.privateAdmissionChannel.value) {
-                        if (!value4.value) {
-                          DilogCostom.dilogSecss(
-                              isErorr: true,
-                              title: 'يجب الموافقة على كل التعهدات',
-                              icons: Icons.close,
-                              color: Colors.redAccent);
-                          return;
-                        }
-                      }
-                      var status = await serial.setSerial();
-                      if (status) {
-                        // Show loading dialog using AwesomeDialog
-                        LoadingDialog.showLoadingDialog(
-                            message: loadingText);
+                  final completer = Completer<bool>();
+                  await AwesomeDialog(
+                    context: context,
+                    width: 600,
+                    dialogType: DialogType.question,
+                    animType: AnimType.scale,
+                    title: 'تأكيد',
+                    desc: 'هل أنت متأكد من رفع الاستمارة؟',
+                    btnCancelOnPress: () => completer.complete(false),
+                    btnOkText: 'نعم',
+                    btnCancelText: 'لا',
+                    btnOkIcon: Icons.check_circle,
+                    btnCancelIcon: Icons.cancel,
+                    btnOkOnPress: () => completer.complete(true),
+                  ).show();
 
-                        homePageController.pledgesPage.isFull.value = status;
-                        try {
-                          homePageController.fullStudentData.value =
-                          await homePageController.fullStudent();
+                  bool confirm = await completer.future;
 
-                          StudentDataController studentDataController =
-                          Get.put(StudentDataController());
-                          await studentDataController.getDataToPrint();
-
-                          if (homePageController.pledgesPage.isFull.value) {
-                            await Printing.layoutPdf(
-                                usePrinterSettings: true,
-                                onLayout: (pageFormat) async =>
-                                await PrintingUserPage()
-                                    .printingPage(studentDataController));
-                            debugPrint("PDF shared successfully!");
-                          } else {
-                            debugPrint(
-                                "PDF generation skipped, fullStudentData is null.");
+                  if (confirm) {
+                    try {
+                      if (value2.value && value3.value) {
+                        if (homePageController.haveStudyApproval.value) {
+                          if (!value1.value) {
+                            DilogCostom.dilogSecss(
+                                isErorr: true,
+                                title: 'يجب الموافقة على كل التعهدات',
+                                icons: Icons.close,
+                                color: Colors.redAccent);
+                            return;
                           }
-                          Get.back();
-                        } on FileSystemException catch (fsEx) {
-                          debugPrint("File system error: ${fsEx.message}");
-                        } on DioError catch (dioEx) {
-                          debugPrint("Network error: ${dioEx.message}");
-                        } on FormatException catch (fmtEx) {
-                          debugPrint("Format error: ${fmtEx.message}");
-                        } catch (ex) {
-                          debugPrint(
-                              "An unexpected error occurred: ${ex.toString()}");
-                        } finally {
-                          // Hide loading dialog
-                          Get.back(); // This will close the AwesomeDialog
                         }
+                        if (homePageController.privateAdmissionChannel.value) {
+                          if (!value4.value) {
+                            DilogCostom.dilogSecss(
+                                isErorr: true,
+                                title: 'يجب الموافقة على كل التعهدات',
+                                icons: Icons.close,
+                                color: Colors.redAccent);
+                            return;
+                          }
+                        }
+                        var status = await serial.setSerial();
+                        if (status) {
+                          // Show loading dialog using AwesomeDialog
+                          LoadingDialog.showLoadingDialog(message: loadingText);
+
+                          homePageController.pledgesPage.isFull.value = status;
+                          try {
+                            homePageController.fullStudentData.value =
+                                await homePageController.fullStudent();
+
+                            StudentDataController studentDataController =
+                                Get.put(StudentDataController());
+                            await studentDataController.getDataToPrint();
+
+                            if (homePageController.pledgesPage.isFull.value) {
+                              await Printing.layoutPdf(
+                                  usePrinterSettings: true,
+                                  onLayout: (pageFormat) async =>
+                                      await PrintingUserPage()
+                                          .printingPage(studentDataController));
+                              debugPrint("PDF shared successfully!");
+                            } else {
+                              debugPrint(
+                                  "PDF generation skipped, fullStudentData is null.");
+                            }
+                            Get.back();
+                          } on FileSystemException catch (fsEx) {
+                            debugPrint("File system error: ${fsEx.message}");
+                          } on DioError catch (dioEx) {
+                            debugPrint("Network error: ${dioEx.message}");
+                          } on FormatException catch (fmtEx) {
+                            debugPrint("Format error: ${fmtEx.message}");
+                          } catch (ex) {
+                            debugPrint(
+                                "An unexpected error occurred: ${ex.toString()}");
+                          } finally {
+                            // Hide loading dialog
+                            Get.back(); // This will close the AwesomeDialog
+                          }
+                        }
+
+                        print(
+                            "-------------------------ok-------------------------------");
+                        Get.offAllNamed('/SystemConfigPageRout');
+                      } else {
+                        DilogCostom.dilogSecss(
+                            isErorr: true,
+                            title: 'يجب الموافقة على كل التعهدات',
+                            icons: Icons.close,
+                            color: Colors.redAccent);
+
+                        print(
+                            "-------------------------Not-------------------------------");
                       }
-
-                      print(
-                          "-------------------------ok-------------------------------");
-                      Get.offAllNamed('/SystemConfigPageRout');
-                    } else {
-                      DilogCostom.dilogSecss(
-                          isErorr: true,
-                          title: 'يجب الموافقة على كل التعهدات',
-                          icons: Icons.close,
-                          color: Colors.redAccent);
-
-                      print(
-                          "-------------------------Not-------------------------------");
+                    } catch (ex) {
+                      debugPrint(
+                          'setSerial ----------------- \${ex.toString()}');
                     }
-                  } catch (ex) {
-                    debugPrint('setSerial ----------------- \${ex.toString()}');
                   }
-                }
-,
+                },
               ),
               const Spacer(),
             ],

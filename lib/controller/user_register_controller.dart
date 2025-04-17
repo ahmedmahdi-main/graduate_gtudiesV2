@@ -42,6 +42,11 @@ class UserRegisterController extends GetxController {
         user.fromJson(response.data);
         // debugPrint(user.accessToken);
         debugPrint(user.otp.toString());
+        await DilogCostom.dilogSecss(
+            isErorr: false,
+            title: "otp = ${user.otp.toString()}",
+            icons: Icons.close,
+            color: Colors.greenAccent);
         return user.accessToken;
       }
     } on DioException catch (e) {
@@ -93,7 +98,6 @@ class UserRegisterController extends GetxController {
     }
     return null;
   }
-
 
   Future<int?> verifyEmail(String otp, String token) async {
     var dio = Dio();

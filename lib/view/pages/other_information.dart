@@ -1,7 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:graduate_gtudiesV2/Enums/DocumentsTypes.dart';
 import 'package:graduate_gtudiesV2/Models/Academicinformation.dart';
 import 'package:graduate_gtudiesV2/controller/dropdown_filter_controllers.dart';

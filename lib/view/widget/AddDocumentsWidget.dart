@@ -7,10 +7,14 @@ import 'coustom_calender.dart';
 
 class AddDocumentsTypesWidgets extends StatelessWidget {
   final List<ChannelsDataDocumentsTypes>? documents;
-final  List<TextEditingController> numbersControllers ;
- final List<TextEditingController> dateControllers ;
+  final List<TextEditingController> numbersControllers;
+  final List<TextEditingController> dateControllers;
 
-  const AddDocumentsTypesWidgets({super.key, this.documents, required this.numbersControllers, required this.dateControllers});
+  const AddDocumentsTypesWidgets(
+      {super.key,
+      this.documents,
+      required this.numbersControllers,
+      required this.dateControllers});
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +32,19 @@ final  List<TextEditingController> numbersControllers ;
                 runSpacing: 15,
                 children: [
                   TitleAndTextStyle(
-                      title: "  رقم كتاب ${documents![index].name} ",
-                      controller: numbersControllers[index],
-                      validator: (value) => isTextValid(value!, 1),
-                  width: 350,
-                  ),
-
-                  const SizedBox(width: 100,),
-                  CustomCalendar(
-                    title:"  تاريخ كتاب  ${documents![index].name} ",
-                    controller: dateControllers[index],
+                    title: "  رقم كتاب ${documents![index].name} ",
+                    controller: numbersControllers[index],
+                    validator: (value) => isTextValid(value!, 1),
                     width: 350,
+                  ),
+                  const SizedBox(
+                    width: 100,
+                  ),
+                  CustomCalendar(
+                    title: "  تاريخ كتاب  ${documents![index].name} ",
+                    controller: dateControllers[index],
+                    initialDate: DateTime.now(),
+                    constrainWidth: 350,
                   ),
                 ],
               ),

@@ -17,7 +17,6 @@ import '../../widget/buttonsyle.dart';
 import '../../widget/titleandtextstyle.dart';
 import '../DialogsWindows/loading_dialog.dart';
 
-
 class SignUp extends StatefulWidget {
   SignUp({super.key});
 
@@ -134,15 +133,15 @@ class _SignUpState extends State<SignUp> {
                     formKey.currentState!.save();
 
                     // Show loading dialog using AwesomeDialog
-                    LoadingDialog.showLoadingDialog(
-                        message: loadingText);
+                    LoadingDialog.showLoadingDialog(message: loadingText);
 
                     try {
                       UserRegisterController user = UserRegisterController(
                         fullName: _fullNameController.text,
                         uUID: uUID(),
                         email: _emailControlle.text,
-                        password: hashPasswordWithoutSalt(_passwordController.text),
+                        password:
+                            hashPasswordWithoutSalt(_passwordController.text),
                       );
 
                       // Attempt to upload data
@@ -159,16 +158,16 @@ class _SignUpState extends State<SignUp> {
                         Get.toNamed('/OTP', arguments: {'token': token});
                       } else {
                         // Show error dialog
-                        DilogCostom.dilogSecss(
+                        await DilogCostom.dilogSecss(
                           isErorr: true,
                           title: "فشل التسجيل، يرجى المحاولة مرة أخرى",
                           icons: Icons.close,
                           color: Colors.redAccent,
                         );
+                        Get.back();
                       }
                     } catch (e) {
                       // Hide loading dialog
-                      Get.back();
 
                       // Handle exception by showing error dialog
                       DilogCostom.dilogSecss(
@@ -179,17 +178,20 @@ class _SignUpState extends State<SignUp> {
                       );
                     }
                   }
-                }
-,
+                },
               ),
-              const SizedBox(height: 16,),
+              const SizedBox(
+                height: 16,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("هل لديك حساب قم",
                       style:
                           authinticationColorText.copyWith(color: KTextColor)),
-                  const SizedBox(width: 16,),
+                  const SizedBox(
+                    width: 16,
+                  ),
                   InkWell(
                     child: Text(
                       "بتسجيل االدخول",

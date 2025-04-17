@@ -4,6 +4,7 @@ enum CertificateCompetencyTypes {
   certificateCompetencyArabic,
   certificateCompetencyIlits,
 }
+
 extension MyCertificateTypeExtensionId on CertificateCompetencyTypes {
   int get id {
     switch (this) {
@@ -15,8 +16,6 @@ extension MyCertificateTypeExtensionId on CertificateCompetencyTypes {
         return 3;
       case CertificateCompetencyTypes.certificateCompetencyIlits:
         return 4;
-      default:
-        throw Exception("Unknown enum value");
     }
   }
 
@@ -30,8 +29,6 @@ extension MyCertificateTypeExtensionId on CertificateCompetencyTypes {
         return 'اللغة العربية';
       case CertificateCompetencyTypes.certificateCompetencyIlits:
         return 'IELTS';
-      default:
-        throw Exception("Unknown enum value");
     }
   }
 }

@@ -23,8 +23,8 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _emailController.text = 'ahmed.mahdi.ah@uokerbala.edu.iq';
-    _passwordController.text = '12345678';
+    // _emailController.text = 'ahmed.mahdi.ah@uokerbala.edu.iq';
+    // _passwordController.text = '12345678';
     Size size = MediaQuery.of(context).size;
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -36,14 +36,17 @@ class Login extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: 500),
             decoration: BoxDecorationForAuthintication,
             margin: EdgeInsets.symmetric(
-              vertical: (size.width < 500 || size.height < 650) ? 0 : size.height * 0.05,
+              vertical: (size.width < 500 || size.height < 650)
+                  ? 0
+                  : size.height * 0.05,
             ),
             child: Stack(
               children: [
                 const Opacity(
                   opacity: 0.05,
                   child: Center(
-                    child: Image(image: ExactAssetImage("assets/icons/Logo.png")),
+                    child:
+                        Image(image: ExactAssetImage("assets/icons/Logo.png")),
                   ),
                 ),
                 SingleChildScrollView(
@@ -72,7 +75,10 @@ class Login extends StatelessWidget {
           children: [
             const Text(
               "تسجيل الدخول ",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900, fontFamily: "Cairo"),
+              style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: "Cairo"),
             ),
             const SizedBox(height: 20),
             TitleAndTextStyle(
@@ -90,7 +96,8 @@ class Login extends StatelessWidget {
               title: "كلمة المرور",
               controller: _passwordController,
               onEnter: () async => await login(),
-              validator: (String? value) => passwordValidator(_passwordController.text),
+              validator: (String? value) =>
+                  passwordValidator(_passwordController.text),
             ),
             const SizedBox(height: 50),
             Column(
@@ -107,12 +114,14 @@ class Login extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("اذ لم يكن لديك حساب قم ",
-                        style: authinticationColorText.copyWith(color: KTextColor)),
+                        style: authinticationColorText.copyWith(
+                            color: KTextColor)),
                     const SizedBox(width: 10),
                     InkWell(
                       child: Text(
                         "بالتسجيل",
-                        style: authinticationColorText.copyWith(color: Colors.blueAccent),
+                        style: authinticationColorText.copyWith(
+                            color: Colors.blueAccent),
                       ),
                       onTap: () => Get.offNamed('/SignUp'),
                     )
@@ -122,7 +131,8 @@ class Login extends StatelessWidget {
                 InkWell(
                   onTap: () => Get.to(ResetPasswordEmail()),
                   child: Text("نسيت كلمة المرور",
-                      style: authinticationColorText.copyWith(fontSize: 10, color: Colors.blueAccent)),
+                      style: authinticationColorText.copyWith(
+                          fontSize: 10, color: Colors.blueAccent)),
                 )
               ],
             )
@@ -175,7 +185,6 @@ class Login extends StatelessWidget {
         color: Colors.redAccent,
       );
     }
-
   }
 
   Container logo() {
@@ -190,7 +199,8 @@ class Login extends StatelessWidget {
           ),
           Container(
             constraints: const BoxConstraints(maxHeight: 100),
-            child: const Image(image: ExactAssetImage("assets/icons/ministry.png")),
+            child: const Image(
+                image: ExactAssetImage("assets/icons/ministry.png")),
           )
         ],
       ),

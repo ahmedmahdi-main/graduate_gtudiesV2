@@ -13,9 +13,9 @@ extension MyCertificateTypeExtensionId on CertificateType {
         return 1;
       case CertificateType.bachelors:
         return 2;
-      case CertificateType.masters:
+        case CertificateType.higherDiploma:
         return 3;
-      case CertificateType.higherDiploma:
+      case CertificateType.masters:
         return 4;
       case CertificateType.phD:
         return 5;

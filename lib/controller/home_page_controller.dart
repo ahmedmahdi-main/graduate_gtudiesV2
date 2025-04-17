@@ -27,7 +27,8 @@ import '../view/pages/functional_information.dart' as page;
 import '../view/pages/submission_channel.dart' as page;
 import '../view/pages/other_information.dart' as page;
 import '../view/pages/PersonalInformation/personal_information.dart' as page;
-import 'package:graduate_gtudiesV2/view/pages/Pledges/pledges_page.dart' as page;
+import 'package:graduate_gtudiesV2/view/pages/Pledges/pledges_page.dart'
+    as page;
 import 'package:graduate_gtudiesV2/view/pages/UploadImage/upload_image_page.dart'
     as page;
 
@@ -42,10 +43,15 @@ class HomePageController extends GetxController {
   Rx<bool> haveSerialNumber = false.obs;
   Rx<bool> haveAuditAt = false.obs;
   Rx<String> studentName = ''.obs;
-
+  RxBool haveInsertBachelor = false.obs;
+  RxBool haveInsertDiploma = false.obs;
+  RxBool haveInsertMasters = false.obs;
+  RxBool haveInsertHighDiploma = false.obs;
+  RxBool isEmployee = false.obs;
   /// *************Images*****************
 
   RxBool haveMartyrsFoundation = false.obs;
+
   RxBool havePeopleWithSpecialNeeds = false.obs;
   RxBool havePoliticalPrisoners = false.obs;
   RxBool haveCooperationMechanismOfNajafGovernorate = false.obs;
@@ -404,6 +410,7 @@ class HomePageController extends GetxController {
 
     return FullStudentData();
   }
+
   /// ******* Print Page ***********
   SuperData? superData;
   Failure? failure;

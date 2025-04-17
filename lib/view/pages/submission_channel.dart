@@ -1,11 +1,9 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../Enums/CertificateType.dart';
 import '../../Enums/ChannelTypes.dart';
 import '../../Models/Academicinformation.dart';
 import '../../Models/full_student_data.dart';
-import '../../Models/SuperData.dart';
 import '../../Models/SuperData.dart';
 import '../../Services/DilogCostom.dart';
 import '../../Services/base_route.dart';
@@ -53,13 +51,15 @@ class SubmissionChannel extends StatelessWidget {
     int? collegesId;
     int? departmentId;
     int? relativeId;
+    RxList<AdmissionChannel> admissionChannels = <AdmissionChannel>[].obs;
+    // Get the submission data from the controller
     if (homePageController
         .fullStudentData.value.personalInformation!.isNotEmpty) {
       FullDataPersonalInformation? fullDataPersonalInformation =
           homePageController
               .fullStudentData.value.personalInformation?.firstOrNull;
-      AdmissionChannel? admissionChannel = homePageController.fullStudentData
-          .value.personalInformation?.first.admissionChannel?.firstOrNull;
+      AdmissionChannel? admissionChannel =
+          fullDataPersonalInformation?.admissionChannel?.firstOrNull;
       if (admissionChannel != null) {
         aCID = admissionChannel.aCID;
         osId = admissionChannel.osId;
@@ -156,128 +156,6 @@ class SubmissionChannel extends StatelessWidget {
                                   runSpacing: 20,
                                   children: [
                                     GetBuilder<DropdownListController>(
-                                        id: 'قناة التقديم',
-                                        builder: (controller) {
-                                          return DropDownList(
-                                            value: channelsId,
-                                            width: 400,
-                                            title: "قناة التقديم",
-                                            onchange: (val) {
-                                              controller.channelsDataValue =
-                                                  val;
-                                              controller
-                                                  .update(['قناة التقديم']);
-                                              channelsData.value = controller
-                                                  .channelsData!
-                                                  .where((element) =>
-                                                      element.channelId == val)
-                                                  .first;
-                                              //debugPrint(' channelsData.value.documentsTypes = ${ channelsData.value.toJson().toString()}');
-                                              hasRelativeRelations.value =
-                                                  channelsData.value.status ==
-                                                      1;
-                                              submissionController
-                                                  .submission.channelId = val;
-                                              documentsTypes = channelsData
-                                                  .value.documentstypes;
-                                              homePageController
-                                                  .privateAdmissionChannel
-                                                  .value = val == 2;
-                                              channelsId = val;
-                                              ChannelTypes? selectedChannel =
-                                                  ChannelTypesExtension.fromId(
-                                                      val);
-                                              if (selectedChannel != null) {
-                                                homePageController
-                                                    .updateChannelState(
-                                                        selectedChannel);
-                                              }
-                                              controller.update();
-                                            },
-                                            DropdownMenuItems: getDropdownItems(
-                                                controller,
-                                                averageBachelorsFail,
-                                                typeConsent),
-                                            // DropdownMenuItems:
-                                            //     !averageBachelorsFail
-                                            //         ? controller.channelsData!
-                                            //             .where((c) {
-                                            //             bool isMatch =
-                                            //                 c.channelId != 1;
-                                            //             return isMatch;
-                                            //           }).map((e) {
-                                            //             return DropdownMenuItem(
-                                            //               value: e.channelId,
-                                            //               child: Center(
-                                            //                   child: Text(
-                                            //                       e.name!)),
-                                            //             );
-                                            //           }).toList()
-                                            //         : !typeConsent
-                                            //             ? controller
-                                            //                 .channelsData!
-                                            //                 .map((e) {
-                                            //                 return DropdownMenuItem(
-                                            //                   value:
-                                            //                       e.channelId,
-                                            //                   child: Center(
-                                            //                       child: Text(
-                                            //                           e.name!)),
-                                            //                 );
-                                            //               }).toList()
-                                            //             : controller
-                                            //                 .channelsData!
-                                            //                 .where((c) {
-                                            //                 bool isMatch =
-                                            //                     c.channelId ==
-                                            //                         2;
-                                            //                 return isMatch;
-                                            //               }).map((e) {
-                                            //                 return DropdownMenuItem(
-                                            //                   value:
-                                            //                       e.channelId,
-                                            //                   child: Center(
-                                            //                       child: Text(
-                                            //                           e.name!)),
-                                            //                 );
-                                            //               }).toList());
-                                          );
-                                        }),
-                                    Obx(() {
-                                      return hasRelativeRelations.value
-                                          ? GetBuilder<DropdownListController>(
-                                              id: 'صلة القرابة',
-                                              builder: (controller) {
-                                                return DropDownList(
-                                                  value: relativeId,
-                                                  width: 400,
-                                                  title: "صلة القرابة",
-                                                  onchange: (val) {
-                                                    relativeId = val;
-                                                    submissionController
-                                                        .submission
-                                                        .relativeId = val;
-                                                    controller.update();
-                                                  },
-                                                  DropdownMenuItems: controller
-                                                      .superData!
-                                                      .relativeRelations!
-                                                      .map((e) =>
-                                                          DropdownMenuItem(
-                                                            value: e.relativeId,
-                                                            child: Center(
-                                                                child: Text(e
-                                                                    .namerelation!)),
-                                                          ))
-                                                      .toList(),
-                                                );
-                                              })
-                                          : Container();
-                                    }),
-                                    const SizedBox(
-                                      width: double.infinity,
-                                    ),
-                                    GetBuilder<DropdownListController>(
                                         id: 'الكلية المراد التقديم عليها',
                                         builder: (controller) => DropDownList(
                                               value: collegesId,
@@ -332,7 +210,7 @@ class SubmissionChannel extends StatelessWidget {
                                         id: 'القسم',
                                         builder: (controller) => DropDownList(
                                               value: departmentId,
-                                              width: 350,
+                                              width: 400,
                                               title: "القسم او الفرع",
                                               onchange: (value) {
                                                 controller.departmentValue =
@@ -357,19 +235,21 @@ class SubmissionChannel extends StatelessWidget {
                                                     ['الدراسة المفتوحة']);
                                                 // controller.update(['القسم']);
                                               },
-                                              DropdownMenuItems: controller
-                                                  .departments!
-                                                  .map(
-                                                    (e) => DropdownMenuItem(
-                                                      value: e.departmentId,
-                                                      child: e.departmentName !=
-                                                              null
-                                                          ? Text(
-                                                              e.departmentName!)
-                                                          : const Text(""),
-                                                    ),
-                                                  )
-                                                  .toList(),
+                                              DropdownMenuItems: collegesId !=
+                                                      null
+                                                  ? controller.departments!
+                                                      .map(
+                                                        (e) => DropdownMenuItem(
+                                                          value: e.departmentId,
+                                                          child: e.departmentName !=
+                                                                  null
+                                                              ? Text(e
+                                                                  .departmentName!)
+                                                              : const Text(""),
+                                                        ),
+                                                      )
+                                                      .toList()
+                                                  : [],
                                             )),
                                     GetBuilder<DropdownListController>(
                                         id: 'التخصص',
@@ -382,7 +262,7 @@ class SubmissionChannel extends StatelessWidget {
                                                 .firstOrNull
                                                 ?.specializationId,
                                             title: "التخصص",
-                                            width: 350,
+                                            width: 400,
                                             onchange: (val) {
                                               submissionController.submission
                                                   .specializationId = val;
@@ -391,16 +271,20 @@ class SubmissionChannel extends StatelessWidget {
                                               specializationId = val;
                                               controller.update();
                                             },
-                                            DropdownMenuItems: controller
-                                                .specializations!
-                                                .map((e) => DropdownMenuItem(
-                                                      value: e.specializationId,
-                                                      child: Center(
-                                                        child: Text(
-                                                            '${e.specializationName}'),
-                                                      ),
-                                                    ))
-                                                .toList(),
+                                            DropdownMenuItems: departmentId !=
+                                                    null
+                                                ? controller.specializations!
+                                                    .map(
+                                                        (e) => DropdownMenuItem(
+                                                              value: e
+                                                                  .specializationId,
+                                                              child: Center(
+                                                                child: Text(
+                                                                    '${e.specializationName}'),
+                                                              ),
+                                                            ))
+                                                    .toList()
+                                                : [],
                                           );
                                         }),
                                     GetBuilder<DropdownListController>(
@@ -438,17 +322,20 @@ class SubmissionChannel extends StatelessWidget {
                                             debugPrint(
                                                 '-------------------نوع الدراسة المطلوبة---------------------- ${CertificateType.values.where((c) => c.id == homePageController.certificateTypeId.value).first.name}');
                                           },
-                                          DropdownMenuItems: controller
-                                              .openStudy!
-                                              .map(
-                                                (e) => DropdownMenuItem(
-                                                  value: e.osId,
-                                                  child: Center(
-                                                    child: Text(e.typeofstudy!),
-                                                  ),
-                                                ),
-                                              )
-                                              .toList()),
+                                          DropdownMenuItems:
+                                              departmentId != null
+                                                  ? controller.openStudy!
+                                                      .map(
+                                                        (e) => DropdownMenuItem(
+                                                          value: e.osId,
+                                                          child: Center(
+                                                            child: Text(
+                                                                e.typeofstudy!),
+                                                          ),
+                                                        ),
+                                                      )
+                                                      .toList()
+                                                  : []),
                                     ),
                                     GetBuilder<DropdownListController>(
                                       id: 'الاختصاص الحاصل عليه (الخلفيةالعلمية)',
@@ -469,17 +356,102 @@ class SubmissionChannel extends StatelessWidget {
                                           scientificBackgroundId = val;
                                           controller.update();
                                         },
-                                        DropdownMenuItems: controller
-                                            .scientificBackgrounds!
-                                            .map(
-                                              (e) => DropdownMenuItem(
-                                                value: e.scientificbackgroundId,
-                                                child: Text(
-                                                    "${e.scientificbackgroundName}"),
-                                              ),
-                                            )
-                                            .toList(),
+                                        DropdownMenuItems: departmentId != null
+                                            ? controller.scientificBackgrounds!
+                                                .map(
+                                                  (e) => DropdownMenuItem(
+                                                    value: e
+                                                        .scientificbackgroundId,
+                                                    child: Text(
+                                                        "${e.scientificbackgroundName}"),
+                                                  ),
+                                                )
+                                                .toList()
+                                            : [],
                                       ),
+                                    ),
+                                    GetBuilder<DropdownListController>(
+                                        id: 'قناة التقديم',
+                                        builder: (controller) {
+                                          return DropDownList(
+                                            value: channelsId,
+                                            width: 400,
+                                            title: "قناة التقديم",
+                                            onchange: (val) {
+                                              controller.channelsDataValue =
+                                                  val;
+                                              controller
+                                                  .update(['قناة التقديم']);
+                                              channelsData.value = controller
+                                                  .channelsData!
+                                                  .where((element) =>
+                                                      element.channelId == val)
+                                                  .first;
+                                              //debugPrint(' channelsData.value.documentsTypes = ${ channelsData.value.toJson().toString()}');
+                                              hasRelativeRelations.value =
+                                                  channelsData.value.status ==
+                                                      1;
+                                              submissionController
+                                                  .submission.channelId = val;
+                                              documentsTypes = channelsData
+                                                  .value.documentstypes;
+                                              homePageController
+                                                  .privateAdmissionChannel
+                                                  .value = val == 2;
+                                              channelsId = val;
+                                              ChannelTypes? selectedChannel =
+                                                  ChannelTypesExtension.fromId(
+                                                      val);
+                                              if (selectedChannel != null) {
+                                                homePageController
+                                                    .updateChannelState(
+                                                        selectedChannel);
+                                              }
+                                              controller.update();
+                                            },
+                                            DropdownMenuItems: osId != null
+                                                ? getDropdownItems(
+                                                    controller,
+                                                    averageBachelorsFail,
+                                                    typeConsent,
+                                                    osId ?? 0,
+                                                  )
+                                                : [],
+                                          );
+                                        }),
+                                    Obx(() {
+                                      return hasRelativeRelations.value
+                                          ? GetBuilder<DropdownListController>(
+                                              id: 'صلة القرابة',
+                                              builder: (controller) {
+                                                return DropDownList(
+                                                  value: relativeId,
+                                                  width: 400,
+                                                  title: "صلة القرابة",
+                                                  onchange: (val) {
+                                                    relativeId = val;
+                                                    submissionController
+                                                        .submission
+                                                        .relativeId = val;
+                                                    controller.update();
+                                                  },
+                                                  DropdownMenuItems: controller
+                                                      .superData!
+                                                      .relativeRelations!
+                                                      .map((e) =>
+                                                          DropdownMenuItem(
+                                                            value: e.relativeId,
+                                                            child: Center(
+                                                                child: Text(e
+                                                                    .namerelation!)),
+                                                          ))
+                                                      .toList(),
+                                                );
+                                              })
+                                          : Container();
+                                    }),
+                                    const SizedBox(
+                                      width: double.infinity,
                                     ),
                                     Obx(() => AddDocumentsTypesWidgets(
                                           documents:
@@ -643,26 +615,29 @@ class SubmissionChannel extends StatelessWidget {
   }
 
   List<DropdownMenuItem<int>> buildDropdownItems(
-      List<ChannelsData> channels, bool Function(ChannelsData) filter) {
-    return channels.where(filter).map((e) {
-      return DropdownMenuItem(
-        value: e.channelId,
-        child: Center(child: Text(e.name!)),
-      );
-    }).toList();
+      List<ChannelsData>? channels, bool Function(ChannelsData) filter) {
+    return channels?.where(filter).map((e) {
+          return DropdownMenuItem(
+            value: e.channelId,
+            child: Center(child: Text(e.name ?? '')),
+          );
+        }).toList() ??
+        [];
   }
 
   List<DropdownMenuItem<int>> getDropdownItems(
     DropdownListController controller,
     bool averageBachelorsFail,
     bool typeConsent,
+    int osId,
   ) {
     // Ensure 'averageBachelorsFail' is false if the first quarter is active
     averageBachelorsFail =
         homePageController.firstQuarter.value ? false : averageBachelorsFail;
-
+    var channals =
+        getChannals(controller, osId); // Get the channels based on osId
     // Build the dropdown items
-    return buildDropdownItems(controller.channelsData!, (c) {
+    return buildDropdownItems(channals, (c) {
       if (averageBachelorsFail && typeConsent) {
         return c.channelId == 2; // Only allow channelId 2 when both are true
       } else if (averageBachelorsFail) {
@@ -677,6 +652,15 @@ class SubmissionChannel extends StatelessWidget {
       }
     });
   }
+}
+
+List<ChannelsData>? getChannals(DropdownListController controller, int? osId) {
+  return controller.superData!.admissionchannel!
+          .where((t) => t.osId == osId)
+          .map((channel) => controller.superData!.channelsData!
+              .firstWhere((t) => t.channelId == channel.channelsId))
+          .toList() ??
+      controller.superData!.channelsData!;
 }
 
 int getTypeOfStudy(DropdownListController controller, int osId) {

@@ -1,5 +1,4 @@
 // ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +8,7 @@ import 'titleandtextstyle.dart';
 
 /// Class [WebDatePicker] help display date picker on web
 class CustomCalendar extends StatefulWidget {
-  CustomCalendar({
+  const CustomCalendar({
     Key? key,
     this.initialDate,
     this.firstDate,
@@ -70,22 +69,14 @@ class CustomCalendar extends StatefulWidget {
 
 class _CustomCalendarState extends State<CustomCalendar> {
   bool isClicked = false;
-  late DateTime? _selectedDate;
-  late DateTime _firstDate;
-  late DateTime _lastDate;
 
-  bool _isEnterDateField = false;
 
   @override
   void initState() {
     super.initState();
-    _selectedDate = widget.initialDate;
-    _firstDate = DateTime(1900);
-    _lastDate = DateTime(2100);
   }
 
   void onChange(DateTime? selectedDate) {
-    _selectedDate = selectedDate;
     //  widget.onChange!.call(_selectedDate);
     // _controller.text = _selectedDate.parseToString(widget.dateformat);
 
@@ -130,12 +121,10 @@ class _CustomCalendarState extends State<CustomCalendar> {
     return MouseRegion(
       onEnter: (_) {
         setState(() {
-          _isEnterDateField = true;
         });
       },
       onExit: (_) {
         setState(() {
-          _isEnterDateField = false;
         });
       },
       child: Builder(
@@ -192,17 +181,3 @@ extension StringExtension on String {
     }
   }
 }
-
-
-//-------------------------------------------------------------
-
-//اذا اردت استدعائها يجب ان تكتب هكذا
-
-
-//  WebDatePicker(
-//           onChange: (DateTime? value) {
-//             late String date;
-//             date = value.parseToString('yyyy/MM/dd');
-//             print(date.toString());
-//           },
-//         ),

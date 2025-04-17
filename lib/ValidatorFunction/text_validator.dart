@@ -53,7 +53,7 @@ bool isFullNameValid(String fullName) {
 }
 
 dynamic validateTextWithoutAnyCharacterNumber(String? text) {
-  if (text == null) {
+  if (text == null || text.isEmpty) {
     return 'الحقل لا يمكن أن يكون فارغًا';
   }
 
@@ -64,10 +64,14 @@ dynamic validateTextWithoutAnyCharacterNumber(String? text) {
     return null;
   }
 
-  return 'لا يمكن لهذا الحقل ان يحتوي على أرقام أو رموز';
+  return 'لا يمكن لهذا الحقل ان \n يحتوي على أرقام أو رموز';
 }
 
-
+dynamic validateDocumentNumber(String? text) {
+  if (text == null || text.isEmpty) {
+    return 'الحقل لا يمكن أن يكون فارغًا\n';
+  }
+}
 
 dynamic validateTextWithoutAnyCharacter(String? text) {
   if (text == null) {
@@ -79,31 +83,34 @@ dynamic validateTextWithoutAnyCharacter(String? text) {
   }
 
   // Test if the regex matches the text
-  return 'لا يمكن لهذا الحقل ان يحتوي على احرف';
+  return 'لا يمكن لهذا الحقل \n ان يحتوي على احرف';
 }
 
 dynamic validateTextAsNumberLessThan100(String? text) {
-  if (text == null) {
+  if (text == null || text.isEmpty) {
     return 'النص فارغ';
   }
   RegExp alphaRegex = RegExp(r'[a-zA-Z]');
   if (alphaRegex.hasMatch(text)) {
-    return 'لا يمكن لهذا الحقل ان يحتوي على احرف';
+    return 'لا يمكن لهذا الحقل \n ان يحتوي على احرف';
   }
   if (double.tryParse(text) == null) {
     return 'الرجاء إدخال رقم صالح';
   }
   var number = double.parse(text);
+  if (number <= 0) {
+    return 'يجب أن لا يكون الرقم \n أقل او يساوي 0';
+  }
   if (number > 100) {
-    return 'يجب أن يكون الرقم أقل من 100';
+    return 'يجب أن يكون الرقم \n أقل من 100';
   }
   return null;
 }
+
 //||
 //       (phoneNumber.length <= 11 || !phoneNumber.contains("07"))
 dynamic isPhoneNumberValid(String? phoneNumber) {
-  if (phoneNumber == null ||
-      phoneNumber.isEmpty ) {
+  if (phoneNumber == null || phoneNumber.isEmpty) {
     return returnText;
   }
   return null;
@@ -147,6 +154,7 @@ dynamic phoneNumberValidator(String? phoneNumber) {
   // If all conditions pass, return null
   return null;
 }
+
 dynamic houseNumberValidator(String? houseNumber) {
   // Check if the house number is empty
   if (houseNumber == null) {
@@ -166,4 +174,3 @@ dynamic houseNumberValidator(String? houseNumber) {
   // If all conditions pass, return null
   return null;
 }
-

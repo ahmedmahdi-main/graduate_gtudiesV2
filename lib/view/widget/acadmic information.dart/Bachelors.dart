@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:graduate_gtudiesV2/Enums/CertificateType.dart';
 import 'package:graduate_gtudiesV2/Models/Academicinformation.dart';
 import 'package:graduate_gtudiesV2/Models/full_student_data.dart';
+import 'package:graduate_gtudiesV2/Services/DilogCostom.dart';
 import '../../../Enums/DocumentsTypes.dart';
 import '../../../ValidatorFunction/text_validator.dart';
 import '../../../controller/AcademicInformationController.dart';
@@ -12,7 +14,6 @@ import '../../../controller/home_page_controller.dart';
 import '../../../theme.dart';
 import '../../pages/UploadImage/controller/UploadImageController.dart';
 import '../coustom_calender.dart';
-import '../DropDownCostom.dart';
 import '../GifImageCostom.dart';
 import '../IconButtonostom.dart';
 import '../buttonsyle.dart';
@@ -165,6 +166,7 @@ class Bachelors extends StatelessWidget {
                     ),
                     GetBuilder<DropdownListController>(builder: (controller) {
                       return DropDownList(
+                        width: 350,
                         value: certificateIssuedBy,
                         validator: (value) => isDropdownListValid(value),
                         title: "الشهادة صادرة من ؟",
@@ -216,7 +218,7 @@ class Bachelors extends StatelessWidget {
                             );
                           })
                         : TitleAndTextStyle(
-                            width: 300,
+                            width: 500,
                             initialValue: universityId.toString(),
                             title: "اسم الجامعة",
                             validator: (value) =>
@@ -257,7 +259,7 @@ class Bachelors extends StatelessWidget {
                             })
                         : TitleAndTextStyle(
                             initialValue: collegesId.toString(),
-                            width: 250,
+                            width: 350,
                             title: "الكلية",
                             validator: (value) =>
                                 validateTextWithoutAnyCharacterNumber(value),
@@ -265,6 +267,7 @@ class Bachelors extends StatelessWidget {
                               academicInformation.collegesId = value;
                             },
                           )),
+
                     Obx(() => masterCountry.value
                         ? GetBuilder<DropdownListController>(
                             builder: (controller) {
@@ -291,7 +294,7 @@ class Bachelors extends StatelessWidget {
                           })
                         : TitleAndTextStyle(
                             initialValue: departmentId.toString(),
-                            width: 250,
+                            width: 350,
                             title: "القسم",
                             validator: (value) =>
                                 validateTextWithoutAnyCharacterNumber(value),
@@ -299,6 +302,7 @@ class Bachelors extends StatelessWidget {
                               academicInformation.departmentId = value;
                             },
                           )),
+
                     Obx(() => masterCountry.value
                         ? GetBuilder<DropdownListController>(
                             builder: (controller) {
@@ -324,7 +328,7 @@ class Bachelors extends StatelessWidget {
                           })
                         : TitleAndTextStyle(
                             initialValue: specializationId.toString(),
-                            width: 300,
+                            width: 350,
                             title: "التخصص",
                             validator: (value) =>
                                 validateTextWithoutAnyCharacterNumber(value),
@@ -332,6 +336,7 @@ class Bachelors extends StatelessWidget {
                               academicInformation.specializationId = value;
                             },
                           )),
+
                     GetBuilder<DropdownListController>(builder: (controller) {
                       return DropDownList(
                         title: "العام الدراسي",
@@ -352,6 +357,7 @@ class Bachelors extends StatelessWidget {
                             .toList(),
                       );
                     }),
+
                     TitleAndTextStyle(
                       width: 200,
                       title: " تسلسل الطالب",
@@ -368,8 +374,21 @@ class Bachelors extends StatelessWidget {
                         academicInformation.nOBatch = int.tryParse(value);
                       },
                     ),
+
                     TitleAndTextStyle(
-                      width: 250,
+                      initialValue: firstStudentAverage.toString(),
+                      width: 200,
+                      validator: (value) =>
+                          validateTextAsNumberLessThan100(value),
+                      title: "معدل الطالب الاول : ",
+                      onchange: (value) {
+                        academicInformation.firstStudentAverage =
+                            int.parse(value);
+                      },
+                    ),
+
+                    TitleAndTextStyle(
+                      width: 200,
                       title: "معدل البكلوريوس",
                       controller: averageController,
                       validator: (value) =>
@@ -381,21 +400,47 @@ class Bachelors extends StatelessWidget {
                       },
                     ),
                     const SizedBox(
-                      height: 10,
+                      width: 20,
                     ),
-                    Obx(() {
-                      return CustomSwitcher(
-                        onChanged: (p0) {
-                          checkFirstStudentAverage.value = p0;
-                          firstStudentAverage = p0 ? 1 : 0;
-                          fullDataFirstStudentAverageObs.value = p0;
-                          homePageController.haveFirstStudentAverage.value = p0;
-                          controller.update();
-                        },
-                        title: "هل لديك معدل الطالب الاول ؟ :",
-                        initialValue: fullDataFirstStudentAverageObs.value,
-                      );
-                    }),
+                    // Obx(() {
+                    //   return CustomSwitcher(
+                    //     onChanged: (p0) {
+                    //       checkFirstStudentAverage.value = p0;
+                    //       firstStudentAverage = p0 ? 1 : 0;
+                    //       fullDataFirstStudentAverageObs.value = p0;
+                    //       homePageController.haveFirstStudentAverage.value = p0;
+                    //       controller.update();
+                    //     },
+                    //     title: "هل لديك معدل الطالب الاول ؟ :",
+                    //     initialValue: fullDataFirstStudentAverageObs.value,
+                    //   );
+                    // }),
+
+                    TitleAndTextStyle(
+                      // initialValue:
+                      // fullDataBachelorDegreeDocument?.documentsNumber ?? '',
+                      controller: bachelorDocumentNumberController,
+                      width: 400,
+                      validator: (value) => validateDocumentNumber(value),
+                      title: " رقم وثيقة او تأييد البكلوريوس",
+                      onchange: (value) {
+                        bachelorDegreeDocument.documentsNumber = value;
+                      },
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    CustomCalendar(
+                      controller: bachelorCalenderController,
+                      title: "تاريخ وثيقة او تأييد البكلوريوس :",
+                      constrainWidth: 400,
+                      firstDate: DateTime(DateTime.now().year - 100),
+                      initialDate: DateTime.now(),
+                      lastDate: DateTime.now(),
+                      onChange: (value) async {
+                        debugPrint("value date = $value");
+                      },
+                    ),
                     CustomSwitcher(
                       onChanged: (value) {
                         academicInformation.isFirstStudent = value ? 1 : 0;
@@ -405,6 +450,7 @@ class Bachelors extends StatelessWidget {
                       title: "هل انت الطالب الاول ؟ :",
                       initialValue: isFirstStudent == 1,
                     ),
+
                     CustomSwitcher(
                       onChanged: (value) {
                         academicInformation.firstQuarter = value ? 1 : 0;
@@ -416,42 +462,10 @@ class Bachelors extends StatelessWidget {
                           "هل انت من الربع الاول بالنسبة للكليات الهندسية والطبية؟ :",
                       initialValue: firstQuarter == 1,
                     ),
-                    TitleAndTextStyle(
-                      // initialValue:
-                      // fullDataBachelorDegreeDocument?.documentsNumber ?? '',
-                      controller: bachelorDocumentNumberController,
-                      width: 250,
-                      title: " رقم وثيقة البكلوريوس",
-                      onchange: (value) {
-                        bachelorDegreeDocument.documentsNumber = value;
-                      },
-                    ),
-                    CustomCalendar(
-                      controller: bachelorCalenderController,
-                      title: "تاريخ وثيقة البكلوريوس :",
-                      constrainWidth: 250,
-                      firstDate: DateTime(DateTime.now().year - 100),
-                      initialDate: DateTime.now(),
-                      lastDate: DateTime.now(),
-                      onChange: (value) async {
-                        debugPrint("value date = $value");
-                      },
-                    ),
                     Obx(() => checkFirstStudentAverage.value
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              TitleAndTextStyle(
-                                initialValue: firstStudentAverage.toString(),
-                                width: 200,
-                                validator: (value) =>
-                                    validateTextAsNumberLessThan100(value),
-                                title: "معدل الطالب الاول : ",
-                                onchange: (value) {
-                                  academicInformation.firstStudentAverage =
-                                      int.parse(value);
-                                },
-                              ),
                               TitleAndTextStyle(
                                 // initialValue: fullDataFirstStudentAverage
                                 //     ?.documentsNumber ??
@@ -490,7 +504,7 @@ class Bachelors extends StatelessWidget {
                           isleft: true,
                           icon: Icons.save_outlined,
                           title: 'حفظ الشهادة',
-                          onTap: () {
+                          onTap: () async {
                             if (_formKey.currentState!.validate()) {
                               bachelorDegreeDocument.documentsDate =
                                   bachelorCalenderController.text;
@@ -524,6 +538,14 @@ class Bachelors extends StatelessWidget {
                               academicInformationController
                                   .addOrUpdateAcademicInformation(
                                       academicInformation);
+                              homePageController.haveInsertBachelor.value =
+                                  true;
+                              await DilogCostom.dilogSecss(
+                                isErorr: false,
+                                title: "تم حفظ الشهادة بنجاح",
+                                icons: Icons.close,
+                                color: Colors.greenAccent,
+                              );
                               // .academicInformationModel!.academicInformation
                               // ?.add(academicInformation);
                             }

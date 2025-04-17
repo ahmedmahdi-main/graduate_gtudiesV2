@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../theme.dart';
 
@@ -10,7 +10,7 @@ class TitleAndTextStyle extends StatefulWidget {
   final TextStyle? textStyle;
   final Function(String?)? validator;
   final TextEditingController? controller;
-  final AutovalidateMode? autovalidateMode;
+  final  AutovalidateMode? autovalidateMode;
   final bool? readOnly, isPassword;
   final double? width;
   final MouseCursor? mouseCursor;
@@ -50,6 +50,13 @@ class _TitleAndTextStyleState extends State<TitleAndTextStyle> {
   TextEditingController textEditingController = TextEditingController();
   var erorr;
   bool isValid = false;
+  FocusNode _keyboardFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _keyboardFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,65 +112,60 @@ class _TitleAndTextStyleState extends State<TitleAndTextStyle> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Focus(
-                        onKeyEvent: (FocusNode node, KeyEvent event) {
-                          if (event is KeyDownEvent &&
-                              event.logicalKey == LogicalKeyboardKey.enter) {
-                            widget.onEnter?.call();
-                            return KeyEventResult.handled;
-                          }
-                          return KeyEventResult.ignored;
+                      child: TextFormField(
+                        enabled: widget.enabled,
+                        style: widget.enabled
+                            ? null
+                            : const TextStyle(color: Colors.black),
+                        obscuringCharacter: "*",
+                        obscureText: widget.obscureText ?? false,
+                        mouseCursor: widget.mouseCursor ??
+                            WidgetStateMouseCursor.textable,
+                        onTap: widget.onTap ?? () {},
+                        onSaved: (newValue) {
+                          widget.onsave;
                         },
-                        child: TextFormField(
-                          enabled: widget.enabled,
-                          style: widget.enabled
-                              ? null
-                              : const TextStyle(color: Colors.black),
-                          obscuringCharacter: "*",
-                          obscureText: widget.obscureText ?? false,
-                          mouseCursor: widget.mouseCursor ??
-                              WidgetStateMouseCursor.textable,
-                          onTap: widget.onTap ?? () {},
-                          onSaved: (newValue) {
-                            widget.onsave;
-                          },
-                          initialValue: widget.initialValue,
-                          readOnly: widget.readOnly ?? false,
-                          autovalidateMode: widget.autovalidateMode ??
-                              AutovalidateMode.disabled,
-                          onChanged: widget.onchange,
-                          controller: widget.controller,
-                          validator: (value) {
-                            var m = widget.validator?.call(value);
-                            if (m == null ||
-                                m.toString().toLowerCase() == "null" ||
-                                m == "") {
-                              setState(() {
-                                isValid = false;
-                                return;
-                              });
-                            } else {
-                              setState(() {
-                                erorr = m.toString();
-                                isValid = true;
-                              });
-                            }
+                        initialValue: widget.initialValue,
+                        readOnly: widget.readOnly ?? false,
+                        autovalidateMode: widget.autovalidateMode ??
+                            AutovalidateMode.disabled,
+                        onChanged: widget.onchange,
+                        controller: widget.controller,
+                        validator: (value) {
+                          var m = widget.validator?.call(value);
+                          if (m == null ||
+                              m.toString().toLowerCase() == "null" ||
+                              m == "") {
+                            setState(() {
+                              isValid = false;
+                              return;
+                            });
+                          } else {
+                            setState(() {
+                              erorr = m.toString();
+                              isValid = true;
+                            });
+                          }
 
-                            return m;
-                          },
-                          decoration: InputDecoration(
-                              disabledBorder: outlinecostom(),
-                              focusedErrorBorder: outlinecostom(),
-                              hoverColor: Colors.transparent,
-                              filled: true,
-                              fillColor: Colors.transparent,
-                              border: outlinecostom(),
-                              errorStyle:
-                                  const TextStyle(height: null, fontSize: 0),
-                              errorBorder: outlinecostom(),
-                              enabledBorder: outlinecostom(),
-                              focusedBorder: outlinecostom()),
-                        ),
+                          return m;
+                        },
+                        onFieldSubmitted: (value) {
+                          if (!kIsWeb) {
+                            widget.onEnter?.call();
+                          }
+                        },
+                        decoration: InputDecoration(
+                            disabledBorder: outlinecostom(),
+                            focusedErrorBorder: outlinecostom(),
+                            hoverColor: Colors.transparent,
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            border: outlinecostom(),
+                            errorStyle:
+                                const TextStyle(height: null, fontSize: 0),
+                            errorBorder: outlinecostom(),
+                            enabledBorder: outlinecostom(),
+                            focusedBorder: outlinecostom()),
                       ),
                     ),
                     widget.widget ?? Container(),
