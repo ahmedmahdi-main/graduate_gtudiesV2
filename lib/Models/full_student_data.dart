@@ -536,6 +536,8 @@ class FullDataAcademicInformation {
   double? average;
   dynamic specializationId;
   int? sequence;
+  int? typeStudy;
+  int? isPublicStydy;
   double? firstStudentAverage;
   int? isFirstStudent;
   int? firstQuarter;
@@ -557,6 +559,8 @@ class FullDataAcademicInformation {
       this.average,
       this.specializationId,
       this.sequence,
+      this.typeStudy,
+      this.isPublicStydy,
       this.firstStudentAverage,
       this.isFirstStudent,
       this.firstQuarter,
@@ -577,6 +581,8 @@ class FullDataAcademicInformation {
     average = json['Average'];
     specializationId = json['SpecializationId'];
     sequence = json['sequence'];
+    isPublicStydy = json['isPublicStydy'];
+    typeStudy = json['typeStudy'];
     firstStudentAverage = json['FirstStudentAverage'];
     isFirstStudent = json['IsFirstStudent'];
     firstQuarter = json['FirstQuarter'];
@@ -604,6 +610,8 @@ class FullDataAcademicInformation {
     data['Average'] = average;
     data['SpecializationId'] = specializationId;
     data['sequence'] = sequence;
+    data['typeStudy'] = typeStudy;
+    data['isPublicStydy'] = isPublicStydy;
     data['FirstStudentAverage'] = firstStudentAverage;
     data['IsFirstStudent'] = isFirstStudent;
     data['FirstQuarter'] = firstQuarter;
@@ -629,6 +637,8 @@ class FullDataAcademicInformation {
       average: info.average,
       specializationId: info.specializationId,
       sequence: info.sequence,
+      typeStudy: info.typeStudy,
+      isPublicStydy: info.isPublicStydy,
       nOBatch: info.nOBatch,
       firstStudentAverage: info.firstStudentAverage?.toDouble(),
       isFirstStudent: info.isFirstStudent,

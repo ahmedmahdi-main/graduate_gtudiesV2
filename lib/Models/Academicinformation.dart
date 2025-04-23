@@ -30,6 +30,8 @@ class AcademicInformation {
   double? average;
   String? specializationId;
   int? sequence;
+  int? isPublicStydy;
+  int? typeStudy;
   int? firstStudentAverage;
   int? isFirstStudent;
   int? firstQuarter;
@@ -50,6 +52,8 @@ class AcademicInformation {
       this.average,
       this.specializationId,
       this.sequence,
+      this.isPublicStydy,
+      this.typeStudy,
       this.firstStudentAverage,
       this.isFirstStudent,
       this.firstQuarter,
@@ -71,6 +75,8 @@ class AcademicInformation {
       average: fullData.average,
       specializationId: fullData.specializationId.toString(),
       sequence: fullData.sequence,
+      isPublicStydy: fullData.isPublicStydy,
+      typeStudy: fullData.typeStudy,
       firstStudentAverage: fullData.firstStudentAverage?.toInt(),
       isFirstStudent: fullData.isFirstStudent,
       isDiplomaCompatible: fullData.isDiplomaCompatible,
@@ -93,6 +99,8 @@ class AcademicInformation {
     firstQuarter = json['FirstQuarter'];
     specializationId = json['SpecializationId'];
     sequence = json['sequence'];
+    typeStudy = json['type_study'];
+    isPublicStydy = json['IsPublicStydy'];
     firstStudentAverage = json['FirstStudentAverage'];
     isFirstStudent = json['IsFirstStudent'];
     isDiplomaCompatible = json['IsDiplomaCompatible'];
@@ -118,6 +126,8 @@ class AcademicInformation {
     data['Average'] = average;
     data['SpecializationId'] = specializationId;
     data['sequence'] = sequence;
+    data['type_study'] = typeStudy;
+    data['isPublicStydy'] = isPublicStydy;
     data['FirstStudentAverage'] = firstStudentAverage;
     data['IsFirstStudent'] = isFirstStudent;
     data['FirstQuarter'] = firstQuarter;
