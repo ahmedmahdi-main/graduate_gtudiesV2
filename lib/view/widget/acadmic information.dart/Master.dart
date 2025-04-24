@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Enums/CertificateType.dart';
 import '../../../Enums/DocumentsTypes.dart';
-import '../../../Models/Academicinformation.dart';
+import '../../../Models/academic_information.dart';
 import '../../../Models/full_student_data.dart';
 import '../../../ValidatorFunction/text_validator.dart';
 import '../../../controller/AcademicInformationController.dart';

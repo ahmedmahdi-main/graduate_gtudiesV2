@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../Models/UserInfo.dart';
+import '../Models/user_info.dart';
 import '../Services/base_route.dart';
 import '../Services/DilogCostom.dart';
 import '../Services/Failure.dart';

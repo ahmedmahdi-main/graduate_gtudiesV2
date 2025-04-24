@@ -30,7 +30,7 @@ class AcademicInformation {
   double? average;
   String? specializationId;
   int? sequence;
-  int? isPublicStydy;
+  int? isPublicStudy;
   int? typeStudy;
   int? firstStudentAverage;
   int? isFirstStudent;
@@ -52,7 +52,7 @@ class AcademicInformation {
       this.average,
       this.specializationId,
       this.sequence,
-      this.isPublicStydy,
+      this.isPublicStudy,
       this.typeStudy,
       this.firstStudentAverage,
       this.isFirstStudent,
@@ -75,7 +75,7 @@ class AcademicInformation {
       average: fullData.average,
       specializationId: fullData.specializationId.toString(),
       sequence: fullData.sequence,
-      isPublicStydy: fullData.isPublicStydy,
+      isPublicStudy: fullData.isPublicStudy,
       typeStudy: fullData.typeStudy,
       firstStudentAverage: fullData.firstStudentAverage?.toInt(),
       isFirstStudent: fullData.isFirstStudent,
@@ -87,7 +87,7 @@ class AcademicInformation {
       departmentId: fullData.departmentId.toString(),
       nOBatch: fullData.nOBatch,
       firstQuarter: fullData.firstQuarter,
-      // studentUUID: fullData.studentUUID, // Uncomment if needed
+      // studentUUID: fullData.studentUUID, // Uncomment if needed1`
       documents: fullData.documents,
     );
   }
@@ -100,7 +100,7 @@ class AcademicInformation {
     specializationId = json['SpecializationId'];
     sequence = json['sequence'];
     typeStudy = json['type_study'];
-    isPublicStydy = json['IsPublicStydy'];
+    isPublicStudy = json['IsPublicStudy'];
     firstStudentAverage = json['FirstStudentAverage'];
     isFirstStudent = json['IsFirstStudent'];
     isDiplomaCompatible = json['IsDiplomaCompatible'];
@@ -127,7 +127,7 @@ class AcademicInformation {
     data['SpecializationId'] = specializationId;
     data['sequence'] = sequence;
     data['type_study'] = typeStudy;
-    data['isPublicStydy'] = isPublicStydy;
+    data['IsPublicStudy'] = isPublicStudy;
     data['FirstStudentAverage'] = firstStudentAverage;
     data['IsFirstStudent'] = isFirstStudent;
     data['FirstQuarter'] = firstQuarter;
@@ -178,15 +178,15 @@ class Documents {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['DocumentsId'] = this.documentsId;
-    data['DocumentsNumber'] = this.documentsNumber;
-    data['DocumentsDate'] = this.documentsDate;
-    data['DocumentsTypeId'] = this.documentsTypeId;
-    data['AIId'] = this.aIId;
-    data['CareerInformationId'] = this.careerInformationId;
-    data['ACID'] = this.aCID;
-    data['SportChampionId'] = this.sportChampionId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['DocumentsId'] = documentsId;
+    data['DocumentsNumber'] = documentsNumber;
+    data['DocumentsDate'] = documentsDate;
+    data['DocumentsTypeId'] = documentsTypeId;
+    data['AIId'] = aIId;
+    data['CareerInformationId'] = careerInformationId;
+    data['ACID'] = aCID;
+    data['SportChampionId'] = sportChampionId;
     return data;
   }
 }

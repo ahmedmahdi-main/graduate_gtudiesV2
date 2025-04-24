@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/module/user_profile.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import '../Models/UserInfo.dart';
+import '../Models/user_info.dart';
 import '../Services/base_route.dart';
 import '../Services/DilogCostom.dart';
 

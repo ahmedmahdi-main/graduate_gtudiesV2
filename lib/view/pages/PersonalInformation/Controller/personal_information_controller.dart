@@ -10,7 +10,7 @@ import 'package:graduate_gtudiesV2/Services/base_route.dart';
 import '../../../../Services/DilogCostom.dart';
 import '../../../../Services/Failure.dart';
 import '../../../../Services/Session.dart';
-import '../StudentPersonalInformation.dart';
+import '../student_personal_information.dart';
 
 class PersonalInformationController {
   static Future<bool> insertPersonalInformation(

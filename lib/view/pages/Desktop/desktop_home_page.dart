@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../../../controller/home_page_controller.dart';
 import '../../../theme.dart';
 import '../../widget/tabpar.dart';
-import '../submission form.dart';
+import '../submission_form.dart';
 
 class DesktopHomePage extends StatelessWidget {
   DesktopHomePage({super.key});

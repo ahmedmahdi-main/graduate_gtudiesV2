@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dioo;
-import '../Models/Academicinformation.dart';
+import '../Models/academic_information.dart';
 import '../Services/base_route.dart';
 import '../Services/DilogCostom.dart';
 import '../Services/Failure.dart';

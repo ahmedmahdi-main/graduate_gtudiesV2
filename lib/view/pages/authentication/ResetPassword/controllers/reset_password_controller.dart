@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:graduate_gtudiesV2/Models/UserInfo.dart';
+import 'package:graduate_gtudiesV2/Models/user_info.dart';
 import 'package:graduate_gtudiesV2/UserProfileInformaition/HashPassword.dart';
 
 import '../../../../../Services/Session.dart';

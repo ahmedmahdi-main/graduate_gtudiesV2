@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dioo;
-import '../Models/CareerInformation.dart';
+import '../Models/career_Information.dart';
 import '../Services/base_route.dart';
 import '../Services/DilogCostom.dart';
 import '../Services/Failure.dart';

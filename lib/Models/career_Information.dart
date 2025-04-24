@@ -1,4 +1,4 @@
-import 'Academicinformation.dart';
+import 'academic_information.dart';
 
 class CareerInformation {
   int? typeConsentId;

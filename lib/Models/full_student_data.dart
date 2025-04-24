@@ -1,10 +1,10 @@
 import '../module/Addresses.dart';
-import '../view/pages/PersonalInformation/StudentPersonalInformation.dart';
-import 'Academicinformation.dart';
-import 'CareerInformation.dart';
-import 'CertificateData.dart';
-import 'Submission.dart';
-import 'TypeofStudy.dart';
+import '../view/pages/PersonalInformation/student_personal_information.dart';
+import 'academic_information.dart';
+import 'career_Information.dart';
+import 'certificate_data.dart';
+import 'submission.dart';
+import 'type_of_study.dart';
 
 /*
 * FullStudentData.fromJson(Map<String, dynamic> json) {
@@ -537,7 +537,7 @@ class FullDataAcademicInformation {
   dynamic specializationId;
   int? sequence;
   int? typeStudy;
-  int? isPublicStydy;
+  int? isPublicStudy;
   double? firstStudentAverage;
   int? isFirstStudent;
   int? firstQuarter;
@@ -560,7 +560,7 @@ class FullDataAcademicInformation {
       this.specializationId,
       this.sequence,
       this.typeStudy,
-      this.isPublicStydy,
+      this.isPublicStudy,
       this.firstStudentAverage,
       this.isFirstStudent,
       this.firstQuarter,
@@ -581,7 +581,7 @@ class FullDataAcademicInformation {
     average = json['Average'];
     specializationId = json['SpecializationId'];
     sequence = json['sequence'];
-    isPublicStydy = json['isPublicStydy'];
+    isPublicStudy = json['isPublicStydy'];
     typeStudy = json['typeStudy'];
     firstStudentAverage = json['FirstStudentAverage'];
     isFirstStudent = json['IsFirstStudent'];
@@ -611,7 +611,7 @@ class FullDataAcademicInformation {
     data['SpecializationId'] = specializationId;
     data['sequence'] = sequence;
     data['typeStudy'] = typeStudy;
-    data['isPublicStydy'] = isPublicStydy;
+    data['IsPublicStudy'] = isPublicStudy;
     data['FirstStudentAverage'] = firstStudentAverage;
     data['IsFirstStudent'] = isFirstStudent;
     data['FirstQuarter'] = firstQuarter;
@@ -638,7 +638,7 @@ class FullDataAcademicInformation {
       specializationId: info.specializationId,
       sequence: info.sequence,
       typeStudy: info.typeStudy,
-      isPublicStydy: info.isPublicStydy,
+      isPublicStudy: info.isPublicStudy,
       nOBatch: info.nOBatch,
       firstStudentAverage: info.firstStudentAverage?.toDouble(),
       isFirstStudent: info.isFirstStudent,
@@ -767,7 +767,7 @@ class FullDataCertificateCompetency {
   int? certificateCompetencyId;
   int? appreciation;
   int? certificateCompetencyTypeId;
-  int? examCenterId;
+  String? examCenterId;
   String? studentUUID;
 
   FullDataCertificateCompetency(

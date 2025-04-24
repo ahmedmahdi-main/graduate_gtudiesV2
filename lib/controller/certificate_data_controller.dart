@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import '../Models/CertificateData.dart';
+import '../Models/certificate_data.dart';
 import '../Services/base_route.dart';
 import '../Services/DilogCostom.dart';
 import '../Services/Failure.dart';

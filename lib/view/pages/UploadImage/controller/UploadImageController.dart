@@ -3,7 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Services/base_route.dart';
-import '../../../../Models/ImageInformation.dart';
+import '../../../../Models/image_Information.dart';
 import '../../../../Services/DilogCostom.dart';
 import '../../../../Services/Session.dart';
 import '../../../../controller/home_page_controller.dart';

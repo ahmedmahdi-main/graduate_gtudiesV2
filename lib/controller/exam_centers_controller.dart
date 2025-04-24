@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
-import '../Models/ExamCenters.dart';
+import '../Models/exam_centers.dart';
 import '../Services/base_route.dart';
 import '../Services/DilogCostom.dart';
 import '../Services/Failure.dart';

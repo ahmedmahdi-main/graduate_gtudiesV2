@@ -9,10 +9,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Models/full_student_data.dart';
 
-import '../Models/DataInformation.dart';
-import '../Models/ExamCenters.dart';
-import '../Models/SuperData.dart';
-import '../Models/TypeofStudy.dart';
+import '../Models/data_information.dart';
+import '../Models/exam_centers.dart';
+import '../Models/super_data.dart';
+import '../Models/type_of_study.dart';
 import '../Services/base_route.dart';
 import '../Services/DilogCostom.dart';
 import '../Services/Failure.dart';

@@ -2,10 +2,10 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Enums/DocumentsTypes.dart';
-import 'package:graduate_gtudiesV2/Models/Academicinformation.dart';
+import 'package:graduate_gtudiesV2/Models/academic_information.dart';
 import 'package:graduate_gtudiesV2/controller/dropdown_filter_controllers.dart';
 import '../../Enums/CertificateCompetency.dart';
-import '../../Models/CertificateData.dart';
+import '../../Models/certificate_data.dart';
 import '../../Models/full_student_data.dart';
 import '../../Services/DilogCostom.dart';
 import '../../Services/base_route.dart';
@@ -433,36 +433,51 @@ class OtherInformation extends StatelessWidget {
                                         const SizedBox(
                                           width: 35,
                                         ),
-                                        GetBuilder<ExamCentersController>(
-                                            id: 'الجهة المانحة لامتحان كفائة الانكليزي',
-                                            builder: (controller) {
-                                              return DropDownList(
-                                                  value: englishExamCenterId,
-                                                  width: 500,
-                                                  title:
-                                                      "الجهة المانحة لامتحان كفائة الانكليزي ",
-                                                  onchange: (val) {
-                                                    certificateCompetencyEnglish
-                                                        .examCenterId = val;
-                                                    englishExamCenterId = val;
-                                                    homePageController
-                                                        .haveEnglishLanguageProficiencyCertificate
-                                                        .value = val != null;
-                                                    controller.update();
-                                                  },
-                                                  DropdownMenuItems: controller
-                                                      .examCenters!.centers!
-                                                      .map((e) =>
-                                                          DropdownMenuItem(
-                                                            value:
-                                                                e.examCenterId,
-                                                            child: Center(
-                                                              child:
-                                                                  Text(e.name!),
-                                                            ),
-                                                          ))
-                                                      .toList());
-                                            })
+                                        TitleAndTextStyle(
+                                        width: 500,
+                                        initialValue: englishExamCenterId,
+                                        title: "اسم مركز الامتحاني",
+                                        validator: (value) =>
+                                        validateTextWithoutAnyCharacterNumber(value),
+                                          onchange: (val) {
+                                            certificateCompetencyEnglish
+                                                .examCenterId = val;
+                                            englishExamCenterId = val;
+                                            homePageController
+                                                .haveEnglishLanguageProficiencyCertificate
+                                                .value = val != null || val.trim() != "";
+                                          },
+                                        ),
+                                        // GetBuilder<ExamCentersController>(
+                                        //     id: 'الجهة المانحة لامتحان كفائة الانكليزي',
+                                        //     builder: (controller) {
+                                        //       return DropDownList(
+                                        //           value: englishExamCenterId,
+                                        //           width: 500,
+                                        //           title:
+                                        //               "الجهة المانحة لامتحان كفائة الانكليزي ",
+                                        //           onchange: (val) {
+                                        //             certificateCompetencyEnglish
+                                        //                 .examCenterId = val;
+                                        //             englishExamCenterId = val;
+                                        //             homePageController
+                                        //                 .haveEnglishLanguageProficiencyCertificate
+                                        //                 .value = val != null;
+                                        //             controller.update();
+                                        //           },
+                                        //           DropdownMenuItems: controller
+                                        //               .examCenters!.centers!
+                                        //               .map((e) =>
+                                        //                   DropdownMenuItem(
+                                        //                     value:
+                                        //                         e.examCenterId,
+                                        //                     child: Center(
+                                        //                       child:
+                                        //                           Text(e.name!),
+                                        //                     ),
+                                        //                   ))
+                                        //               .toList());
+                                        //     })
                                       ],
                                     )
                                   : Container();

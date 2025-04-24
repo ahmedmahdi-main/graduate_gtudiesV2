@@ -359,7 +359,7 @@ class PrintingUserPage {
                         textWithTitle(
                           iscotation: true,
                           title:
-                              "حاصل على شهادة  ${CertificateCompetencyTypes.values.where((c) => c.id == certificatecompetency.certificateCompetencyTypeId).first.name} من ${controller.centers(centersId: certificatecompetency.examCenterId)?.name} وبدرجة ${certificatecompetency.appreciation}",
+                              "حاصل على شهادة  ${CertificateCompetencyTypes.values.where((c) => c.id == certificatecompetency.certificateCompetencyTypeId).first.name} من ${ certificatecompetency.examCenterId} وبدرجة ${certificatecompetency.appreciation}",
                         ),
                     ]),
               )

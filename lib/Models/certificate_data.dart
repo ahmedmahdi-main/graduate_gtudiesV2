@@ -1,4 +1,4 @@
-import 'Academicinformation.dart';
+import 'academic_information.dart';
 
 class CertificateData {
   int? isRegistrationUpgraded;
@@ -51,7 +51,7 @@ class CertificateData {
 class Certificatecompetency {
   double? appreciation;
   int? certificateCompetencyTypeId;
-  int? examCenterId;
+  String? examCenterId;
 
   Certificatecompetency(
       {this.appreciation, this.certificateCompetencyTypeId, this.examCenterId});

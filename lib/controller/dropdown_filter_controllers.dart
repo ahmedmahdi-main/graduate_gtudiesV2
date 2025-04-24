@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:graduate_gtudiesV2/Models/SuperData.dart';
+import 'package:graduate_gtudiesV2/Models/super_data.dart';
 
-import '../Models/DataInformation.dart';
-import '../Models/TypeofStudy.dart';
+import '../Models/data_information.dart';
+import '../Models/type_of_study.dart';
 import '../Services/base_route.dart';
 import '../Services/Session.dart';
 
