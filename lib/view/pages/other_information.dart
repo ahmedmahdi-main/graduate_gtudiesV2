@@ -264,34 +264,49 @@ class OtherInformation extends StatelessWidget {
                                 },
                                 width: 300,
                                 title: "درجة امتحان الكفاءة الحاسوب :"),
-                            GetBuilder<ExamCentersController>(
-                                id: 'الجهة المانحة لامتحان كفائة الحاسوب',
-                                builder: (controller) {
-                                  return DropDownList(
-                                    value: computerExamCenterId,
-                                    width: 500,
-                                    title:
-                                        "الجهة المانحة لامتحان كفائة الحاسوب ",
-                                    onchange: (val) {
-                                      certificateCompetencyComputer
-                                          .examCenterId = val;
-                                      computerExamCenterId = val;
-                                      homePageController
-                                          .haveComputerProficiencyCertificate
-                                          .value = val != null;
-                                      controller.update();
-                                    },
-                                    DropdownMenuItems:
-                                        controller.examCenters!.centers!
-                                            .map((e) => DropdownMenuItem(
-                                                  value: e.examCenterId,
-                                                  child: Center(
-                                                    child: Text(e.name!),
-                                                  ),
-                                                ))
-                                            .toList(),
-                                  );
-                                }),
+                            TitleAndTextStyle(
+                              width: 500,
+                              initialValue: computerExamCenterId,
+                              title: "اسم مركز الامتحاني",
+                              validator: (value) =>
+                                  validateTextWithoutAnyCharacterNumber(value),
+                              onchange: (val) {
+                                certificateCompetencyComputer
+                                    .examCenterId = val;
+                                computerExamCenterId = val;
+                                homePageController
+                                    .haveComputerProficiencyCertificate
+                                    .value = val != null || val.trim() != "";
+                              },
+                            ),
+                            // GetBuilder<ExamCentersController>(
+                            //     id: 'الجهة المانحة لامتحان كفائة الحاسوب',
+                            //     builder: (controller) {
+                            //       return DropDownList(
+                            //         value: computerExamCenterId,
+                            //         width: 500,
+                            //         title:
+                            //             "الجهة المانحة لامتحان كفائة الحاسوب ",
+                            //         onchange: (val) {
+                            //           certificateCompetencyComputer
+                            //               .examCenterId = val;
+                            //           computerExamCenterId = val;
+                            //           homePageController
+                            //               .haveComputerProficiencyCertificate
+                            //               .value = val != null;
+                            //           controller.update();
+                            //         },
+                            //         DropdownMenuItems:
+                            //             controller.examCenters!.centers!
+                            //                 .map((e) => DropdownMenuItem(
+                            //                       value: e.examCenterId,
+                            //                       child: Center(
+                            //                         child: Text(e.name!),
+                            //                       ),
+                            //                     ))
+                            //                 .toList(),
+                            //       );
+                            //     }),
                             const SizedBox(
                               width: double.infinity,
                             ),
@@ -310,32 +325,47 @@ class OtherInformation extends StatelessWidget {
                                 },
                                 width: 300,
                                 title: "درجة امتحان الكفاءة العربي :"),
-                            GetBuilder<ExamCentersController>(
-                                //id: 'الجهة المانحة لامتحان كفائة العربي',
-                                builder: (controller) {
-                              return DropDownList(
-                                  value: arabicExamCenterId,
-                                  width: 500,
-                                  title: "الجهة المانحة لامتحان كفائة العربي ",
-                                  onchange: (val) {
-                                    certificateCompetencyArabic.examCenterId =
-                                        val;
-                                    arabicExamCenterId = val;
-                                    homePageController
-                                        .haveArabicLanguageProficiencyCertificate
-                                        .value = val != null;
-                                    controller.update();
-                                  },
-                                  DropdownMenuItems:
-                                      controller.examCenters!.centers!
-                                          .map((e) => DropdownMenuItem(
-                                                value: e.examCenterId,
-                                                child: Center(
-                                                  child: Text(e.name!),
-                                                ),
-                                              ))
-                                          .toList());
-                            }),
+                            TitleAndTextStyle(
+                              width: 500,
+                              initialValue: arabicExamCenterId,
+                              title: "اسم مركز الامتحاني",
+                              validator: (value) =>
+                                  validateTextWithoutAnyCharacterNumber(value),
+                              onchange: (val) {
+                                certificateCompetencyArabic
+                                    .examCenterId = val;
+                                arabicExamCenterId = val;
+                                homePageController
+                                    .haveArabicLanguageProficiencyCertificate
+                                    .value = val != null || val.trim() != "";
+                              },
+                            ),
+                            // GetBuilder<ExamCentersController>(
+                            //     //id: 'الجهة المانحة لامتحان كفائة العربي',
+                            //     builder: (controller) {
+                            //   return DropDownList(
+                            //       value: arabicExamCenterId,
+                            //       width: 500,
+                            //       title: "الجهة المانحة لامتحان كفائة العربي ",
+                            //       onchange: (val) {
+                            //         certificateCompetencyArabic.examCenterId =
+                            //             val;
+                            //         arabicExamCenterId = val;
+                            //         homePageController
+                            //             .haveArabicLanguageProficiencyCertificate
+                            //             .value = val != null;
+                            //         controller.update();
+                            //       },
+                            //       DropdownMenuItems:
+                            //           controller.examCenters!.centers!
+                            //               .map((e) => DropdownMenuItem(
+                            //                     value: e.examCenterId,
+                            //                     child: Center(
+                            //                       child: Text(e.name!),
+                            //                     ),
+                            //                   ))
+                            //               .toList());
+                            // }),
                             const SizedBox(
                               width: double.infinity,
                             ),
@@ -374,35 +404,50 @@ class OtherInformation extends StatelessWidget {
                                         const SizedBox(
                                           width: 35,
                                         ),
-                                        GetBuilder<ExamCentersController>(
-                                            id: 'الجهة المانحة ielts',
-                                            builder: (controller) {
-                                              return DropDownList(
-                                                  value: ilitsExamCenterId,
-                                                  width: 500,
-                                                  title: "الجهة المانحة ielts ",
-                                                  onchange: (val) {
-                                                    certificateCompetencyIlits
-                                                        .examCenterId = val;
-                                                    ilitsExamCenterId = val;
-                                                    homePageController
-                                                        .haveIletsCertificate
-                                                        .value = val != null;
-                                                    controller.update();
-                                                  },
-                                                  DropdownMenuItems: controller
-                                                      .examCenters!.centers!
-                                                      .map((e) =>
-                                                          DropdownMenuItem(
-                                                            value:
-                                                                e.examCenterId,
-                                                            child: Center(
-                                                              child:
-                                                                  Text(e.name!),
-                                                            ),
-                                                          ))
-                                                      .toList());
-                                            }),
+                                        TitleAndTextStyle(
+                                          width: 500,
+                                          initialValue: ilitsExamCenterId,
+                                          title: "اسم مركز الامتحاني",
+                                          validator: (value) =>
+                                              validateTextWithoutAnyCharacterNumber(value),
+                                          onchange: (val) {
+                                            certificateCompetencyIlits
+                                                .examCenterId = val;
+                                            ilitsExamCenterId = val;
+                                            homePageController
+                                                .haveIletsCertificate
+                                                .value = val != null || val.trim() != "";
+                                          },
+                                        ),
+                                        // GetBuilder<ExamCentersController>(
+                                        //     id: 'الجهة المانحة ielts',
+                                        //     builder: (controller) {
+                                        //       return DropDownList(
+                                        //           value: ilitsExamCenterId,
+                                        //           width: 500,
+                                        //           title: "الجهة المانحة ielts ",
+                                        //           onchange: (val) {
+                                        //             certificateCompetencyIlits
+                                        //                 .examCenterId = val;
+                                        //             ilitsExamCenterId = val;
+                                        //             homePageController
+                                        //                 .haveIletsCertificate
+                                        //                 .value = val != null;
+                                        //             controller.update();
+                                        //           },
+                                        //           DropdownMenuItems: controller
+                                        //               .examCenters!.centers!
+                                        //               .map((e) =>
+                                        //                   DropdownMenuItem(
+                                        //                     value:
+                                        //                         e.examCenterId,
+                                        //                     child: Center(
+                                        //                       child:
+                                        //                           Text(e.name!),
+                                        //                     ),
+                                        //                   ))
+                                        //               .toList());
+                                        //     }),
                                       ],
                                     )
                                   : Container();
