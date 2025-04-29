@@ -155,7 +155,7 @@ class OtherInformation extends StatelessWidget {
         if (fullDataCertificateCompetencyIlits != null) {
           certificateCompetencyIlitsController.text =
               fullDataCertificateCompetencyIlits.appreciation.toString() ?? '';
-          ilitsExamCenterId = fullDataCertificateCompetencyIlits.examCenterId;
+          ilitsExamCenterId = fullDataCertificateCompetencyIlits.examCenter;
           certificateCompetencyIlits =
               fullDataCertificateCompetencyIlits.toCertificateCompetency();
         } else {
@@ -167,7 +167,7 @@ class OtherInformation extends StatelessWidget {
               fullDataCertificateCompetencyComputer.appreciation.toString() ??
                   '';
           computerExamCenterId =
-              fullDataCertificateCompetencyComputer.examCenterId;
+              fullDataCertificateCompetencyComputer.examCenter;
           certificateCompetencyComputer =
               fullDataCertificateCompetencyComputer.toCertificateCompetency();
         } else {
@@ -180,7 +180,7 @@ class OtherInformation extends StatelessWidget {
               fullDataCertificateCompetencyEnglish.appreciation.toString() ??
                   '';
           englishExamCenterId =
-              fullDataCertificateCompetencyEnglish.examCenterId;
+              fullDataCertificateCompetencyEnglish.examCenter;
           certificateCompetencyEnglish =
               fullDataCertificateCompetencyEnglish.toCertificateCompetency();
         } else {
@@ -190,7 +190,7 @@ class OtherInformation extends StatelessWidget {
         if (fullDataCertificateCompetencyArabic != null) {
           certificateCompetencyArabicController.text =
               fullDataCertificateCompetencyArabic.appreciation.toString() ?? '';
-          arabicExamCenterId = fullDataCertificateCompetencyArabic.examCenterId;
+          arabicExamCenterId = fullDataCertificateCompetencyArabic.examCenter;
           certificateCompetencyArabic =
               fullDataCertificateCompetencyArabic.toCertificateCompetency();
         } else {
@@ -272,7 +272,7 @@ class OtherInformation extends StatelessWidget {
                                   validateTextWithoutAnyCharacterNumber(value),
                               onchange: (val) {
                                 certificateCompetencyComputer
-                                    .examCenterId = val;
+                                    .examCenter = val;
                                 computerExamCenterId = val;
                                 homePageController
                                     .haveComputerProficiencyCertificate
@@ -289,7 +289,7 @@ class OtherInformation extends StatelessWidget {
                             //             "الجهة المانحة لامتحان كفائة الحاسوب ",
                             //         onchange: (val) {
                             //           certificateCompetencyComputer
-                            //               .examCenterId = val;
+                            //               .examCenter = val;
                             //           computerExamCenterId = val;
                             //           homePageController
                             //               .haveComputerProficiencyCertificate
@@ -299,7 +299,7 @@ class OtherInformation extends StatelessWidget {
                             //         DropdownMenuItems:
                             //             controller.examCenters!.centers!
                             //                 .map((e) => DropdownMenuItem(
-                            //                       value: e.examCenterId,
+                            //                       value: e.examCenter,
                             //                       child: Center(
                             //                         child: Text(e.name!),
                             //                       ),
@@ -333,7 +333,7 @@ class OtherInformation extends StatelessWidget {
                                   validateTextWithoutAnyCharacterNumber(value),
                               onchange: (val) {
                                 certificateCompetencyArabic
-                                    .examCenterId = val;
+                                    .examCenter = val;
                                 arabicExamCenterId = val;
                                 homePageController
                                     .haveArabicLanguageProficiencyCertificate
@@ -348,7 +348,7 @@ class OtherInformation extends StatelessWidget {
                             //       width: 500,
                             //       title: "الجهة المانحة لامتحان كفائة العربي ",
                             //       onchange: (val) {
-                            //         certificateCompetencyArabic.examCenterId =
+                            //         certificateCompetencyArabic.examCenter =
                             //             val;
                             //         arabicExamCenterId = val;
                             //         homePageController
@@ -359,7 +359,7 @@ class OtherInformation extends StatelessWidget {
                             //       DropdownMenuItems:
                             //           controller.examCenters!.centers!
                             //               .map((e) => DropdownMenuItem(
-                            //                     value: e.examCenterId,
+                            //                     value: e.examCenter,
                             //                     child: Center(
                             //                       child: Text(e.name!),
                             //                     ),
@@ -412,7 +412,7 @@ class OtherInformation extends StatelessWidget {
                                               validateTextWithoutAnyCharacterNumber(value),
                                           onchange: (val) {
                                             certificateCompetencyIlits
-                                                .examCenterId = val;
+                                                .examCenter = val;
                                             ilitsExamCenterId = val;
                                             homePageController
                                                 .haveIletsCertificate
@@ -428,7 +428,7 @@ class OtherInformation extends StatelessWidget {
                                         //           title: "الجهة المانحة ielts ",
                                         //           onchange: (val) {
                                         //             certificateCompetencyIlits
-                                        //                 .examCenterId = val;
+                                        //                 .examCenter = val;
                                         //             ilitsExamCenterId = val;
                                         //             homePageController
                                         //                 .haveIletsCertificate
@@ -440,7 +440,7 @@ class OtherInformation extends StatelessWidget {
                                         //               .map((e) =>
                                         //                   DropdownMenuItem(
                                         //                     value:
-                                        //                         e.examCenterId,
+                                        //                         e.examCenter,
                                         //                     child: Center(
                                         //                       child:
                                         //                           Text(e.name!),
@@ -486,7 +486,7 @@ class OtherInformation extends StatelessWidget {
                                         validateTextWithoutAnyCharacterNumber(value),
                                           onchange: (val) {
                                             certificateCompetencyEnglish
-                                                .examCenterId = val;
+                                                .examCenter = val;
                                             englishExamCenterId = val;
                                             homePageController
                                                 .haveEnglishLanguageProficiencyCertificate
@@ -503,7 +503,7 @@ class OtherInformation extends StatelessWidget {
                                         //               "الجهة المانحة لامتحان كفائة الانكليزي ",
                                         //           onchange: (val) {
                                         //             certificateCompetencyEnglish
-                                        //                 .examCenterId = val;
+                                        //                 .examCenter = val;
                                         //             englishExamCenterId = val;
                                         //             homePageController
                                         //                 .haveEnglishLanguageProficiencyCertificate
@@ -515,7 +515,7 @@ class OtherInformation extends StatelessWidget {
                                         //               .map((e) =>
                                         //                   DropdownMenuItem(
                                         //                     value:
-                                        //                         e.examCenterId,
+                                        //                         e.examCenter,
                                         //                     child: Center(
                                         //                       child:
                                         //                           Text(e.name!),
@@ -678,7 +678,7 @@ class OtherInformation extends StatelessWidget {
                                             .add(certificateCompetencyComputer);
 
                                         if (certificateCompetencyEnglish
-                                                .examCenterId !=
+                                                .examCenter !=
                                             null) {
                                           certificateDataController
                                               .certificateData
@@ -693,7 +693,7 @@ class OtherInformation extends StatelessWidget {
                                             .add(certificateCompetencyArabic);
 
                                         if (certificateCompetencyIlits
-                                                .examCenterId !=
+                                                .examCenter !=
                                             null) {
                                           certificateDataController
                                               .certificateData

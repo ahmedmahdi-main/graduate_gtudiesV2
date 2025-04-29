@@ -581,8 +581,8 @@ class FullDataAcademicInformation {
     average = json['Average'];
     specializationId = json['SpecializationId'];
     sequence = json['sequence'];
-    isPublicStudy = json['isPublicStydy'];
-    typeStudy = json['typeStudy'];
+    isPublicStudy = json['IsPublicStudy'];
+    typeStudy = json['type_study'];
     firstStudentAverage = json['FirstStudentAverage'];
     isFirstStudent = json['IsFirstStudent'];
     firstQuarter = json['FirstQuarter'];
@@ -767,21 +767,21 @@ class FullDataCertificateCompetency {
   int? certificateCompetencyId;
   int? appreciation;
   int? certificateCompetencyTypeId;
-  String? examCenterId;
+  String? examCenter;
   String? studentUUID;
 
   FullDataCertificateCompetency(
       {this.certificateCompetencyId,
       this.appreciation,
       this.certificateCompetencyTypeId,
-      this.examCenterId,
+      this.examCenter,
       this.studentUUID});
 
   FullDataCertificateCompetency.fromJson(Map<String, dynamic> json) {
     certificateCompetencyId = json['CertificateCompetencyId'];
     appreciation = json['Appreciation'];
     certificateCompetencyTypeId = json['CertificateCompetencyTypeId'];
-    examCenterId = json['ExamCenterId'];
+    examCenter = json['ExamCenter'];
     studentUUID = json['StudentUUID'];
   }
 
@@ -790,7 +790,7 @@ class FullDataCertificateCompetency {
     data['CertificateCompetencyId'] = certificateCompetencyId;
     data['Appreciation'] = appreciation;
     data['CertificateCompetencyTypeId'] = certificateCompetencyTypeId;
-    data['ExamCenterId'] = examCenterId;
+    data['ExamCenter'] = examCenter;
     data['StudentUUID'] = studentUUID;
     return data;
   }
@@ -799,7 +799,7 @@ class FullDataCertificateCompetency {
     return Certificatecompetency(
       appreciation: appreciation?.toDouble(),
       certificateCompetencyTypeId: certificateCompetencyTypeId,
-      examCenterId: examCenterId,
+      examCenter: examCenter,
     );
   }
 }

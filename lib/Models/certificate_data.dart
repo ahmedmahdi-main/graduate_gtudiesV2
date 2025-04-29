@@ -51,22 +51,22 @@ class CertificateData {
 class Certificatecompetency {
   double? appreciation;
   int? certificateCompetencyTypeId;
-  String? examCenterId;
+  String? examCenter;
 
   Certificatecompetency(
-      {this.appreciation, this.certificateCompetencyTypeId, this.examCenterId});
+      {this.appreciation, this.certificateCompetencyTypeId, this.examCenter});
 
   Certificatecompetency.fromJson(Map<String, dynamic> json) {
     appreciation = json['Appreciation'];
     certificateCompetencyTypeId = json['CertificateCompetencyTypeId'];
-    examCenterId = json['ExamCenterId'];
+    examCenter = json['ExamCenter'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['Appreciation'] = appreciation;
     data['CertificateCompetencyTypeId'] = certificateCompetencyTypeId;
-    data['ExamCenterId'] = examCenterId;
+    data['ExamCenter'] = examCenter;
     return data;
   }
 }

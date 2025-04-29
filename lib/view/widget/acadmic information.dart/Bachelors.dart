@@ -124,7 +124,7 @@ class Bachelors extends StatelessWidget {
         fullDataAcademicInformation?.firstStudentAverage ?? 0;
     int? isFirstStudent = fullDataAcademicInformation?.isFirstStudent ?? 0;
     int? firstQuarter = fullDataAcademicInformation?.firstQuarter ?? 0;
-    int? isPublicStydy = fullDataAcademicInformation?.isPublicStudy ;
+    int? isPublicStudy = fullDataAcademicInformation?.isPublicStudy;
     int? typeStudy = fullDataAcademicInformation?.typeStudy;
     var universityId = fullDataAcademicInformation?.universityId ?? '';
     var collegesId = fullDataAcademicInformation?.collegesId ?? '';
@@ -132,6 +132,7 @@ class Bachelors extends StatelessWidget {
     var specializationId = fullDataAcademicInformation?.specializationId ?? '';
 
     return GetBuilder<DropdownListController>(
+
       builder: (controller) {
         if (controller.isLoading) {
           return const Center(
@@ -232,7 +233,7 @@ class Bachelors extends StatelessWidget {
                       builder: (controller) {
                         return DropDownList(
                           width: 250,
-                          value: isPublicStydy,
+                          value: isPublicStudy,
                           // This should be an int? variable (0, 1, or null)
                           validator: (value) =>
                               value == null ? 'يجب اختيار نوع القطاع' : null,
@@ -241,7 +242,7 @@ class Bachelors extends StatelessWidget {
                             academicInformation.isPublicStudy =
                                 val; // Update your model
                             debugPrint("IsPublicStudy = $val");
-                            isPublicStydy = val; // Update local state
+                            isPublicStudy = val; // Update local state
                             controller.update(); // Trigger UI update
                           },
                           DropdownMenuItems: [
@@ -354,39 +355,39 @@ class Bachelors extends StatelessWidget {
                             },
                           )),
 
-                    Obx(() => masterCountry.value
-                        ? GetBuilder<DropdownListController>(
-                            builder: (controller) {
-                            return DropDownList(
-                              value: int.tryParse(specializationId.toString()),
-                              title: "التخصص",
-                              onchange: (val) {
-                                academicInformation.specializationId =
-                                    val.toString();
-                                specializationId = val;
-                                controller.update();
-                              },
-                              DropdownMenuItems: controller.specializations!
-                                  .map((e) => DropdownMenuItem(
-                                        value: e.specializationId,
-                                        child: Center(
-                                          child:
-                                              Text('${e.specializationName}'),
-                                        ),
-                                      ))
-                                  .toList(),
-                            );
-                          })
-                        : TitleAndTextStyle(
-                            initialValue: specializationId.toString(),
-                            width: 350,
-                            title: "التخصص",
-                            validator: (value) =>
-                                validateTextWithoutAnyCharacterNumber(value),
-                            onchange: (value) {
-                              academicInformation.specializationId = value;
-                            },
-                          )),
+                    // Obx(() => masterCountry.value
+                    //     ? GetBuilder<DropdownListController>(
+                    //         builder: (controller) {
+                    //         return DropDownList(
+                    //           value: int.tryParse(specializationId.toString()),
+                    //           title: "التخصص",
+                    //           onchange: (val) {
+                    //             academicInformation.specializationId =
+                    //                 val.toString();
+                    //             specializationId = val;
+                    //             controller.update();
+                    //           },
+                    //           DropdownMenuItems: controller.specializations!
+                    //               .map((e) => DropdownMenuItem(
+                    //                     value: e.specializationId,
+                    //                     child: Center(
+                    //                       child:
+                    //                           Text('${e.specializationName}'),
+                    //                     ),
+                    //                   ))
+                    //               .toList(),
+                    //         );
+                    //       })
+                    //     : TitleAndTextStyle(
+                    //         initialValue: specializationId.toString(),
+                    //         width: 350,
+                    //         title: "التخصص",
+                    //         validator: (value) =>
+                    //             validateTextWithoutAnyCharacterNumber(value),
+                    //         onchange: (value) {
+                    //           academicInformation.specializationId = value;
+                    //         },
+                    //       )),
 
                     GetBuilder<DropdownListController>(builder: (controller) {
                       return DropDownList(
@@ -493,15 +494,15 @@ class Bachelors extends StatelessWidget {
                         debugPrint("value date = $value");
                       },
                     ),
-                    CustomSwitcher(
-                      onChanged: (value) {
-                        academicInformation.isFirstStudent = value ? 1 : 0;
-                        isFirstStudent = value ? 1 : 0;
-                        controller.update();
-                      },
-                      title: "هل انت الطالب الاول ؟ :",
-                      initialValue: isFirstStudent == 1,
-                    ),
+                    // CustomSwitcher(
+                    //   onChanged: (value) {
+                    //     academicInformation.isFirstStudent = value ? 1 : 0;
+                    //     isFirstStudent = value ? 1 : 0;
+                    //     controller.update();
+                    //   },
+                    //   title: "هل انت الطالب الاول ؟ :",
+                    //   initialValue: isFirstStudent == 1,
+                    // ),
 
                     CustomSwitcher(
                       onChanged: (value) {

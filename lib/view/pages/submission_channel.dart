@@ -213,6 +213,7 @@ class SubmissionChannel extends StatelessWidget {
                                               width: 400,
                                               title: "القسم او الفرع",
                                               onchange: (value) {
+                                                departmentId = null;
                                                 controller.departmentValue =
                                                     value;
                                                 controller.typeofStudyValue =
@@ -220,19 +221,26 @@ class SubmissionChannel extends StatelessWidget {
                                                 controller
                                                     .fillterOpenStudiesValue(
                                                         value);
-                                                controller.fillterDepartments(
-                                                    value, 'التخصص');
-                                                osId = null;
+                                                // controller.fillterDepartments(
+                                                //     value, 'التخصص');
+                                                // osId = null;
+
                                                 controller.update(['القسم']);
                                                 submissionController.submission
                                                     .departmentId = value;
                                                 homePageController
                                                     .departmentId.value = value;
-                                                scientificBackgroundId = null;
-                                                specializationId = null;
+                                                submissionController.submission
+                                                    .specializationId = value;
+                                                controller
+                                                        .specializationsValue =
+                                                    value;
+                                                specializationId = value;
+                                                // controller.update();
+                                                // scientificBackgroundId = null;
+                                                // specializationId = null;
                                                 departmentId = value;
-                                                controller.update(
-                                                    ['الدراسة المفتوحة']);
+                                                controller.update();
                                                 // controller.update(['القسم']);
                                               },
                                               DropdownMenuItems: collegesId !=
@@ -251,42 +259,42 @@ class SubmissionChannel extends StatelessWidget {
                                                       .toList()
                                                   : [],
                                             )),
-                                    GetBuilder<DropdownListController>(
-                                        id: 'التخصص',
-                                        builder: (controller) {
-                                          return DropDownList(
-                                            value: controller.specializations!
-                                                .where((s) =>
-                                                    s.specializationId ==
-                                                    specializationId)
-                                                .firstOrNull
-                                                ?.specializationId,
-                                            title: "التخصص",
-                                            width: 400,
-                                            onchange: (val) {
-                                              submissionController.submission
-                                                  .specializationId = val;
-                                              controller.specializationsValue =
-                                                  val;
-                                              specializationId = val;
-                                              controller.update();
-                                            },
-                                            DropdownMenuItems: departmentId !=
-                                                    null
-                                                ? controller.specializations!
-                                                    .map(
-                                                        (e) => DropdownMenuItem(
-                                                              value: e
-                                                                  .specializationId,
-                                                              child: Center(
-                                                                child: Text(
-                                                                    '${e.specializationName}'),
-                                                              ),
-                                                            ))
-                                                    .toList()
-                                                : [],
-                                          );
-                                        }),
+                                    // GetBuilder<DropdownListController>(
+                                    //     id: 'التخصص',
+                                    //     builder: (controller) {
+                                    //       return DropDownList(
+                                    //         value: controller.specializations!
+                                    //             .where((s) =>
+                                    //                 s.specializationId ==
+                                    //                 specializationId)
+                                    //             .firstOrNull
+                                    //             ?.specializationId,
+                                    //         title: "التخصص",
+                                    //         width: 400,
+                                    //         onchange: (val) {
+                                    //           submissionController.submission
+                                    //               .specializationId = val;
+                                    //           controller.specializationsValue =
+                                    //               val;
+                                    //           specializationId = val;
+                                    //           controller.update();
+                                    //         },
+                                    //         DropdownMenuItems: departmentId !=
+                                    //                 null
+                                    //             ? controller.specializations!
+                                    //                 .map(
+                                    //                     (e) => DropdownMenuItem(
+                                    //                           value: e
+                                    //                               .specializationId,
+                                    //                           child: Center(
+                                    //                             child: Text(
+                                    //                                 '${e.specializationName}'),
+                                    //                           ),
+                                    //                         ))
+                                    //                 .toList()
+                                    //             : [],
+                                    //       );
+                                    //     }),
                                     GetBuilder<DropdownListController>(
                                       id: 'الدراسة المفتوحة',
                                       builder: (controller) => DropDownList(
