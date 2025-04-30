@@ -302,48 +302,48 @@ class Diploma extends StatelessWidget {
                                                     .departmentId = value;
                                               },
                                             )),
-                                      Obx(() => diplomaMasterCountry.value
-                                          ? GetBuilder<DropdownListController>(
-                                              builder: (controller) {
-                                              return DropDownList(
-                                                value: int.tryParse(
-                                                    specializationId
-                                                        .toString()),
-                                                title: "التخصص",
-                                                onchange: (val) {
-                                                  diplomaInformation
-                                                          .specializationId =
-                                                      val.toString();
-                                                  specializationId = val;
-                                                  controller.update();
-                                                },
-                                                DropdownMenuItems: controller
-                                                    .specializations!
-                                                    .map(
-                                                        (e) => DropdownMenuItem(
-                                                              value: e
-                                                                  .specializationId,
-                                                              child: Center(
-                                                                child: Text(
-                                                                    '${e.specializationName}'),
-                                                              ),
-                                                            ))
-                                                    .toList(),
-                                              );
-                                            })
-                                          : TitleAndTextStyle(
-                                              initialValue:
-                                                  specializationId.toString(),
-                                              width: 300,
-                                              title: "التخصص",
-                                              validator: (value) =>
-                                                  validateTextWithoutAnyCharacterNumber(
-                                                      value),
-                                              onchange: (value) {
-                                                diplomaInformation
-                                                    .specializationId = value;
-                                              },
-                                            )),
+                                      // Obx(() => diplomaMasterCountry.value
+                                      //     ? GetBuilder<DropdownListController>(
+                                      //         builder: (controller) {
+                                      //         return DropDownList(
+                                      //           value: int.tryParse(
+                                      //               specializationId
+                                      //                   .toString()),
+                                      //           title: "التخصص",
+                                      //           onchange: (val) {
+                                      //             diplomaInformation
+                                      //                     .specializationId =
+                                      //                 val.toString();
+                                      //             specializationId = val;
+                                      //             controller.update();
+                                      //           },
+                                      //           DropdownMenuItems: controller
+                                      //               .specializations!
+                                      //               .map(
+                                      //                   (e) => DropdownMenuItem(
+                                      //                         value: e
+                                      //                             .specializationId,
+                                      //                         child: Center(
+                                      //                           child: Text(
+                                      //                               '${e.specializationName}'),
+                                      //                         ),
+                                      //                       ))
+                                      //               .toList(),
+                                      //         );
+                                      //       })
+                                      //     : TitleAndTextStyle(
+                                      //         initialValue:
+                                      //             specializationId.toString(),
+                                      //         width: 300,
+                                      //         title: "التخصص",
+                                      //         validator: (value) =>
+                                      //             validateTextWithoutAnyCharacterNumber(
+                                      //                 value),
+                                      //         onchange: (value) {
+                                      //           diplomaInformation
+                                      //               .specializationId = value;
+                                      //         },
+                                      //       )),
                                       GetBuilder<DropdownListController>(
                                           builder: (controller) {
                                         return DropDownList(
