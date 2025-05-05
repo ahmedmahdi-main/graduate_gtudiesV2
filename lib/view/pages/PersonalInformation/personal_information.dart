@@ -158,36 +158,35 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                         title: "اسم الطالب :",
                                         controller: firstName,
                                         validator: (value) =>
-                                            isTextValid(value, 1))),
+                                            isTextValid(value))),
                                 TitleAndTextStyle(
                                     title: "اسم الاب :",
                                     controller: secondName,
-                                    validator: (value) =>
-                                        isTextValid(value!, 1)),
+                                    validator: (value) => isTextValid(value!)),
                                 TitleAndTextStyle(
                                   title: "اسم الجد :",
                                   controller: thirdName,
-                                  validator: (value) => isTextValid(value, 1),
+                                  validator: (value) => isTextValid(value),
                                 ),
                                 TitleAndTextStyle(
                                   title: "الاسم الرابع :",
                                   controller: fourthName,
-                                  validator: (value) => isTextValid(value, 1),
+                                  validator: (value) => isTextValid(value),
                                 ),
                                 TitleAndTextStyle(
                                   title: "اسم الام :",
                                   controller: firstMothersName,
-                                  validator: (value) => isTextValid(value, 1),
+                                  validator: (value) => isTextValid(value),
                                 ),
                                 TitleAndTextStyle(
                                   title: "اسم والد الام :",
                                   controller: secondMothersName,
-                                  validator: (value) => isTextValid(value, 1),
+                                  validator: (value) => isTextValid(value),
                                 ),
                                 TitleAndTextStyle(
                                   title: "اسم جد الام :",
                                   controller: thirdMothersName,
-                                  validator: (value) => isTextValid(value, 1),
+                                  validator: (value) => isTextValid(value),
                                 ),
                                 Container(
                                   width: double.infinity,
@@ -205,8 +204,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                 TitleAndTextStyle(
                                     title: "الجنسية :",
                                     controller: nationality,
-                                    validator: (value) =>
-                                        isTextValid(value, 1)),
+                                    validator: (value) => isTextValid(value)),
                                 Container(
                                   width: double.infinity,
                                 ),
@@ -261,23 +259,19 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                 TitleAndTextStyle(
                                     title: 'القضاء:',
                                     controller: district,
-                                    validator: (value) =>
-                                        isTextValid(value, 1)),
+                                    validator: (value) => isTextValid(value)),
                                 TitleAndTextStyle(
                                     title: " الحي:",
                                     controller: neighborhood,
-                                    validator: (value) =>
-                                        isTextValid(value, 1)),
+                                    validator: (value) => isTextValid(value)),
                                 TitleAndTextStyle(
                                     title: " المحلة:",
                                     controller: mahalla,
-                                    validator: (value) =>
-                                        isTextValid(value, 1)),
+                                    validator: (value) => isTextValid(value)),
                                 TitleAndTextStyle(
                                     title: " الزقاق:",
                                     controller: alley,
-                                    validator: (value) =>
-                                        isTextValid(value, 1)),
+                                    validator: (value) => isTextValid(value)),
                                 TitleAndTextStyle(
                                   title: " رقم الدار:",
                                   controller: houseNumber,

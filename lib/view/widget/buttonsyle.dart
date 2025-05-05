@@ -66,7 +66,7 @@ class _ButtonStyleState extends State<ButtonStyleS> {
                 margin: const EdgeInsets.all(5),
                 padding: widget.padding ??
                     (widget.icon != null ? const EdgeInsets.only(right: 12) : null),
-                height: 50,
+                height: 40,
                 decoration: widget.decoration ??
                     BoxDecoration(
                         color: isselcted
@@ -74,7 +74,7 @@ class _ButtonStyleState extends State<ButtonStyleS> {
                                 Colors.greenAccent)
                             : (widget.SelectedbackgroundColorafter ??
                                 Colors.transparent),
-                        borderRadius: BorderRadius.circular(19),
+                        borderRadius: BorderRadius.circular(15),
                         border: containborder!
                             ? Border.all(
                                 color: isselcted

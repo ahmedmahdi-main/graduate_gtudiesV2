@@ -527,7 +527,7 @@ class Bachelors extends StatelessWidget {
                                 width: 500,
                                 title:
                                     "رقم كتاب تأييد توفر او عدم توفر معدل الطالب الاول",
-                                validator: (value) => isTextValid(value, 1),
+                                validator: (value) => isTextValid(value),
                                 onchange: (value) {
                                   endorsementLetter.documentsNumber = value;
                                 },

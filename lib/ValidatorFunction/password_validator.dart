@@ -1,9 +1,12 @@
-dynamic passwordValidator(String password) {
+dynamic passwordValidator(String? password) {
+  if(password == null){
+    return "كلمة المرور  مطلوبة";
+  }
   if (password.isEmpty) {
     return "كلمة المرور  مطلوبة";
   }
-  if (password.length < 8) {
-    return "يجب ان لاتقل عن 8 حروف";
+  if (password.length < 6) {
+    return "يجب ان لاتقل عن 6 حروف";
   }
   if (password.length > 16) {
     return "يجب ان تكون اصغر من 16 حرفاً";

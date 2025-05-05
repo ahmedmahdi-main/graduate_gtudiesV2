@@ -14,17 +14,27 @@ import '../../widget/buttonsyle.dart';
 import '../../widget/titleandtextstyle.dart';
 import '../DialogsWindows/loading_dialog.dart';
 
-class Login extends StatelessWidget {
-  Login({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  bool _obscurePassword = true; // State variable for password visibility
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // _emailController.text = 'ahmed.mahdi.ah@uokerbala.edu.iq';
-    // _passwordController.text = '12345678';
     Size size = MediaQuery.of(context).size;
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -46,7 +56,7 @@ class Login extends StatelessWidget {
                   opacity: 0.05,
                   child: Center(
                     child:
-                        Image(image: ExactAssetImage("assets/icons/Logo.png")),
+                    Image(image: ExactAssetImage("assets/icons/Logo.png")),
                   ),
                 ),
                 SingleChildScrollView(
@@ -81,23 +91,82 @@ class Login extends StatelessWidget {
                   fontFamily: "Cairo"),
             ),
             const SizedBox(height: 20),
-            TitleAndTextStyle(
-              textStyle: authinticationColorText.copyWith(color: KTextColor),
-              width: double.infinity,
-              title: "البريد الالكتروني",
-              controller: _emailController,
-              validator: (value) => isEmailValid(value),
+            // TitleAndTextStyle(
+            //   textStyle: authinticationColorText.copyWith(color: KTextColor),
+            //   width: double.infinity,
+            //   title: "البريد الالكتروني",
+            //   controller: _emailController,
+            //   validator: (value) => isEmailValid(value),
+            // ),
+            // Modified Email Field
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "البريد الالكتروني",
+                  style: authinticationColorText.copyWith(color: KTextColor),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _emailController,
+                  validator: (value) => isEmailValid(value ?? ''),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: KBorderColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: KBorderColor),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
-            TitleAndTextStyle(
-              textStyle: authinticationColorText.copyWith(color: KTextColor),
-              obscureText: true,
-              width: double.infinity,
-              title: "كلمة المرور",
-              controller: _passwordController,
-              onEnter: () async => await login(),
-              validator: (String? value) =>
-                  passwordValidator(_passwordController.text),
+            // Modified Password Field with Visibility Toggle
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "كلمة المرور",
+                  style: authinticationColorText.copyWith(color: KTextColor),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  validator: (value) => passwordValidator(value?? ''),
+                  onFieldSubmitted: (value) async => await login(),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: Colors.grey,
+                      ),
+                      onPressed: _togglePasswordVisibility,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: KBorderColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: KBorderColor),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 50),
             Column(
@@ -110,21 +179,28 @@ class Login extends StatelessWidget {
                   onTap: () async => await login(),
                 ),
                 const SizedBox(height: 16),
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("اذ لم يكن لديك حساب قم ",
+                    Text(" اذ لم يكن لديك حساب قم ب",
                         style: authinticationColorText.copyWith(
                             color: KTextColor)),
                     const SizedBox(width: 10),
-                    InkWell(
-                      child: Text(
-                        "بالتسجيل",
-                        style: authinticationColorText.copyWith(
-                            color: Colors.blueAccent),
-                      ),
-                      onTap: () => Get.offNamed('/SignUp'),
-                    )
+                    ButtonStyleS(
+                      style: authinticationColorText,
+                      SelectedbackgroundColorafter: Colors.blueAccent,
+                      aliment: Alignment.center,
+                      title: "انشاء حساب",
+                      onTap:   () => Get.offNamed('/SignUp'),
+                    ),
+                    // InkWell(
+                    //   child: Text(
+                    //     "بالتسجيل",
+                    //     style: authinticationColorText.copyWith(
+                    //         color: Colors.blueAccent),
+                    //   ),
+                    //   onTap: () => Get.offNamed('/SignUp'),
+                    // )
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -132,7 +208,7 @@ class Login extends StatelessWidget {
                   onTap: () => Get.to(ResetPasswordEmail()),
                   child: Text("نسيت كلمة المرور",
                       style: authinticationColorText.copyWith(
-                          fontSize: 10, color: Colors.blueAccent)),
+                          fontSize: 16, color: Colors.blueAccent)),
                 )
               ],
             )
@@ -189,7 +265,7 @@ class Login extends StatelessWidget {
 
   Container logo() {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

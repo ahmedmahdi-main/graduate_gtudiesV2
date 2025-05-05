@@ -30,7 +30,13 @@ class _SignUpState extends State<SignUp> {
   late TextEditingController _passwordController = TextEditingController(),
       _confirmPasswordController = TextEditingController(),
       _fullNameController = TextEditingController(),
-      _emailControlle = TextEditingController();
+      _emailController = TextEditingController();
+  bool _obscurePassword = true; // State variable for password visibility
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,41 +87,175 @@ class _SignUpState extends State<SignUp> {
                 fontSize: 25, fontWeight: FontWeight.w900, fontFamily: "Cairo"),
           ),
           sizedboxForeSpace,
-          TitleAndTextStyle(
-            textStyle: authinticationColorText.copyWith(color: KTextColor),
-            width: double.infinity,
-            title: "الاسم",
-            validator: (value) => isTextValid(value!, 3),
-            controller: _fullNameController,
-          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'الاسم',
+                style: authinticationColorText.copyWith(color: KTextColor),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _fullNameController,
+                validator: (value) => isTextValid(value ?? ''),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: KBorderColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: KBorderColor),
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                ),
+              ),
+            ],
+          )
+          // TitleAndTextStyle(
+          //   textStyle: authinticationColorText.copyWith(color: KTextColor),
+          //   width: double.infinity,
+          //   title: "الاسم",
+          //   validator: (value) => isTextValid(value!, 3),
+          //   controller: _fullNameController,
+          // ),
+
+          ,
           sizedboxForeSpace,
-          TitleAndTextStyle(
-            textStyle: authinticationColorText.copyWith(color: KTextColor),
-            width: double.infinity,
-            title: "البريد الالكتروني",
-            controller: _emailControlle,
-            validator: (value) => isEmailValid(value),
+          // Modified Email Field
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "البريد الالكتروني",
+                style: authinticationColorText.copyWith(color: KTextColor),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _emailController,
+                validator: (value) => isEmailValid(value ?? ''),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: KBorderColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: KBorderColor),
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                ),
+              ),
+            ],
           ),
+          // TitleAndTextStyle(
+          //   textStyle: authinticationColorText.copyWith(color: KTextColor),
+          //   width: double.infinity,
+          //   title: "البريد الالكتروني",
+          //   controller: _emailControlle,
+          //   validator: (value) => isEmailValid(value),
+          // ),
           sizedboxForeSpace,
-          TitleAndTextStyle(
-            textStyle: authinticationColorText.copyWith(color: KTextColor),
-            width: double.infinity,
-            title: "كلمة المرور",
-            obscureText: true,
-            controller: _passwordController,
-            validator: (String? Value) =>
-                passwordValidator(_passwordController.text),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "كلمة المرور",
+                style: authinticationColorText.copyWith(color: KTextColor),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _passwordController,
+                obscureText: _obscurePassword,
+                validator: (value) => passwordValidator(value ?? ''),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                    onPressed: _togglePasswordVisibility,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: KBorderColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: KBorderColor),
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                ),
+              ),
+            ],
           ),
+          // TitleAndTextStyle(
+          //   textStyle: authinticationColorText.copyWith(color: KTextColor),
+          //   width: double.infinity,
+          //   title: "كلمة المرور",
+          //   obscureText: true,
+          //   controller: _passwordController,
+          //   validator: (String? Value) =>
+          //       passwordValidator(_passwordController.text),
+          // ),
           sizedboxForeSpace,
-          TitleAndTextStyle(
-            textStyle: authinticationColorText.copyWith(color: KTextColor),
-            width: double.infinity,
-            title: "تأكيد كلمة المرور",
-            obscureText: true,
-            controller: _confirmPasswordController,
-            validator: (value) => confirmPasswordValidator(
-                _passwordController.text, _confirmPasswordController.text),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "كلمة المرور",
+                style: authinticationColorText.copyWith(color: KTextColor),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _confirmPasswordController,
+                obscureText: _obscurePassword,
+                validator: (value) => confirmPasswordValidator(
+                    _passwordController.text, _confirmPasswordController.text),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
+                    ),
+                    onPressed: _togglePasswordVisibility,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: KBorderColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: KBorderColor),
+                  ),
+                  contentPadding:
+                  EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                ),
+              ),
+            ],
           ),
+          // TitleAndTextStyle(
+          //   textStyle: authinticationColorText.copyWith(color: KTextColor),
+          //   width: double.infinity,
+          //   title: "تأكيد كلمة المرور",
+          //   obscureText: true,
+          //   controller: _confirmPasswordController,
+          //   validator: (value) => confirmPasswordValidator(
+          //       _passwordController.text, _confirmPasswordController.text),
+          // ),
           const SizedBox(
             height: 20,
           ),
@@ -139,7 +279,7 @@ class _SignUpState extends State<SignUp> {
                       UserRegisterController user = UserRegisterController(
                         fullName: _fullNameController.text,
                         uUID: uUID(),
-                        email: _emailControlle.text,
+                        email: _emailController.text,
                         password:
                             hashPasswordWithoutSalt(_passwordController.text),
                       );
@@ -158,13 +298,13 @@ class _SignUpState extends State<SignUp> {
                         Get.toNamed('/OTP', arguments: {'token': token});
                       } else {
                         // Show error dialog
-                        await DilogCostom.dilogSecss(
-                          isErorr: true,
-                          title: "فشل التسجيل، يرجى المحاولة مرة أخرى",
-                          icons: Icons.close,
-                          color: Colors.redAccent,
-                        );
-                        Get.back();
+                        // await DilogCostom.dilogSecss(
+                        //   isErorr: true,
+                        //   title: "فشل التسجيل، يرجى المحاولة مرة أخرى",
+                        //   icons: Icons.close,
+                        //   color: Colors.redAccent,
+                        // );
+                        // Get.back();
                       }
                     } catch (e) {
                       // Hide loading dialog

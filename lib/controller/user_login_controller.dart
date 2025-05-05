@@ -37,6 +37,18 @@ class UserLogin {
 
         return data;
       }
+      if (response?.statusCode == 406) {
+        // Handle 406 status code, show a dialog, and potentially redirect the user
+        DilogCostom.dilogSecss(
+          isErorr: true,
+          title: 'يرجى تفعيل الايميل أولا',
+          icons: Icons.close,
+          color: Colors.redAccent,
+        );
+
+        // You may also want to navigate or show a more specific action here, similar to previous example
+        Get.toNamed('/OTP', arguments: {'token': userInfo.accessToken});
+      }
     } on DioException catch (e) {
       // Handle DioException and manually check the status code
       if (e.response?.statusCode == 406) {
@@ -93,7 +105,19 @@ class UserLogin {
          user.fromJson(response.data);
          debugPrint('${user.toJson()}');
         return user;
-      } else {
+      }
+      else if (response.statusCode == 407) {
+        // user.fromJson(response.data);
+        // debugPrint('${user.toJson()}');
+        DilogCostom.dilogSecss(
+            isErorr: true,
+            title: "${response?.data['message'][0].toString()}",
+            icons: Icons.close,
+            color: Colors.redAccent);
+        Get.to("");
+        return null;
+      }
+      else {
         debugPrint(response.statusMessage);
       }
     } on DioException catch (e) {

@@ -2,7 +2,7 @@ import 'email_validator.dart';
 
 const String returnText = "الحقل مطلوب";
 
-dynamic isTextValid(String? fullName, int parts) {
+dynamic isTextValid(String? fullName) {
   // Check if the full name is not empty
   if (fullName == null) {
     return returnText;
@@ -17,15 +17,15 @@ dynamic isTextValid(String? fullName, int parts) {
   //   return returnText;
   // }
 
-  final nameParts = fullName.split(' ');
-  for (String name in nameParts) {
-    if (name.isEmpty) {
-      return "توجد فراغات اكثر مما ينبغي";
-    }
-  }
-  if (nameParts.length < parts) {
-    return "يرجى كتابة الاسم الثلاثي";
-  }
+  // final nameParts = fullName.split(' ');
+  // for (String name in nameParts) {
+  //   if (name.isEmpty) {
+  //     return "توجد فراغات اكثر مما ينبغي";
+  //   }
+  // }
+  // if (nameParts.length < parts) {
+  //   return "يرجى كتابة الاسم الثلاثي";
+  // }
 
   // If all checks pass, consider the full name as valid
   return null;

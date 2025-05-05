@@ -53,15 +53,15 @@ class UserRegisterController extends GetxController {
       debugPrint("-------------------------");
       debugPrint('${e.response?.data}');
       debugPrint("-------------------------");
-      DilogCostom.dilogSecss(
+      await DilogCostom.dilogSecss(
           isErorr: true,
-          title: "${e.message}",
+          title: "${e.response?.data['message'][0]}",
           icons: Icons.close,
           color: Colors.redAccent);
     } catch (e) {
-      DilogCostom.dilogSecss(
+      await DilogCostom.dilogSecss(
           isErorr: true,
-          title: ' ${e.toString()}',
+          title: '${e.toString()}',
           icons: Icons.close,
           color: Colors.redAccent);
     }

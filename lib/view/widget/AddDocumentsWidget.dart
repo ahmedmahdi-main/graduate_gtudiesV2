@@ -34,7 +34,7 @@ class AddDocumentsTypesWidgets extends StatelessWidget {
                   TitleAndTextStyle(
                     title: "  رقم كتاب ${documents![index].name} ",
                     controller: numbersControllers[index],
-                    validator: (value) => isTextValid(value!, 1),
+                    validator: (value) => isTextValid(value),
                     width: 350,
                   ),
                   const SizedBox(
