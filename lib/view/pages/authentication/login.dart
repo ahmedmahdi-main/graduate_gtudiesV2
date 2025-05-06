@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduate_gtudiesV2/Models/user_info.dart';
+import 'package:graduate_gtudiesV2/module/user_profile.dart';
 
 import 'package:graduate_gtudiesV2/view/pages/authentication/ResetPassword/reset_Password_email.dart';
 import '../../../Services/DilogCostom.dart';
@@ -11,7 +13,6 @@ import '../../../ValidatorFunction/text_validator.dart';
 import '../../../controller/user_login_controller.dart';
 import '../../../theme.dart';
 import '../../widget/buttonsyle.dart';
-import '../../widget/titleandtextstyle.dart';
 import '../DialogsWindows/loading_dialog.dart';
 
 class Login extends StatefulWidget {
@@ -231,13 +232,20 @@ class _LoginState extends State<Login> {
         password: hashPasswordWithoutSalt(_passwordController.text),
       );
 
-      var value = await login.login();
+      UserInfo? userInfo = await login.login();
 
-      if (value?.accessToken != null) {
+      if (userInfo?.accessToken != null) {
         // await clearSession();
-        var userProfile = await login.getUserProfile(value!);
-        await saveSession(value.accessToken!, userProfile.studentuuid!,
+        UserProfile userProfile = await login.getUserProfile(userInfo!);
+        debugPrint('userProfile.code ===================== ${userProfile?.code}');
+        if(userProfile?.code == 406){
+          debugPrint('userProfile.code ===================== ${userInfo?.accessToken}');
+          Get.offAllNamed('/OTP', arguments: {'token': userInfo?.accessToken});
+          return;
+        }
+        await saveSession(userInfo.accessToken!, userProfile.studentUuid!,
             studentName: userProfile.fullName);
+
 
         Get.back();
         Get.offNamed('/LoadingPage');

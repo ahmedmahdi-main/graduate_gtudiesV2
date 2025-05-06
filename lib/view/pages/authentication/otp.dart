@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../../Services/DilogCostom.dart';
+import '../../../Services/Session.dart';
 import '../../../Services/base_route.dart';
 
 import '../../../controller/user_register_controller.dart';
@@ -22,11 +23,13 @@ class OTP extends StatefulWidget {
 }
 
 class _OTPState extends State<OTP> {
-  var receivedData = Get.arguments;
+
+  // var receivedData = Get.arguments;
 
   String? currentText;
   Timer? _timer;
   final RxInt _secondsRemaining = RxInt(0);
+
 
   @override
   void dispose() {
@@ -36,45 +39,69 @@ class _OTPState extends State<OTP> {
 
   @override
   Widget build(BuildContext context) {
-    String? token = receivedData['token'];
     _startTimer();
-    Size size = MediaQuery.of(context).size;
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: KSecondryColor,
-        body: Center(
-          child: Container(
-            height: double.infinity,
-            constraints: const BoxConstraints(maxWidth: 500),
-            decoration: BoxDecorationForAuthintication,
-            margin: EdgeInsets.symmetric(
-              vertical: (size.width < 500 || size.height < 650)
-                  ? 0
-                  : size.height * 0.05,
-            ),
-            child: Stack(children: [
-              const Opacity(
-                  opacity: 0.05,
-                  child: Center(
-                      child: Image(
-                          image: ExactAssetImage("assets/icons/Logo.png")))),
-              SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Logo(), otp(token!)],
-                  ),
+
+    return FutureBuilder<Map<String, String>>(
+      future: getSession(),
+      builder: (context, snapshot) {
+        // Handle loading state
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        }
+
+        // Handle error state
+        if (snapshot.hasError) {
+          return Text("Error: ${snapshot.error}");
+        }
+
+        // Extract token from the Map
+        final String? token = snapshot.data?['token'];
+
+        if (token == null) {
+          return const Text("No token found");
+        }
+
+        Size size = MediaQuery.of(context).size;
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: Scaffold(
+            backgroundColor: KSecondryColor,
+            body: Center(
+              child: Container(
+                height: double.infinity,
+                constraints: const BoxConstraints(maxWidth: 500),
+                decoration: BoxDecorationForAuthintication,
+                margin: EdgeInsets.symmetric(
+                  vertical: (size.width < 500 || size.height < 650)
+                      ? 0
+                      : size.height * 0.05,
                 ),
+                child: Stack(children: [
+                  const Opacity(
+                      opacity: 0.05,
+                      child: Center(
+                          child: Image(
+                              image: ExactAssetImage("assets/icons/Logo.png")
+                          )
+                      )
+                  ),
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Logo(), otp(token)],
+                      ),
+                    ),
+                  ),
+                ]),
               ),
-            ]),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
-
   Widget otp(String token) {
     return GetBuilder<UserRegisterController>(
         init: UserRegisterController(),
@@ -84,6 +111,16 @@ class _OTPState extends State<OTP> {
               "تأكيد الحساب",
               style: TextStyle(
                   fontSize: 25,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: "Cairo"),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            const Text(
+              'تم إرسال رمز التحقق عن طريق البريد الإلكتروني',
+              style: TextStyle(
+                  fontSize: 16,
                   fontWeight: FontWeight.w900,
                   fontFamily: "Cairo"),
             ),

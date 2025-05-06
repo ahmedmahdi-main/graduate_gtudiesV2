@@ -1,24 +1,27 @@
 class UserProfile {
   int? id;
-  String? studentuuid;
+  String? studentUuid;
   String? fullName;
   String? email;
+  int? code;
 
-  UserProfile({this.id, this.studentuuid, this.fullName, this.email});
+  UserProfile({this.id, this.studentUuid, this.fullName, this.email,this.code});
 
   UserProfile.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    studentuuid = json['studentuuid'];
+    studentUuid = json['studentuuid'];
     fullName = json['full_name'];
     email = json['email'];
+    code = json['code'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['studentuuid'] = this.studentuuid;
-    data['full_name'] = this.fullName;
-    data['email'] = this.email;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['studentuuid'] = studentUuid;
+    data['full_name'] = fullName;
+    data['email'] = email;
+    data['code'] = code;
     return data;
   }
 }

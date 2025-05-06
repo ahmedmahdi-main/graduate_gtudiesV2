@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/module/user_profile.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import '../Models/user_info.dart';
 import '../Services/base_route.dart';
 import '../Services/DilogCostom.dart';
@@ -14,7 +13,6 @@ class UserLogin {
   UserLogin({this.email, this.password});
 
   String? token;
-
 
   Future<UserProfile> getUserProfile(UserInfo userInfo) async {
     try {
@@ -30,16 +28,17 @@ class UserLogin {
           headers: headers,
         ),
       );
-
+      debugPrint('UserProfile is ${response.statusCode}');
       // If the request is successful (status code 200), return the user profile data
       if (response.statusCode == 200) {
         var data = UserProfile.fromJson(response.data['message']);
+        data.code = response.data['code'];
 
         return data;
       }
       if (response?.statusCode == 406) {
         // Handle 406 status code, show a dialog, and potentially redirect the user
-        DilogCostom.dilogSecss(
+        await DilogCostom.dilogSecss(
           isErorr: true,
           title: 'يرجى تفعيل الايميل أولا',
           icons: Icons.close,
@@ -47,26 +46,27 @@ class UserLogin {
         );
 
         // You may also want to navigate or show a more specific action here, similar to previous example
-        Get.toNamed('/OTP', arguments: {'token': userInfo.accessToken});
+
+        return UserProfile(code: 406);
       }
     } on DioException catch (e) {
       // Handle DioException and manually check the status code
       if (e.response?.statusCode == 406) {
         // Handle 406 status code, show a dialog, and potentially redirect the user
-        DilogCostom.dilogSecss(
+        await DilogCostom.dilogSecss(
           isErorr: true,
           title: 'يرجى تفعيل الايميل أولا',
           icons: Icons.close,
           color: Colors.redAccent,
         );
-
+        return UserProfile(code: 406);
         // You may also want to navigate or show a more specific action here, similar to previous example
-        Get.toNamed('/OTP', arguments: {'token': userInfo.accessToken});
+        // Get.toNamed('/OTP', arguments: {'token': userInfo.accessToken});
       } else {
         // Handle other errors (e.g., network issues, 500 errors, etc.)
         debugPrint("------------DioException getUserProfile-------------");
         debugPrint(e.message);
-        DilogCostom.dilogSecss(
+        await DilogCostom.dilogSecss(
           isErorr: true,
           title: 'حدث خطأ أثناء تحميل الملف الشخصي',
           icons: Icons.close,
@@ -77,7 +77,7 @@ class UserLogin {
       // Handle other general exceptions
       debugPrint("-----------Exception getUserProfile--------------");
       debugPrint(e.toString());
-      DilogCostom.dilogSecss(
+      await DilogCostom.dilogSecss(
         isErorr: true,
         title: 'هناك خطأ غير متوقع',
         icons: Icons.close,
@@ -102,11 +102,10 @@ class UserLogin {
       UserInfo user = UserInfo();
       debugPrint('${response.data}');
       if (response.statusCode == 200) {
-         user.fromJson(response.data);
-         debugPrint('${user.toJson()}');
+        user.fromJson(response.data);
+        debugPrint('${user.toJson()}');
         return user;
-      }
-      else if (response.statusCode == 407) {
+      } else if (response.statusCode == 407) {
         // user.fromJson(response.data);
         // debugPrint('${user.toJson()}');
         DilogCostom.dilogSecss(
@@ -116,8 +115,7 @@ class UserLogin {
             color: Colors.redAccent);
         Get.to("");
         return null;
-      }
-      else {
+      } else {
         debugPrint(response.statusMessage);
       }
     } on DioException catch (e) {
