@@ -11,6 +11,7 @@ import '../../../UserProfileInformaition/HashPassword.dart';
 import '../../../ValidatorFunction/password_validator.dart';
 import '../../../ValidatorFunction/text_validator.dart';
 import '../../../controller/user_login_controller.dart';
+import '../../../controller/user_register_controller.dart';
 import '../../../theme.dart';
 import '../../widget/buttonsyle.dart';
 import '../DialogsWindows/loading_dialog.dart';
@@ -237,10 +238,14 @@ class _LoginState extends State<Login> {
       if (userInfo?.accessToken != null) {
         // await clearSession();
         UserProfile userProfile = await login.getUserProfile(userInfo!);
-        debugPrint('userProfile.code ===================== ${userProfile?.code}');
+        // debugPrint('userProfile.code ===================== ${userProfile?.code}');
         if(userProfile?.code == 406){
-          debugPrint('userProfile.code ===================== ${userInfo?.accessToken}');
-          Get.offAllNamed('/OTP', arguments: {'token': userInfo?.accessToken});
+          // debugPrint('userProfile.code ===================== ${userInfo?.accessToken}');
+          int? code = await UserRegisterController.resendVerifyEmail(userInfo!.accessToken ?? '');
+          if (code == 200) {
+            Get.offAllNamed(
+                '/OTP', arguments: {'token': userInfo?.accessToken});
+          }
           return;
         }
         await saveSession(userInfo.accessToken!, userProfile.studentUuid!,

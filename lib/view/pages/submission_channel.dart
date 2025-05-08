@@ -642,10 +642,10 @@ class SubmissionChannel extends StatelessWidget {
     // Ensure 'averageBachelorsFail' is false if the first quarter is active
     averageBachelorsFail =
         homePageController.firstQuarter.value ? false : averageBachelorsFail;
-    var channals =
-        getChannals(controller, osId); // Get the channels based on osId
+    var channels =
+        getChannels(controller, osId); // Get the channels based on osId
     // Build the dropdown items
-    return buildDropdownItems(channals, (c) {
+    return buildDropdownItems(channels, (c) {
       if (averageBachelorsFail && typeConsent) {
         return c.channelId == 2; // Only allow channelId 2 when both are true
       } else if (averageBachelorsFail) {
@@ -662,7 +662,7 @@ class SubmissionChannel extends StatelessWidget {
   }
 }
 
-List<ChannelsData>? getChannals(DropdownListController controller, int? osId) {
+List<ChannelsData>? getChannels(DropdownListController controller, int? osId) {
   return controller.superData!.admissionchannel!
           .where((t) => t.osId == osId)
           .map((channel) => controller.superData!.channelsData!

@@ -9,7 +9,7 @@ import '../view/pages/other_information.dart';
 import '../view/pages/PersonalInformation/personal_information.dart';
 
 List<Widget> submission = [
-  const PersonalInformation(),
+  const PersonalInformationForm(),
   SubmissionChannel(),
   const AcademicInformation(),
   const FunctionalInformation(),

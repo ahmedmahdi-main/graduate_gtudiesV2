@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -23,7 +21,7 @@ class OTP extends StatefulWidget {
 }
 
 class _OTPState extends State<OTP> {
-
+  final TextEditingController _otpController = TextEditingController();
   // var receivedData = Get.arguments;
 
   String? currentText;
@@ -33,7 +31,9 @@ class _OTPState extends State<OTP> {
 
   @override
   void dispose() {
+    _otpController.dispose(); // Add this line
     _timer?.cancel();
+
     super.dispose();
   }
 
@@ -127,52 +127,57 @@ class _OTPState extends State<OTP> {
             const SizedBox(
               height: 80,
             ),
-            Directionality(
-              textDirection: TextDirection.ltr,
-              child: PinCodeTextField(
-                appContext: context,
-                length: 6,
-                obscureText: false,
-                animationType: AnimationType.fade,
-                pinTheme: PinTheme(
-                  selectedColor: Colors.greenAccent,
-                  selectedFillColor: Colors.transparent,
-                  inactiveColor: Colors.amberAccent,
-                  shape: PinCodeFieldShape.box,
-                  activeColor: Colors.greenAccent,
-                  inactiveFillColor: Colors.transparent,
-                  borderRadius: BorderRadius.circular(5),
-                  fieldHeight: 50,
-                  fieldWidth: 40,
-                  activeFillColor: Colors.transparent,
-                ),
-                animationDuration: const Duration(milliseconds: 300),
-                backgroundColor: Colors.transparent,
-                enableActiveFill: true,
-                // errorAnimationController: errorController,
-                // controller: textEditingController,
-                onCompleted: (v) async {
-                  // debugPrint(v);
-                  var code = await controller.verifyEmail(v.toString(), token);
-                  if (code == 200) {
-                    Get.offNamed('/DesktopHomePage');
-                  } else {
-                    DilogCostom.dilogSecss(
-                        title: 'حدث خطا غير معروف',
-                        icons: Icons.warning_amber_rounded,
-                        color: Colors.amber,
-                        isErorr: true);
-                  }
-                },
-                onChanged: (value) {
-                  currentText = value;
-                },
-                beforeTextPaste: (text) {
-                  debugPrint("Allowing to paste $text");
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: PinCodeTextField(
+                  controller: _otpController, // Add this line
+                  appContext: context,
+                  length: 6,
+                  obscureText: false,
+                  animationType: AnimationType.fade,
+                  pinTheme: PinTheme(
+                    selectedColor: Colors.greenAccent,
+                    selectedFillColor: Colors.transparent,
+                    inactiveColor: Colors.amberAccent,
+                    shape: PinCodeFieldShape.box,
+                    activeColor: Colors.greenAccent,
+                    inactiveFillColor: Colors.transparent,
+                    borderRadius: BorderRadius.circular(5),
+                    fieldHeight: 50,
+                    fieldWidth: 40,
+                    borderWidth: 2,
+                    activeFillColor: Colors.transparent,
+                  ),
+                  animationDuration: const Duration(milliseconds: 300),
+                  backgroundColor: Colors.transparent,
+                  enableActiveFill: true,
+                  // errorAnimationController: errorController,
+                  // controller: textEditingController,
+                  onCompleted: (v) async {
+                    // debugPrint(v);
+                    var code = await controller.verifyEmail(v.toString(), token);
+                    if (code == 200) {
+                      Get.offNamed('/DesktopHomePage');
+                    } else {
+                      DilogCostom.dilogSecss(
+                          title: 'حدث خطا غير معروف',
+                          icons: Icons.warning_amber_rounded,
+                          color: Colors.amber,
+                          isErorr: true);
+                    }
+                  },
+                  onChanged: (value) {
+                    currentText = value;
+                  },
+                  beforeTextPaste: (text) {
+                    debugPrint("Allowing to paste $text");
 
-                  return true;
-                },
-                // appContext: Get.overlayContext!,
+                    return true;
+                  },
+                  // appContext: Get.overlayContext!,
+                ),
               ),
             ),
             const SizedBox(
@@ -203,6 +208,24 @@ class _OTPState extends State<OTP> {
                     )
                   : Container();
             }),
+            const SizedBox(height: 35),
+            ElevatedButton(
+              onPressed: () {
+                _otpController.clear();
+                currentText = '';
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text(
+                'تفريغ جميع الحقول',
+                style: authinticationColorText.copyWith(color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 16),
           ]);
         });
   }
@@ -220,13 +243,13 @@ class _OTPState extends State<OTP> {
   Future<void> resendOtp(String token) async {
     var code = await UserRegisterController.resendVerifyEmail(token);
     if (code == 200) {
-      DilogCostom.dilogSecss(
+     await DilogCostom.dilogSecss(
           title: 'تم ارسال رمز التحقق',
           icons: Icons.done,
           color: Colors.green,
           isErorr: true);
     } else {
-      DilogCostom.dilogSecss(
+    await  DilogCostom.dilogSecss(
           title: 'حدث خطا غير معروف',
           icons: Icons.warning_amber_rounded,
           color: Colors.amber,

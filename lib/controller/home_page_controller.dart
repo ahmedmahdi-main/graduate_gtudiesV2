@@ -21,6 +21,7 @@ import '../Services/DilogCostom.dart';
 import '../Services/Failure.dart';
 import '../Services/PageStatus.dart';
 import '../Services/Session.dart';
+import '../view/pages/PersonalInformation/student_personal_information.dart' as page;
 import '../view/pages/academic_information.dart' as page;
 import '../view/pages/academic_information.dart';
 import '../view/pages/functional_information.dart' as page;
@@ -76,7 +77,7 @@ class HomePageController extends GetxController {
   /// *************Images*****************
 
   var personalInformation = PageStatus.fromType(
-      type: page.PersonalInformation, index: 0, isFull: false);
+      type: page.PersonalInformationForm, index: 0, isFull: false);
   var submissionChannel = PageStatus.fromType(
       type: page.SubmissionChannel, index: 1, isFull: false);
   var academicInformation = PageStatus.fromType(
@@ -349,7 +350,13 @@ class HomePageController extends GetxController {
     dgreem.remove(index);
     update();
   }
-
+  void updatePersonalInfo(page.StudentPersonalInformation info) {
+    fullStudentData.value.personalInformation?.clear();
+    fullStudentData.value.personalInformation?.add(
+        FullDataPersonalInformation.fromStudentPersonalInformation(info)
+    );
+    personalInformation.isFull.value = true;
+  }
   Future<FullStudentData> fullStudent() async {
     debugPrint('fullStudent');
     if (session == null) {

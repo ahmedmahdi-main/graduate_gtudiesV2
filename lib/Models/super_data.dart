@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class SuperData {
   List<Universities>? universities;
   List<Colleges>? colleges;
@@ -46,7 +44,7 @@ class SuperData {
     if (json['Medaltype'] != null) {
       medalTypes = <Medaltype>[];
       json['Medaltype'].forEach((v) {
-        medalTypes!.add(new Medaltype.fromJson(v));
+        medalTypes!.add(Medaltype.fromJson(v));
       });
     }
     if (json['colleges'] != null) {
@@ -418,7 +416,7 @@ class Admissionchannel {
   int? osId;
   int? channelsId;
   int? numberOfSeats;
-  Null? deleted;
+  int? deleted;
 
   Admissionchannel(
       {this.aCID,
@@ -643,9 +641,9 @@ class Medaltype {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['MedalTypeId'] = this.medalTypeId;
-    data['Name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['MedalTypeId'] = medalTypeId;
+    data['Name'] = name;
     return data;
   }
 }
