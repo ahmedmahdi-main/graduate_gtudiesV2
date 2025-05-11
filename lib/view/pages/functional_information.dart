@@ -20,8 +20,6 @@ import '../widget/dropdownlistt.dart';
 import '../widget/titleandtextstyle.dart';
 import 'DialogsWindows/loading_dialog.dart';
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class FunctionalInformation extends StatefulWidget {
   const FunctionalInformation({super.key});
