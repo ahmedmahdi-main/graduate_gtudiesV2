@@ -110,9 +110,12 @@ class SystemConfigPageV2 extends StatelessWidget {
 
   Widget _buildHeaderSection() {
     return GetBuilder<HomePageController>(builder: (controller) {
-      final studentName = controller
-          .fullStudentData.value.personalInformation?.first
-          .getFullName();
+      final studentName =
+          controller.fullStudentData.value.personalInformation?.isNotEmpty ==
+                  true
+              ? controller.fullStudentData.value.personalInformation!.first
+                  .getFullName()
+              : 'الاسم غير متوفر';
       final avatarUrl = controller
               .fullStudentData.value.imageInformation?.personalPhoto ??
           'https://th.bing.com/th/id/R.c09c979549603cf39105ff1ec8375fd7?rik=GZ12n01tDMaQTg&pid=ImgRaw&r=0';

@@ -41,7 +41,7 @@ class CustomCalendar extends StatefulWidget {
   final DateTime? lastDate;
 
   /// Callback for when the user picks a date.
-  final ValueChanged<DateTime?>? onChange;
+  final Function(DateTime?)? onChange;
 
   /// The text style of the date form field.
   final TextStyle? style;
@@ -69,7 +69,6 @@ class CustomCalendar extends StatefulWidget {
 
 class _CustomCalendarState extends State<CustomCalendar> {
   bool isClicked = false;
-
 
   @override
   void initState() {
@@ -106,7 +105,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
     if (picked != null) {
       _effectiveController.text = formatDate(picked);
 
-      widget.onChange!(picked);
+      widget.onChange?.call(picked);
     } else {
       _effectiveController.text = 'حدد التاريخ';
     }
@@ -120,12 +119,10 @@ class _CustomCalendarState extends State<CustomCalendar> {
   Widget build(BuildContext context) {
     return MouseRegion(
       onEnter: (_) {
-        setState(() {
-        });
+        setState(() {});
       },
       onExit: (_) {
-        setState(() {
-        });
+        setState(() {});
       },
       child: Builder(
         builder: (context) {

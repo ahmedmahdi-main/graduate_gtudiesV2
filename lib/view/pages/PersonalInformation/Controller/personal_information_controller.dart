@@ -33,20 +33,22 @@ class PersonalInformationController {
       );
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         DilogCostom.dilogSecss(
-            isErorr: false,
-            title: response.data["message"],
-            icons: Icons.check,
-            color: Colors.greenAccent,
+          isErorr: false,
+          title: response.data["message"],
+          icons: Icons.check,
+          color: Colors.greenAccent,
         );
 
         return true;
       } else {
+        print("-------------------------");
+        print(response?.data.toString());
+        print("-------------------------");
         DilogCostom.dilogSecss(
             isErorr: false,
             title: response.data["message"],
             icons: Icons.close,
             color: Colors.redAccent);
-
       }
     } on DioException catch (e) {
       print("-------------------------");
@@ -58,6 +60,9 @@ class PersonalInformationController {
           icons: Icons.close,
           color: Colors.redAccent);
     } catch (e) {
+      print("-------------------------");
+      print(e.toString());
+      print("-------------------------");
       DilogCostom.dilogSecss(
           isErorr: false,
           title: "هناك خطأ",

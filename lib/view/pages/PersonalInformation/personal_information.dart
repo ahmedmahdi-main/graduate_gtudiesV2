@@ -19,13 +19,12 @@ import '../../widget/titleandtextstyle.dart';
 
 // ignore_for_file: non_constant_identifier_names
 
-
-
 class PersonalInformationForm extends StatefulWidget {
   const PersonalInformationForm({super.key});
 
   @override
-  State<PersonalInformationForm> createState() => _PersonalInformationFormState();
+  State<PersonalInformationForm> createState() =>
+      _PersonalInformationFormState();
 }
 
 class _PersonalInformationFormState extends State<PersonalInformationForm> {
@@ -123,6 +122,7 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
     // Update disability status
     _isBlind.value = data.isBlind == 1;
   }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => _homeController.isLoading.value
@@ -131,11 +131,11 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
   }
 
   Widget _buildLoadingIndicator() => const Center(
-    child: GifImageCostom(
-      Gif: "assets/icons/pencil.gif",
-      width: 100,
-    ),
-  );
+        child: GifImageCostom(
+          Gif: "assets/icons/pencil.gif",
+          width: 100,
+        ),
+      );
 
   Widget _buildFormContent() {
     final size = MediaQuery.of(context).size;
@@ -165,6 +165,9 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
                     _buildStateDropdown(),
                     ..._buildAddressFields(),
                     _buildBlindToggle(),
+                    SizedBox(
+                      width: 350,
+                    ),
                     _buildSubmitButton(),
                   ],
                 ),
@@ -178,20 +181,20 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
 
   // Helper methods for building form components
   List<Widget> _buildNameFields() => [
-    _buildTextField('اسم الطالب', 'firstName'),
-    _buildTextField('اسم الاب', 'secondName'),
-    _buildTextField('اسم الجد', 'thirdName'),
-    _buildTextField('الاسم الرابع', 'fourthName'),
-    _buildTextField('اسم الام', 'firstMothersName'),
-    _buildTextField('اسم والد الام', 'secondMothersName'),
-    _buildTextField('اسم جد الام', 'thirdMothersName'),
-  ];
+        _buildTextField('اسم الطالب', 'firstName'),
+        _buildTextField('اسم الاب', 'secondName'),
+        _buildTextField('اسم الجد', 'thirdName'),
+        _buildTextField('الاسم الرابع', 'fourthName'),
+        _buildTextField('اسم الام', 'firstMothersName'),
+        _buildTextField('اسم والد الام', 'secondMothersName'),
+        _buildTextField('اسم جد الام', 'thirdMothersName'),
+      ];
 
   Widget _buildTextField(String label, String key) => TitleAndTextStyle(
-    title: label,
-    controller: _fieldControllers[key]!,
-    validator: _getValidatorForField(key),
-  );
+        title: label,
+        controller: _fieldControllers[key]!,
+        validator: _getValidatorForField(key),
+      );
 
   String? Function(String?) _getValidatorForField(String key) {
     switch (key) {
@@ -205,35 +208,35 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
   }
 
   Widget _buildDateOfBirthPicker() => CustomCalendar(
-    // constrainWidth: 250,
-    title: "تاريخ الميلاد",
-    controller: _dateOfBirthController,
-  );
+        // constrainWidth: 250,
+        title: "تاريخ الميلاد",
+        controller: _dateOfBirthController,
+        onChange: (date) {}, // Prevent null error
+      );
 
   Widget _buildGenderDropdown() => Obx(() => DropDownList(
-    title: "الجنس",
-    value: _selectedGender.value,
-    onchange: _handleGenderChange,
-    DropdownMenuItems: const [
-      DropdownMenuItem(value: 'ذكر', child: Center(child: Text('ذكر'))),
-      DropdownMenuItem(value: 'انثى', child: Center(child: Text('انثى'))),
-    ],
-  ));
+        title: "الجنس",
+        value: _selectedGender.value,
+        onchange: _handleGenderChange,
+        DropdownMenuItems: const [
+          DropdownMenuItem(value: 'ذكر', child: Center(child: Text('ذكر'))),
+          DropdownMenuItem(value: 'انثى', child: Center(child: Text('انثى'))),
+        ],
+      ));
 
   // Similar methods for other dropdowns and fields
 
   Widget _buildSubmitButton() => ButtonStyleS(
-    colorBorder: Colors.greenAccent,
-    containborder: true,
-    isleft: true,
-    icon: Icons.arrow_forward_ios,
-    title: "حفظ وانتقال للصفحة التالية",
-    onTap: _handleFormSubmission,
-  );
+        colorBorder: Colors.greenAccent,
+        containborder: true,
+        isleft: true,
+        icon: Icons.arrow_forward_ios,
+        title: "حفظ وانتقال للصفحة التالية",
+        onTap: _handleFormSubmission,
+      );
 
   Future<void> _handleFormSubmission() async {
     if (!_formKey.currentState!.validate()) return;
-
     try {
       LoadingDialog.showLoadingDialog(message: loadingText);
       await _savePersonalInformation();
@@ -246,9 +249,11 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
   }
 
   Future<void> _savePersonalInformation() async {
-     _prepareDataModels();
-    final success = await PersonalInformationController.insertPersonalInformation(
-        _personalInformation);
+    _prepareDataModels();
+    debugPrint('${_personalInformation.toJson()}');
+    final success =
+        await PersonalInformationController.insertPersonalInformation(
+            _personalInformation);
 
     if (success) {
       _homeController.updatePersonalInfo(_personalInformation);
@@ -264,21 +269,40 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
       alley: _fieldControllers['alley']!.text,
       houseNumber: int.tryParse(_fieldControllers['houseNumber']!.text) ?? 0,
     );
-
     _personalInformation = StudentPersonalInformation(
       studentUUID: _homeController.session?['UUID'],
       firstName: _fieldControllers['firstName']!.text,
       secondName: _fieldControllers['secondName']!.text,
-      // ... other fields
+      thirdName: _fieldControllers['thirdName']!.text,
+      fourthName: _fieldControllers['fourthName']!.text,
+      firstMothersName: _fieldControllers['firstMothersName']!.text,
+      secondMothersName: _fieldControllers['secondMothersName']!.text,
+      thirdMothersName: _fieldControllers['thirdMothersName']!.text,
+      nationality: _fieldControllers['nationality']!.text,
+      dateOfBirth: _fieldControllers['dateOfBirth']!.text,
+      gender: _selectedGender.value,
+      Phone: _fieldControllers['phone']!.text,
+      isBlind: _isBlind.value,
       addresses: [_address],
     );
+
+    // _personalInformation = StudentPersonalInformation(
+    //   studentUUID: _homeController.session?['UUID'],
+    //   firstName: _fieldControllers['firstName']!.text,
+    //   secondName: _fieldControllers['secondName']!.text,
+
+    //   // ... other fields
+    //   addresses: [_address],
+    // );
   }
 
   void _handleSuccess() {
     if (_homeController.fullStudentData.value.serial != null) {
-      DilogCostom.confirmFinishEditing(onSubmit: _homeController.modifyComplete);
+      DilogCostom.confirmFinishEditing(
+          onSubmit: _homeController.modifyComplete);
     }
   }
+
   void _handleGenderChange(dynamic? val) {
     _genderController.text = val ?? '';
     _selectedGender.value = val;
@@ -323,16 +347,15 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
 
   Widget _buildStateDropdown() {
     return Obx(() => DropDownList(
-        title: "المحافظة",
-        value: _selectedState.value,
-        onchange: _handleStateChange,
-        DropdownMenuItems: Governorates.map(
-              (e) => DropdownMenuItem(
-            value: e,
-            child: Center(child: Text(e)),
-          )
-        ).toList(),));
-    }
+          title: "المحافظة",
+          value: _selectedState.value,
+          onchange: _handleStateChange,
+          DropdownMenuItems: Governorates.map((e) => DropdownMenuItem(
+                value: e,
+                child: Center(child: Text(e)),
+              )).toList(),
+        ));
+  }
 
   List<Widget> _buildAddressFields() {
     return [
@@ -366,15 +389,16 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
 
   Widget _buildBlindToggle() {
     return Obx(() => CustomSwitcher(
-      initialValue: _isBlind.value,
-      title: "هل المتقدم كفيف ..؟",
-      onChanged: (value) => _isBlind.value = value,
-    ));
+          initialValue: _isBlind.value,
+          title: "هل المتقدم كفيف ..؟",
+          onChanged: (value) => _isBlind.value = value,
+        ));
   }
+
   void _handleError(dynamic error) {
     DilogCostom.dilogSecss(
       isErorr: true,
-      title: "حدث خطأ أثناء حفظ المعلومات، يرجى المحاولة مرة أخرى",
+      title: '${error.toString()}',
       icons: Icons.error,
       color: Colors.redAccent,
     );
@@ -387,7 +411,9 @@ class Validators {
       value?.isEmpty ?? true ? 'هذا الحقل مطلوب' : null;
 
   static String? phoneNumber(String? value) =>
-      RegExp(r'^\+?[0-9]{10,}$').hasMatch(value ?? '') ? null : 'رقم هاتف غير صالح';
+      RegExp(r'^\+?[0-9]{10,}$').hasMatch(value ?? '')
+          ? null
+          : 'رقم هاتف غير صالح';
 
   static String? houseNumber(String? value) =>
       int.tryParse(value ?? '') != null ? null : 'يجب إدخال رقم صحيح';

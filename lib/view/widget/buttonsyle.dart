@@ -18,22 +18,21 @@ class ButtonStyleS extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final Color? colorBorder;
   final Color iconColor;
-  const ButtonStyleS({
-    super.key,
-    this.onTap,
-    this.icon,
-    required this.title,
-    this.style,
-    this.decoration,
-    this.isleft,
-    this.containborder,
-    this.aliment,
-    this.SelectedbackgroundColorbefore,
-    this.SelectedbackgroundColorafter,
-    this.padding,
-    this.colorBorder,
-    this.iconColor = Colors.black
-  });
+  const ButtonStyleS(
+      {super.key,
+      this.onTap,
+      this.icon,
+      required this.title,
+      this.style,
+      this.decoration,
+      this.isleft,
+      this.containborder,
+      this.aliment,
+      this.SelectedbackgroundColorbefore,
+      this.SelectedbackgroundColorafter,
+      this.padding,
+      this.colorBorder,
+      this.iconColor = Colors.black});
 
   @override
   State<ButtonStyleS> createState() => _ButtonStyleState();
@@ -65,8 +64,10 @@ class _ButtonStyleState extends State<ButtonStyleS> {
                 constraints: const BoxConstraints(maxWidth: 250),
                 margin: const EdgeInsets.all(5),
                 padding: widget.padding ??
-                    (widget.icon != null ? const EdgeInsets.only(right: 12) : null),
-                height: 40,
+                    (widget.icon != null
+                        ? const EdgeInsets.only(right: 12)
+                        : null),
+                height: 50,
                 decoration: widget.decoration ??
                     BoxDecoration(
                         color: isselcted
@@ -88,7 +89,12 @@ class _ButtonStyleState extends State<ButtonStyleS> {
                 child: widget.icon != null
                     ? Row(
                         children: [
-                          isleft! ? Container() : Icon(widget.icon , color:  widget.iconColor,),
+                          isleft!
+                              ? Container()
+                              : Icon(
+                                  widget.icon,
+                                  color: widget.iconColor,
+                                ),
                           const SizedBox(
                             width: 12,
                           ),
