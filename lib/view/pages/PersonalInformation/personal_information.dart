@@ -46,6 +46,7 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
     'mahalla': TextEditingController(),
     'alley': TextEditingController(),
     'houseNumber': TextEditingController(),
+    // 'dateOfBirth': _dateOfBirthController, // moved to initState
   };
 
   // State variables
@@ -65,7 +66,27 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
   @override
   void initState() {
     super.initState();
+    _fieldControllers['dateOfBirth'] = _dateOfBirthController;
+
+    // Initialize personal information and address objects
+    _personalInformation = StudentPersonalInformation();
+    _address = Addresses();
+
+    // Add a listener to the fullStudentData observable
+    // This will trigger whenever the data changes
+    _homeController.fullStudentData.listen((data) {
+      if (data.personalInformation != null &&
+          data.personalInformation!.isNotEmpty) {
+        _initializeFormData();
+      }
+    });
+
+    // Initialize form data
     _initializeFormData();
+
+    // Debug print to check if data is available
+    debugPrint(
+        'Personal Info available: ${_homeController.fullStudentData.value.personalInformation?.isNotEmpty == true}');
   }
 
   @override
@@ -82,6 +103,11 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
     if (personalInfo != null) {
       _isBlind.value = personalInfo.isBlind == 1;
       _updateControllersFromData(personalInfo);
+
+      // Force UI update after loading data
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {}); // Trigger a rebuild after initialization
+      });
     }
   }
 
@@ -96,7 +122,7 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
     _fieldControllers['thirdMothersName']!.text = data.thirdMothersName ?? '';
     _fieldControllers['phone']!.text = data.phone ?? '';
     _fieldControllers['nationality']!.text = data.nationality ?? '';
-
+    _fieldControllers['dateOfBirth'] = _dateOfBirthController;
     // Handle date of birth formatting
     _dateOfBirthController.text = data.dateOfBirth?.replaceAll('-', '/') ?? '';
 
@@ -271,17 +297,17 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
     );
     _personalInformation = StudentPersonalInformation(
       studentUUID: _homeController.session?['UUID'],
-      firstName: _fieldControllers['firstName']!.text,
-      secondName: _fieldControllers['secondName']!.text,
-      thirdName: _fieldControllers['thirdName']!.text,
-      fourthName: _fieldControllers['fourthName']!.text,
-      firstMothersName: _fieldControllers['firstMothersName']!.text,
-      secondMothersName: _fieldControllers['secondMothersName']!.text,
+      firstName: _fieldControllers['firstName']?.text,
+      secondName: _fieldControllers['secondName']?.text,
+      thirdName: _fieldControllers['thirdName']?.text,
+      fourthName: _fieldControllers['fourthName']?.text,
+      firstMothersName: _fieldControllers['firstMothersName']?.text,
+      secondMothersName: _fieldControllers['secondMothersName']?.text,
       thirdMothersName: _fieldControllers['thirdMothersName']!.text,
-      nationality: _fieldControllers['nationality']!.text,
-      dateOfBirth: _fieldControllers['dateOfBirth']!.text,
+      nationality: _fieldControllers['nationality']?.text,
+      dateOfBirth: _fieldControllers['dateOfBirth']?.text,
       gender: _selectedGender.value,
-      Phone: _fieldControllers['phone']!.text,
+      Phone: _fieldControllers['phone']?.text,
       isBlind: _isBlind.value,
       addresses: [_address],
     );

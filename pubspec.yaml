@@ -51,7 +51,7 @@ flutter:
     - family: Cairo
       fonts:
         - asset: assets/fonts/cairo/Cairo-Black.ttf
-    - family: Hacen
+    - family: HacenTunisia
       fonts:
         - asset: assets/fonts/Hacen Tunisia.ttf
   #       - asset: fonts/Schyler-Italic.ttf

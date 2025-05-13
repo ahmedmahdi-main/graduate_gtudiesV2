@@ -83,7 +83,8 @@ class FullStudentData {
       this.certificateCompetency,
       this.sportChampion,
       this.imageInformation,
-      this.serial,this.systemConfig});
+      this.serial,
+      this.systemConfig});
 
   // FullStudentData.fromJson(Map<String, dynamic> json) {
   //   student = json['student'];
@@ -389,12 +390,9 @@ class FullDataPersonalInformation {
 
 // Method to get the full name
   String getFullName() {
-    return [
-      firstName,
-      secondName,
-      thirdName,
-      fourthName
-    ].where((name) => name != null && name.isNotEmpty).join(' ');
+    return [firstName, secondName, thirdName, fourthName]
+        .where((name) => name != null && name.isNotEmpty)
+        .join(' ');
   }
 }
 
@@ -547,6 +545,7 @@ class FullDataAcademicInformation {
   int? nOBatch;
 
   dynamic universityId;
+  String? universityName;
   dynamic collegesId;
   dynamic departmentId;
   String? studentUUID;
@@ -568,6 +567,7 @@ class FullDataAcademicInformation {
       this.isMasterWithinPeriod,
       this.certificateTypeId,
       this.universityId,
+      this.universityName,
       this.nOBatch,
       this.collegesId,
       this.departmentId,
@@ -590,6 +590,7 @@ class FullDataAcademicInformation {
     isMasterWithinPeriod = json['IsMasterWithinPeriod'];
     certificateTypeId = json['CertificateTypeId'];
     universityId = json['UniversityId'];
+    universityName = json['UniversityName'];
     collegesId = json['CollegesId'];
     departmentId = json['DepartmentId'];
     nOBatch = json['NO_Batch'];
@@ -619,6 +620,7 @@ class FullDataAcademicInformation {
     data['IsMasterWithinPeriod'] = isMasterWithinPeriod;
     data['CertificateTypeId'] = certificateTypeId;
     data['UniversityId'] = universityId;
+    data['UniversityName'] = universityName;
     data['CollegesId'] = collegesId;
     data['DepartmentId'] = departmentId;
     data['NO_Batch'] = nOBatch;
@@ -646,6 +648,7 @@ class FullDataAcademicInformation {
       isMasterWithinPeriod: info.isMasterWithinPeriod,
       certificateTypeId: info.certificateTypeId,
       universityId: info.universityId,
+      universityName: info.universityName,
       collegesId: info.collegesId,
       departmentId: info.departmentId,
       documents: info.documents,

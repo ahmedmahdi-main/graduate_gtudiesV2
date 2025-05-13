@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Enums/DocumentsTypes.dart';
+import 'package:graduate_gtudiesV2/Services/DilogCostom.dart';
 import '../../../Enums/CertificateType.dart';
 import '../../../Models/academic_information.dart';
 import '../../../Models/full_student_data.dart';
 import '../../../ValidatorFunction/text_validator.dart';
 import '../../../controller/AcademicInformationController.dart';
 import '../../../controller/dropdown_filter_controllers.dart';
-
 import '../../../controller/home_page_controller.dart';
 import '../../../theme.dart';
+import '../../pages/UploadImage/controller/UploadImageController.dart';
 import '../coustom_calender.dart';
 import '../GifImageCostom.dart';
 import '../IconButtonostom.dart';
@@ -18,29 +19,52 @@ import '../custom switcher.dart';
 import '../dropdownlistt.dart';
 import '../titleandtextstyle.dart';
 
-// ignore: must_be_immutable
-class Diploma extends StatelessWidget {
+class Diploma extends StatefulWidget {
   final int index;
-  final HomePageController _controller = Get.find();
 
-  Diploma({super.key, required this.index});
+  const Diploma({super.key, required this.index});
 
+  @override
+  State<Diploma> createState() => _DiplomaState();
+}
+
+class _DiplomaState extends State<Diploma> {
+  late final HomePageController homePageController;
+  late final UploadingImagesController uploadingImagesController;
+  late final AcademicInformationController academicInformationController;
+  late final DropdownListController dropdownListController;
   final _formKey = GlobalKey<FormState>();
-
+  late final TextEditingController sequenceController;
+  late final TextEditingController averageController;
+  late final TextEditingController controllerDocumentsNumber;
+  late final TextEditingController universityMatterController;
+  late final Documents universityMatterDocument;
+  late AcademicInformation diplomaInformation;
   Documents? diplomaDocument;
 
-  final HomePageController homePageController = Get.put(HomePageController());
-  final DropdownListController dropdownListController =
-      Get.put(DropdownListController());
-  final TextEditingController sequenceController = TextEditingController();
-  final TextEditingController averageController = TextEditingController();
-  final TextEditingController controllerDocumentsNumber =
-      TextEditingController();
-  final AcademicInformationController academicInformationController =
-      Get.find<AcademicInformationController>();
-  AcademicInformation diplomaInformation = AcademicInformation();
-  Documents universityMatterDocument = Documents();
-  TextEditingController universityMatterController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    homePageController = Get.put(HomePageController());
+    uploadingImagesController = Get.put(UploadingImagesController());
+    academicInformationController = Get.find<AcademicInformationController>();
+    dropdownListController = Get.put(DropdownListController());
+    sequenceController = TextEditingController();
+    averageController = TextEditingController();
+    controllerDocumentsNumber = TextEditingController();
+    universityMatterController = TextEditingController();
+    universityMatterDocument = Documents();
+    diplomaInformation = AcademicInformation();
+  }
+
+  @override
+  void dispose() {
+    sequenceController.dispose();
+    averageController.dispose();
+    controllerDocumentsNumber.dispose();
+    universityMatterController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +77,8 @@ class Diploma extends StatelessWidget {
       fullDataAcademicInformation = homePageController
           .fullStudentData.value.academicInformation
           ?.firstWhere(
-              (element) =>
-                  element.certificateTypeId == CertificateType.diploma.id,
+              (data) =>
+                  data.certificateTypeId == CertificateType.diploma.id,
               orElse: () => FullDataAcademicInformation());
       if (fullDataAcademicInformation != null) {
         diplomaInformation =
@@ -70,8 +94,6 @@ class Diploma extends StatelessWidget {
     }
     String? certificateIssuedBy =
         fullDataAcademicInformation?.certificateIssuedBy;
-    // diplomaMasterCountry.value =
-    //     certificateIssuedBy != "خارج العراق";
     String? academicYear = fullDataAcademicInformation?.academicYear;
     double? average = fullDataAcademicInformation?.average;
 
@@ -93,7 +115,7 @@ class Diploma extends StatelessWidget {
     return GetBuilder<DropdownListController>(
         //init: DropdownListController(),
         builder: (cont) {
-      return cont.isLoading
+      return cont.isLoading.value
           ? const Center(
               child: GifImageCostom(
                 Gif: "assets/icons/pencil.gif",
@@ -118,7 +140,7 @@ class Diploma extends StatelessWidget {
                           id: "loading",
                           init: DropdownListController(),
                           builder: (cont) {
-                            return cont.isLoading
+                            return cont.isLoading.value
                                 ? const CircularProgressIndicator()
                                 : Wrap(
                                     alignment: WrapAlignment.start,
@@ -414,74 +436,67 @@ class Diploma extends StatelessWidget {
                                             title:
                                                 "هل الدبلوم متوافق مع البكلوريوس؟ :",
                                           );
-                                        }),
-                                      ),
-                                      const SizedBox(
-                                        width: double.infinity,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          IconButtonostom(
-                                              controller: _controller,
-                                              index: index,
-                                              dgree: "دبلوم"),
-                                          ButtonStyleS(
-                                            colorBorder: Colors.greenAccent,
-                                            containborder: true,
-                                            isleft: true,
-                                            icon: Icons.save_outlined,
-                                            title: 'حفظ الشهادة',
-                                            onTap: () {
-                                              if (_formKey.currentState!
-                                                  .validate()) {
-                                                diplomaInformation
-                                                        .certificateTypeId =
-                                                    CertificateType.diploma.id;
+                                              isleft: true,
+                                              icon: Icons.save_outlined,
+                                              title: 'حفظ الشهادة',
+                                              onTap: () async {
+                                                if (_formKey.currentState!
+                                                    .validate()) {
+                                                  diplomaInformation
+                                                          .certificateTypeId =
+                                                      CertificateType
+                                                          .diploma.id;
 
-                                                if (diplomaInformation
-                                                        .documents !=
-                                                    null) {
-                                                  diplomaInformation.documents!
-                                                      .clear();
-                                                } else {
-                                                  diplomaInformation.documents =
-                                                      [];
+                                                  if (diplomaInformation
+                                                          .documents !=
+                                                      null) {
+                                                    diplomaInformation
+                                                        .documents!
+                                                        .clear();
+                                                  } else {
+                                                    diplomaInformation
+                                                        .documents = [];
+                                                  }
+                                                  diplomaInformation.nOBatch =
+                                                      0;
+                                                  universityMatterDocument
+                                                          .documentsNumber =
+                                                      controllerDocumentsNumber
+                                                          .text;
+                                                  universityMatterDocument
+                                                          .documentsDate =
+                                                      universityMatterController
+                                                          .text;
+                                                  universityMatterDocument
+                                                          .documentsTypeId =
+                                                      DocumentsType
+                                                          .diplomaOrder.id;
+                                                  diplomaInformation.documents?.add(
+                                                      universityMatterDocument);
+                                                  // for (var cer
+                                                  // in academicInformationController
+                                                  //     .academicInformationModel!
+                                                  //     .academicInformation!) {
+                                                  //   if (cer.certificateTypeId ==
+                                                  //       CertificateType
+                                                  //           .diploma.id) {}
+                                                  // }
+                                                  academicInformationController
+                                                      .addOrUpdateAcademicInformation(
+                                                          diplomaInformation);
                                                 }
-                                                diplomaInformation.nOBatch = 0;
-                                                universityMatterDocument
-                                                        .documentsNumber =
-                                                    controllerDocumentsNumber
-                                                        .text;
-                                                universityMatterDocument
-                                                        .documentsDate =
-                                                    universityMatterController
-                                                        .text;
-                                                universityMatterDocument
-                                                        .documentsTypeId =
-                                                    DocumentsType
-                                                        .diplomaOrder.id;
-                                                diplomaInformation.documents?.add(
-                                                    universityMatterDocument);
-                                                // for (var cer
-                                                // in academicInformationController
+                                                await DilogCostom.dilogSecss(
+                                                  isErorr: false,
+                                                  title: "تم حفظ الشهادة بنجاح",
+                                                  icons: Icons.close,
+                                                  color: Colors.greenAccent,
+                                                );
+                                                // academicInformationController
                                                 //     .academicInformationModel!
-                                                //     .academicInformation!) {
-                                                //   if (cer.certificateTypeId ==
-                                                //       CertificateType
-                                                //           .diploma.id) {}
-                                                // }
-                                                academicInformationController
-                                                    .addOrUpdateAcademicInformation(
-                                                        diplomaInformation);
-                                              }
-
-                                              // academicInformationController
-                                              //     .academicInformationModel!
-                                              //     .academicInformation
-                                              //     ?.add(academicInformation);
-                                            },
+                                                //     .academicInformation
+                                                //     ?.add(academicInformation);
+                                              },
+                                            ),
                                           ),
                                         ],
                                       ),

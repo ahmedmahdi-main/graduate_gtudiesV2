@@ -1,37 +1,61 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoadingDialog {
   static void showLoadingDialog({required String message}) {
-    AwesomeDialog(
-      context: Get.context!,
-      dialogType: DialogType.noHeader,
-      barrierColor: Colors.black.withOpacity(0.1),
-      dismissOnTouchOutside: false,
-      animType: AnimType.scale,
-      width: GetPlatform.isWeb ? Get.width / 3.5 : GetPlatform.isMobile ? Get.width / 6 : Get.width / 3,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const CircularProgressIndicator(),
-            const SizedBox(
-              width: 22,
-            ),
-            Text(
-              message,
-              style: Theme.of(Get.context!)
-                  .textTheme
-                  .headlineMedium!
-                  .apply(color: Colors.black),
-            ),
-          ],
+    // Dismiss any existing dialogs first
+    if (Get.isDialogOpen ?? false) {
+      Get.back();
+    }
+
+    // Show a modern, compact loading dialog
+    Get.dialog(
+      Dialog(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 12,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Modern loading indicator
+              SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  valueColor:
+                      AlwaysStoppedAnimation<Color>(Colors.blue.shade700),
+                ),
+              ),
+              const SizedBox(width: 16),
+              // Message with modern typography
+              Flexible(
+                child: Text(
+                  message,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ).show();
+      barrierDismissible: false,
+    );
   }
 }
-

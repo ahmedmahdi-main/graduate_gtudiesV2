@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Enums/DocumentsTypes.dart';
 import 'package:graduate_gtudiesV2/Enums/scientific_titles.dart';
 import 'package:graduate_gtudiesV2/Models/academic_information.dart';
-import '../../Models/full_student_data.dart';
 import '../../Services/DilogCostom.dart';
 import '../../Services/base_route.dart';
 import '../../controller/CareerInformationController.dart';
@@ -20,7 +19,6 @@ import '../widget/dropdownlistt.dart';
 import '../widget/titleandtextstyle.dart';
 import 'DialogsWindows/loading_dialog.dart';
 
-
 class FunctionalInformation extends StatefulWidget {
   const FunctionalInformation({super.key});
 
@@ -30,7 +28,7 @@ class FunctionalInformation extends StatefulWidget {
 
 class _FunctionalInformationState extends State<FunctionalInformation> {
   final _formKey = GlobalKey<FormState>();
-  final _careerController = Get.find<CareerInformationController>();
+  final _careerController = Get.put(CareerInformationController());
   final _homeController = Get.find<HomePageController>();
   final _dropdownController = Get.find<DropdownListController>();
 
@@ -50,6 +48,99 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
   final _promotionOrderDoc = Documents();
 
   @override
+  void initState() {
+    super.initState();
+
+    // Add listeners to update the model when text changes
+    _organizationNameController.addListener(() {
+      _careerController.careerInformation.organizationName =
+          _organizationNameController.text;
+    });
+
+    _promotionOrderNumberController.addListener(() {
+      _promotionOrderDoc.documentsNumber = _promotionOrderNumberController.text;
+    });
+
+    _initializeFormData();
+  }
+
+  void _initializeFormData() {
+    // Check if career information exists
+    if (_homeController.fullStudentData.value.careerInformation != null &&
+        _homeController.fullStudentData.value.careerInformation!.isNotEmpty) {
+      final careerInfo =
+          _homeController.fullStudentData.value.careerInformation!.first;
+
+      // Set the career information in the controller
+      _careerController.careerInformation = careerInfo.toCareerInformation();
+
+      // Update employment status
+      if (careerInfo.employmentStatusId != null) {
+        _functionalStatus.value =
+            _getFunctionalStatusLabel(careerInfo.employmentStatusId);
+        _homeController.haveStudyApproval.value =
+            careerInfo.employmentStatusId != null;
+      }
+
+      // Update type consent ID
+      if (careerInfo.typeConsentId != null) {
+        _homeController.typeConsentId.value = careerInfo.typeConsentId;
+      }
+
+      // Update date fields
+      if (careerInfo.dateCommencement != null &&
+          careerInfo.dateCommencement!.isNotEmpty) {
+        // Keep the original format (with dashes) as that's what the CustomCalendar expects
+        _commencementDateController.text = careerInfo.dateCommencement!;
+        _homeController.dateCommencement = careerInfo.dateCommencement!;
+
+        // Force UI update for the date field
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          setState(() {}); // Trigger a rebuild after initialization
+        });
+      }
+
+      // Update organization name
+      if (careerInfo.organizationName != null) {
+        _organizationNameController.text = careerInfo.organizationName ?? '';
+      }
+
+      // Update university service
+      if (careerInfo.universityService != null) {
+        _universityService.value = careerInfo.universityService == 1;
+      }
+
+      // Update scientific title
+      if (careerInfo.scientificTitleId != null) {
+        _isBachelor.value = _checkIfBachelor(careerInfo.scientificTitleId);
+      }
+
+      // Update documents if available
+      if (careerInfo.documents != null && careerInfo.documents!.isNotEmpty) {
+        for (final doc in careerInfo.documents!) {
+          if (doc.documentsTypeId == DocumentsType.promotionOrder.id) {
+            // Copy values from the document instead of replacing the _promotionOrderDoc object
+            _promotionOrderDoc.documentsDate = doc.documentsDate;
+            _promotionOrderDoc.documentsNumber = doc.documentsNumber;
+            _promotionOrderDoc.documentsTypeId = doc.documentsTypeId;
+
+            _promotionOrderDateController.text = doc.documentsDate ?? '';
+            _promotionOrderNumberController.text = doc.documentsNumber ?? '';
+          }
+        }
+      }
+
+      // Update the UI
+      _dropdownController.update([
+        'employment-status',
+        'study-approval',
+        'ministry',
+        'scientific-title'
+      ]);
+    }
+  }
+
+  @override
   void dispose() {
     _organizationNameController.dispose();
     _commencementDateController.dispose();
@@ -63,7 +154,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
     return Form(
       key: _formKey,
       child: SingleChildScrollView(
-        child: Obx(() => _dropdownController.isLoading
+        child: Obx(() => _dropdownController.isLoading.value
             ? _buildLoadingIndicator()
             : _buildFormContent()),
       ),
@@ -71,38 +162,54 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
   }
 
   Widget _buildLoadingIndicator() => const Center(
-    child: GifImageCostom(
-      Gif: "assets/icons/pencil.gif",
-      width: 100,
-    ),
-  );
+        child: GifImageCostom(
+          Gif: "assets/icons/pencil.gif",
+          width: 100,
+        ),
+      );
 
   Widget _buildFormContent() {
     return Container(
       decoration: _buildContainerDecoration(),
       margin: _buildContainerMargin(),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildEmploymentStatusDropdown(),
-            const SizedBox(height: 20),
-            Obx(() => _functionalStatus.value == "غير موظف"
-                ? const SizedBox.shrink()
-                : Column(
+            Wrap(
+              alignment: WrapAlignment.start,
+              spacing: 60,
+              runSpacing: 20,
               children: [
-                _buildStudyApprovalDropdown(),
-                _buildCommencementDatePicker(),
-                _buildMinistryDropdown(),
-                _buildOrganizationNameField(),
-                _buildUniversityServiceToggle(),
-                Obx(() => _universityService.value
-                    ? _buildScientificTitleSection()
-                    : const SizedBox.shrink()),
+                _buildEmploymentStatusDropdown(),
+
+                // Conditional fields based on employment status
+                Obx(() => _functionalStatus.value == "غير موظف"
+                    ? const SizedBox.shrink()
+                    : Wrap(
+                        alignment: WrapAlignment.start,
+                        spacing: 60,
+                        runSpacing: 20,
+                        children: [
+                          _buildStudyApprovalDropdown(),
+                          _buildCommencementDatePicker(),
+                          _buildMinistryDropdown(),
+                          _buildOrganizationNameField(),
+                          _buildUniversityServiceToggle(),
+
+                          // Conditional fields based on university service
+                          Obx(() => _universityService.value
+                              ? _buildScientificTitleSection()
+                              : const SizedBox.shrink()),
+                        ],
+                      )),
+
+                // Add some space before the submit button
+                SizedBox(width: 350),
+                _buildSubmitButton(),
               ],
-            )),
-            _buildSubmitButton(),
+            ),
           ],
         ),
       ),
@@ -119,9 +226,9 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
         onchange: _handleEmploymentStatusChange,
         DropdownMenuItems: controller.employmentStatusData!
             .map((e) => DropdownMenuItem(
-          value: e.employmentStatusId,
-          child: Center(child: Text(e.statusName!)),
-        ))
+                  value: e.employmentStatusId,
+                  child: Center(child: Text(e.statusName!)),
+                ))
             .toList(),
       ),
     );
@@ -136,9 +243,9 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
         onchange: _handleStudyApprovalChange,
         DropdownMenuItems: controller.typeConsentForStudy!
             .map((e) => DropdownMenuItem(
-          value: e.typeConsentId,
-          child: Center(child: Text(e.typeConsentName!)),
-        ))
+                  value: e.typeConsentId,
+                  child: Center(child: Text(e.typeConsentName!)),
+                ))
             .toList(),
       ),
     );
@@ -156,14 +263,15 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
     return GetBuilder<DropdownListController>(
       id: 'ministry',
       builder: (controller) => DropDownList(
+        width: 450,
         value: _careerController.careerInformation.ministryId,
         title: "اسم الوزارة :",
         onchange: _handleMinistryChange,
         DropdownMenuItems: controller.ministry!
             .map((e) => DropdownMenuItem(
-          value: e.ministryId,
-          child: Center(child: Text(e.name!)),
-        ))
+                  value: e.ministryId,
+                  child: Center(child: Text(e.name!)),
+                ))
             .toList(),
       ),
     );
@@ -173,31 +281,36 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
     return TitleAndTextStyle(
       controller: _organizationNameController,
       title: "اسم الؤسسة :",
-      onchange: _handleOrganizationNameChange,
+      // Don't use onchange here, let the controller handle the text
     );
   }
 
   Widget _buildUniversityServiceToggle() {
     return Obx(() => CustomSwitcher(
-      initialValue: _universityService.value,
-      title: "يخضع للخدمة الجامعية :",
-      onChanged: _handleUniversityServiceChange,
-    ));
+          initialValue: _universityService.value,
+          title: "يخضع للخدمة الجامعية :",
+          onChanged: _handleUniversityServiceChange,
+        ));
   }
 
   Widget _buildScientificTitleSection() {
     return Column(
       children: [
-        _buildScientificTitleDropdown(),
-        Obx(() => !_isBachelor.value
-            ? Row(
+        Wrap(
           children: [
-            _buildPromotionNumberField(),
+            _buildScientificTitleDropdown(),
             const SizedBox(width: 20),
-            _buildPromotionDatePicker(),
+            Obx(() => !_isBachelor.value
+                ? Wrap(
+                    children: [
+                      _buildPromotionNumberField(),
+                      const SizedBox(width: 20),
+                      _buildPromotionDatePicker(),
+                    ],
+                  )
+                : const SizedBox.shrink()),
           ],
-        )
-            : const SizedBox.shrink()),
+        ),
       ],
     );
   }
@@ -211,9 +324,9 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
         onchange: _handleScientificTitleChange,
         DropdownMenuItems: controller.scientificTitles!
             .map((e) => DropdownMenuItem(
-          value: e.scientificTitleId,
-          child: Center(child: Text(e.name!)),
-        ))
+                  value: e.scientificTitleId,
+                  child: Center(child: Text(e.name!)),
+                ))
             .toList(),
       ),
     );
@@ -223,7 +336,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
     return TitleAndTextStyle(
       controller: _promotionOrderNumberController,
       title: "رقم امر الترقية :",
-      onchange: _handlePromotionNumberChange,
+      // Don't use onchange here, let the controller handle the text
     );
   }
 
@@ -235,13 +348,16 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
   }
 
   Widget _buildSubmitButton() {
-    return ButtonStyleS(
-      colorBorder: Colors.greenAccent,
-      containborder: true,
-      isleft: true,
-      icon: Icons.arrow_forward_ios,
-      title: "حفظ وانتقال للصفحة التالية",
-      onTap: _handleFormSubmission,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: ButtonStyleS(
+        colorBorder: Colors.greenAccent,
+        containborder: true,
+        isleft: true,
+        icon: Icons.arrow_forward_ios,
+        title: "حفظ وانتقال للصفحة التالية",
+        onTap: _handleFormSubmission,
+      ),
     );
   }
 
@@ -250,16 +366,20 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
     _careerController.careerInformation.employmentStatusId = val;
     _functionalStatus.value = _getFunctionalStatusLabel(val);
     _homeController.haveStudyApproval.value = val != null;
+    _dropdownController.update(['employment-status']);
+    // con
   }
 
   void _handleStudyApprovalChange(dynamic val) {
     _careerController.careerInformation.typeConsentId = val;
     _homeController.typeConsentId.value = val;
+    _dropdownController.update(['study-approval']);
   }
 
   void _handleMinistryChange(dynamic val) {
     _careerController.careerInformation.ministryId = val;
     _updateUniversityServiceStatus(val);
+    _dropdownController.update(['ministry']);
   }
 
   void _handleUniversityServiceChange(bool value) {
@@ -270,24 +390,27 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
   void _handleScientificTitleChange(dynamic val) {
     _careerController.careerInformation.scientificTitleId = val;
     _isBachelor.value = _checkIfBachelor(val);
+    _dropdownController.update(['scientific-title']);
   }
 // Add these methods inside the _FunctionalInformationState class
 
-  void _handlePromotionNumberChange(dynamic? value) {
-    _promotionOrderNumberController.text = value ?? '';
-    _promotionOrderDoc.documentsNumber = value;
-  }
+  // These methods are no longer needed since we're using controller listeners
+  // void _handlePromotionNumberChange(dynamic value) {
+  //   _promotionOrderNumberController.text = value ?? '';
+  //   _promotionOrderDoc.documentsNumber = value;
+  // }
+  //
+  // void _handleOrganizationNameChange(dynamic value) {
+  //   _organizationNameController.text = value ?? '';
+  //   _careerController.careerInformation.organizationName = value;
+  // }
 
-  void _handleOrganizationNameChange(dynamic? value) {
-    _organizationNameController.text = value ?? '';
-    _careerController.careerInformation.organizationName = value;
-  }
-
-  void _handleCommencementDateChange(dynamic? value) {
+  void _handleCommencementDateChange(dynamic value) {
     _commencementDateController.text = value ?? '';
     _careerController.careerInformation.dateCommencement = value;
     _homeController.dateCommencement = value;
   }
+
   // Helper methods
   String _getFunctionalStatusLabel(dynamic val) {
     switch (val) {
@@ -308,7 +431,8 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
   }
 
   bool _checkIfBachelor(dynamic val) {
-    return ScientificTitles.values.any((t) => t.id == val && t == ScientificTitles.bachelor);
+    return ScientificTitles.values
+        .any((t) => t.id == val && t == ScientificTitles.bachelor);
   }
 
   Future<void> _handleFormSubmission() async {
@@ -317,6 +441,8 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
     try {
       LoadingDialog.showLoadingDialog(message: loadingText);
       await _prepareAndSubmitData();
+      // debugPrint('${_careerController.careerInformation.toJson()}');
+      Get.back();
       Get.back();
       _handleSubmissionSuccess();
     } catch (e) {
@@ -326,7 +452,21 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
   }
 
   Future<void> _prepareAndSubmitData() async {
-    _careerController.careerInformation.documents?.clear();
+    // Always initialize documents as an empty array
+    _careerController.careerInformation.documents = [];
+
+    // Ensure the commencement date is set from the controller
+    if (_commencementDateController.text.isNotEmpty) {
+      _careerController.careerInformation.dateCommencement =
+          _commencementDateController.text;
+      _homeController.dateCommencement = _commencementDateController.text;
+    }
+
+    // Ensure organization name is set from the controller
+    if (_organizationNameController.text.isNotEmpty) {
+      _careerController.careerInformation.organizationName =
+          _organizationNameController.text;
+    }
 
     if (_universityService.value) {
       _promotionOrderDoc
@@ -334,8 +474,13 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
         ..documentsNumber = _promotionOrderNumberController.text
         ..documentsTypeId = DocumentsType.promotionOrder.id;
 
-      _careerController.careerInformation.documents?.add(_promotionOrderDoc);
+      // Now we can safely add to the list since we know it's not null
+      _careerController.careerInformation.documents!.add(_promotionOrderDoc);
     }
+
+    // Debug print to verify data before upload
+    debugPrint(
+        'Career Info before upload: ${_careerController.careerInformation.toJson()}');
 
     final success = await _careerController.uploadData();
     _homeController.functionalInformation.isFull.value = success;
@@ -360,15 +505,22 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
   }
 
   BoxDecoration _buildContainerDecoration() => BoxDecoration(
-    color: KprimeryColor,
-    borderRadius: const BorderRadius.all(Radius.circular(19)),
-  );
+        color: KprimeryColor,
+        borderRadius: const BorderRadius.all(Radius.circular(19)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      );
 
-  EdgeInsets _buildContainerMargin() => const EdgeInsets.only(
-    top: 12,
-    right: 12,
-    left: 12,
-  );
+  EdgeInsets _buildContainerMargin() => const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 12,
+      );
 }
 //***************************************************
 // class FunctionalInformation extends StatefulWidget {

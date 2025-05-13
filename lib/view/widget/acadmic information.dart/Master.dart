@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduate_gtudiesV2/Services/DilogCostom.dart' show DilogCostom;
 import '../../../Enums/CertificateType.dart';
 import '../../../Enums/DocumentsTypes.dart';
 import '../../../Models/academic_information.dart';
@@ -91,7 +92,7 @@ class Master extends StatelessWidget {
     return GetBuilder<DropdownListController>(
         init: DropdownListController(),
         builder: (cont) {
-          return  cont.isLoading
+          return cont.isLoading.value
               ? const Center(
                   child: GifImageCostom(
                     Gif: "assets/icons/pencil.gif",
@@ -115,7 +116,7 @@ class Master extends StatelessWidget {
                             id: "loading",
                             init: DropdownListController(),
                             builder: (cont) {
-                              return cont.isLoading
+                              return cont.isLoading.value
                                   ? const Center(
                                       child: GifImageCostom(
                                         Gif: "assets/icons/pencil.gif",
@@ -453,47 +454,57 @@ class Master extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            IconButtonostom(
-                                                controller: _controller,
-                                                index: index,
-                                                dgree: "ماجستير"),
-                                            ButtonStyleS(
-                                              colorBorder: Colors.greenAccent,
-                                              containborder: true,
-                                              isleft: true,
-                                              icon: Icons.save_outlined,
-                                              title: 'حفظ الشهادة',
-                                              onTap: () {
-                                                academicInformation.documents =
-                                                    [];
-                                                // Assign relevant certificate type and document details
-                                                academicInformation
-                                                        .certificateTypeId =
-                                                    CertificateType.masters.id;
-                                                universityMatterDocument
-                                                        .documentsNumber =
-                                                    masterNumberController.text;
-                                                universityMatterDocument
-                                                        .documentsDate =
-                                                    universityMatterController
-                                                        .text;
-                                                universityMatterDocument
-                                                        .documentsTypeId =
-                                                    DocumentsType
-                                                        .masterDegreeOrder.id;
-                                                academicInformation.nOBatch = 0;
-                                                // Clear existing documents and add the updated document
-                                                academicInformation.documents
-                                                    ?.clear();
-                                                academicInformation.documents
-                                                    ?.add(
-                                                        universityMatterDocument);
-
-                                                // Add or update academic information
-                                                academicInformationController
-                                                    .addOrUpdateAcademicInformation(
-                                                        academicInformation);
-                                              },
+                                            Flexible(
+                                              child: IconButtonostom(
+                                                  controller: _controller,
+                                                  index: index,
+                                                  dgree: "ماجستير"),
+                                            ),
+                                            Flexible(
+                                              child: ButtonStyleS(
+                                                colorBorder: Colors.greenAccent,
+                                                containborder: true,
+                                                isleft: true,
+                                                icon: Icons.save_outlined,
+                                                title: 'حفظ الشهادة',
+                                                onTap: () async {
+                                                  academicInformation.documents =
+                                                      [];
+                                                  // Assign relevant certificate type and document details
+                                                  academicInformation
+                                                          .certificateTypeId =
+                                                      CertificateType.masters.id;
+                                                  universityMatterDocument
+                                                          .documentsNumber =
+                                                      masterNumberController.text;
+                                                  universityMatterDocument
+                                                          .documentsDate =
+                                                      universityMatterController
+                                                          .text;
+                                                  universityMatterDocument
+                                                          .documentsTypeId =
+                                                      DocumentsType
+                                                          .masterDegreeOrder.id;
+                                                  academicInformation.nOBatch = 0;
+                                                  // Clear existing documents and add the updated document
+                                                  academicInformation.documents
+                                                      ?.clear();
+                                                  academicInformation.documents
+                                                      ?.add(
+                                                          universityMatterDocument);
+                                              
+                                                  // Add or update academic information
+                                                  academicInformationController
+                                                      .addOrUpdateAcademicInformation(
+                                                          academicInformation);
+                                                  await DilogCostom.dilogSecss(
+                                                    isErorr: false,
+                                                    title: "تم حفظ الشهادة بنجاح",
+                                                    icons: Icons.close,
+                                                    color: Colors.greenAccent,
+                                                  );
+                                                },
+                                              ),
                                             ),
                                           ],
                                         )

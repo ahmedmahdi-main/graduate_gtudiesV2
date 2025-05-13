@@ -122,7 +122,7 @@ class SubmissionChannel extends StatelessWidget {
         return Form(
           key: formKey,
           child: SingleChildScrollView(
-              child: Controller.isLoading
+              child: Controller.isLoading.value
                   ? const Center(
                       child: GifImageCostom(
                         Gif: "assets/icons/pencil.gif",

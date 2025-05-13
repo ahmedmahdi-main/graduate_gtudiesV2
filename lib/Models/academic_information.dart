@@ -40,6 +40,7 @@ class AcademicInformation {
   int? isMasterWithinPeriod;
   int? certificateTypeId;
   String? universityId;
+  String? universityName;
   String? collegesId;
   String? departmentId;
 
@@ -62,6 +63,7 @@ class AcademicInformation {
       this.certificateTypeId,
       this.nOBatch,
       this.universityId,
+      this.universityName,
       this.collegesId,
       this.departmentId,
       // this.studentUUID,
@@ -83,6 +85,7 @@ class AcademicInformation {
       isMasterWithinPeriod: fullData.isMasterWithinPeriod,
       certificateTypeId: fullData.certificateTypeId,
       universityId: fullData.universityId.toString(),
+      universityName: fullData.universityName,
       collegesId: fullData.collegesId.toString(),
       departmentId: fullData.departmentId.toString(),
       nOBatch: fullData.nOBatch,
@@ -107,6 +110,7 @@ class AcademicInformation {
     isMasterWithinPeriod = json['IsMasterWithinPeriod'];
     certificateTypeId = json['CertificateTypeId'];
     universityId = json['UniversityId'];
+    universityName = json['UniversityName'];
     collegesId = json['CollegesId'];
     departmentId = json['DepartmentId'];
     nOBatch = json['NO_Batch'];
@@ -135,6 +139,7 @@ class AcademicInformation {
     data['IsMasterWithinPeriod'] = isMasterWithinPeriod;
     data['CertificateTypeId'] = certificateTypeId;
     data['UniversityId'] = universityId;
+    data['UniversityName'] = universityName;
     data['CollegesId'] = collegesId;
     data['DepartmentId'] = departmentId;
     data['NO_Batch'] = nOBatch;

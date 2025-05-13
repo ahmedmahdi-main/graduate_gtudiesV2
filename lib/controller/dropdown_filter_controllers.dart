@@ -13,7 +13,7 @@ import '../Services/Session.dart';
 class DropdownListController extends GetxController {
   SuperData? superData;
   Map<String, String>? session;
-
+  final isLoading = false.obs;
   TypeofStudy? studyTypes;
   DataInformation? dataInformation;
   int? channelsDataValue;
@@ -21,7 +21,7 @@ class DropdownListController extends GetxController {
   int? scientificBackgroundsValue1;
   int? universityId = 1;
   Rx<int?> universityValue = 0.obs;
-  bool isLoading = true;
+  //bool isLoading = true;
   bool hasDocuments = false;
 
   List<Colleges>? colleges;
@@ -50,12 +50,12 @@ class DropdownListController extends GetxController {
   @override
   void onInit() async {
     openStudy = [];
-    isLoading = true;
+    isLoading.value = true;
     update();
     session = await getSession();
     await setSuperData();
     await setDataInformation();
-    isLoading = false;
+    isLoading.value = false;
     update();
     setOpenStudiesValue();
     super.onInit();
@@ -147,7 +147,7 @@ class DropdownListController extends GetxController {
           .toList() : [];
 
     }
-    //TODO check null data value
+    
     // universityId = superData!.universities!
     //     .where((element) => element.status == 1)
     //     .first
