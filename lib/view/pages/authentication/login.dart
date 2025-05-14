@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Models/user_info.dart';
-import 'package:graduate_gtudiesV2/module/user_profile.dart';
+
 
 import 'package:graduate_gtudiesV2/view/pages/authentication/ResetPassword/reset_Password_email.dart';
+import '../../../Models/user_profile.dart';
 import '../../../Services/DilogCostom.dart';
 import '../../../Services/Session.dart';
 import '../../../Services/base_route.dart';

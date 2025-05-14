@@ -20,7 +20,8 @@ class PersonalInformationController {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${session['token']!}',
     };
-    var data = json.encode([studentPersonalInformation.toJson()]);
+    var data = json.encode(studentPersonalInformation.toJson());
+    // debugPrint('data ===== ${data}');
     try {
       var dio = Dio();
       var response = await dio.request(
@@ -41,9 +42,9 @@ class PersonalInformationController {
 
         return true;
       } else {
-        print("-------------------------");
-        print(response?.data.toString());
-        print("-------------------------");
+        debugPrint("-------------------------");
+        debugPrint(response?.data.toString());
+        debugPrint("-------------------------");
         DilogCostom.dilogSecss(
             isErorr: false,
             title: response.data["message"],
@@ -51,18 +52,18 @@ class PersonalInformationController {
             color: Colors.redAccent);
       }
     } on DioException catch (e) {
-      print("-------------------------");
-      print(e.response?.data.toString());
-      print("-------------------------");
+      debugPrint("-------------------------");
+      debugPrint(e.response?.data.toString());
+      debugPrint("-------------------------");
       DilogCostom.dilogSecss(
           isErorr: false,
           title: Failure.dioexeptiontype(e)!,
           icons: Icons.close,
           color: Colors.redAccent);
     } catch (e) {
-      print("-------------------------");
-      print(e.toString());
-      print("-------------------------");
+      debugPrint("-------------------------");
+      debugPrint(e.toString());
+      debugPrint("-------------------------");
       DilogCostom.dilogSecss(
           isErorr: false,
           title: "هناك خطأ",

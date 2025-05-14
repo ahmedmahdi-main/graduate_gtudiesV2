@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduate_gtudiesV2/Enums/DocumentsTypes.dart';
+import 'package:graduate_gtudiesV2/Enums/documents_types.dart';
 import 'package:graduate_gtudiesV2/Enums/scientific_titles.dart';
 import 'package:graduate_gtudiesV2/Models/academic_information.dart';
 import '../../Services/DilogCostom.dart';

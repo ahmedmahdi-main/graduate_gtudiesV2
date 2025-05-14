@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduate_gtudiesV2/Enums/CertificateType.dart';
+import 'package:graduate_gtudiesV2/Enums/certificate_type.dart';
 import 'package:graduate_gtudiesV2/Models/academic_information.dart';
 import 'package:graduate_gtudiesV2/Models/full_student_data.dart';
 import 'package:graduate_gtudiesV2/Services/DilogCostom.dart';
-import '../../../Enums/DocumentsTypes.dart';
+import '../../../Enums/documents_types.dart';
 import '../../../ValidatorFunction/text_validator.dart';
 import '../../../controller/AcademicInformationController.dart';
 import '../../../controller/dropdown_filter_controllers.dart';
@@ -81,8 +81,6 @@ class _BachelorsState extends State<Bachelors> {
   @override
   Widget build(BuildContext context) {
     Rx<bool> masterCountry = false.obs;
-    Rx<bool> fullDataFirstStudentAverageObs =
-        (fullDataFirstStudentAverage != null).obs;
     Rx<bool> checkFirstStudentAverage = false.obs;
     academicInformation.documents = [];
     FullDataAcademicInformation? fullDataAcademicInformation;
@@ -198,7 +196,7 @@ class _BachelorsState extends State<Bachelors> {
                       children: [
                         TitleAndTextStyle(
                           title: "نوع الشهادة ",
-                          initialValue: "بكلوريوس",
+                          initialValue: "البكالوريوس",
                           readOnly: true,
                           width: formFieldWidth,
                         ),
@@ -409,14 +407,14 @@ class _BachelorsState extends State<Bachelors> {
                           controller: bachelorDocumentNumberController,
                           width: formFieldWidth,
                           validator: (value) => validateDocumentNumber(value),
-                          title: " رقم وثيقة او تأييد البكلوريوس",
+                          title: " رقم وثيقة او تأييد البكالوريوس ",
                           onchange: (value) {
                             bachelorDegreeDocument.documentsNumber = value;
                           },
                         ),
                         CustomCalendar(
                           controller: bachelorCalenderController,
-                          title: "تاريخ وثيقة او تأييد البكلوريوس :",
+                          title: "تاريخ وثيقة او تأييد البكالوريوس  :",
                           constrainWidth: formFieldWidth,
                           firstDate: DateTime(DateTime.now().year - 100),
                           initialDate: DateTime.now(),
@@ -454,7 +452,7 @@ class _BachelorsState extends State<Bachelors> {
                         ),
                         TitleAndTextStyle(
                           width: formFieldWidth,
-                          title: "معدل البكلوريوس",
+                          title: "معدل البكالوريوس ",
                           controller: averageController,
                           validator: (value) =>
                               validateTextAsNumberLessThan100(value),

@@ -111,10 +111,16 @@ class DropdownListController extends GetxController {
     update();
   }
 
-  void fillterColleges(int value,String id) {
+  void fillterColleges(int value, String id) {
     colleges = superData!.colleges!.toList();
-    colleges =
-        colleges!.where((element) => element.universityId == value).toList();
+    colleges = colleges!.where((element) => element.universityId == value).toList();
+
+    var departmentId = superData!.openStudies!.map((e) => e.departmentId).toList();
+    var collegesId = superData!.department!.where((e)=> departmentId.contains(e.departmentId)).map((e) => e.collegesId).toList();
+
+    // Corrected line: filter colleges where their ID is in collegesId
+    colleges = colleges?.where((e) => collegesId.contains(e.collegesId)).toList();
+
     update([id]);
   }
 
@@ -134,11 +140,21 @@ class DropdownListController extends GetxController {
           .first
           .universityId!;
       universities = superData?.universities;
+      /*
+      *
+      * */
+
       colleges = superData?.colleges
           ?.where((element) => element.universityId == universityId)
           .toList();
-      departments = superData?.department;
-      specializations = superData?.specializations;
+      var departmentId = superData!.openStudies!.map((e) => e.departmentId).toList();
+      var collegesId = superData!.department!.where((e)=> departmentId.contains(e.departmentId)).map((e) => e.collegesId).toList();
+
+      // Corrected line: filter colleges where their ID is in collegesId
+      colleges = colleges?.where((e) => collegesId.contains(e.collegesId)).toList();
+
+      departments = superData?.department?.where((e)=> departmentId.contains(e.departmentId)).toList();
+      specializations = superData?.specializations?.where((e)=> departmentId.contains(e.departmentId)).toList();
       subSpecializations = superData?.subSpecializations;
       admissionChannel = superData?.admissionchannel;
       channelsData = superData?.channelsData;

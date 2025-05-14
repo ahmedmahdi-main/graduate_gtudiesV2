@@ -1,10 +1,9 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduate_gtudiesV2/Enums/DocumentsTypes.dart';
+import 'package:graduate_gtudiesV2/Enums/documents_types.dart';
 import 'package:graduate_gtudiesV2/Models/academic_information.dart';
 import 'package:graduate_gtudiesV2/controller/dropdown_filter_controllers.dart';
-import '../../Enums/CertificateCompetency.dart';
+import '../../Enums/certificate_competency.dart';
 import '../../Models/certificate_data.dart';
 import '../../Models/full_student_data.dart';
 import '../../Services/DilogCostom.dart';
@@ -179,8 +178,7 @@ class OtherInformation extends StatelessWidget {
           certificateCompetencyEnglishController.text =
               fullDataCertificateCompetencyEnglish.appreciation.toString() ??
                   '';
-          englishExamCenterId =
-              fullDataCertificateCompetencyEnglish.examCenter;
+          englishExamCenterId = fullDataCertificateCompetencyEnglish.examCenter;
           certificateCompetencyEnglish =
               fullDataCertificateCompetencyEnglish.toCertificateCompetency();
         } else {
@@ -263,7 +261,7 @@ class OtherInformation extends StatelessWidget {
                                           .certificateCompetencyComputer.id;
                                 },
                                 width: 300,
-                                title: "درجة امتحان الكفاءة الحاسوب :"),
+                                title: "درجة امتحان الوطني الحاسوب :"),
                             TitleAndTextStyle(
                               width: 500,
                               initialValue: computerExamCenterId,
@@ -271,8 +269,7 @@ class OtherInformation extends StatelessWidget {
                               validator: (value) =>
                                   validateTextWithoutAnyCharacterNumber(value),
                               onchange: (val) {
-                                certificateCompetencyComputer
-                                    .examCenter = val;
+                                certificateCompetencyComputer.examCenter = val;
                                 computerExamCenterId = val;
                                 homePageController
                                     .haveComputerProficiencyCertificate
@@ -324,7 +321,7 @@ class OtherInformation extends StatelessWidget {
                                           .certificateCompetencyArabic.id;
                                 },
                                 width: 300,
-                                title: "درجة امتحان الكفاءة العربي :"),
+                                title: "درجة امتحان الوطني اللغة العربية  :"),
                             TitleAndTextStyle(
                               width: 500,
                               initialValue: arabicExamCenterId,
@@ -332,8 +329,7 @@ class OtherInformation extends StatelessWidget {
                               validator: (value) =>
                                   validateTextWithoutAnyCharacterNumber(value),
                               onchange: (val) {
-                                certificateCompetencyArabic
-                                    .examCenter = val;
+                                certificateCompetencyArabic.examCenter = val;
                                 arabicExamCenterId = val;
                                 homePageController
                                     .haveArabicLanguageProficiencyCertificate
@@ -409,14 +405,16 @@ class OtherInformation extends StatelessWidget {
                                           initialValue: ilitsExamCenterId,
                                           title: "اسم مركز الامتحاني",
                                           validator: (value) =>
-                                              validateTextWithoutAnyCharacterNumber(value),
+                                              validateTextWithoutAnyCharacterNumber(
+                                                  value),
                                           onchange: (val) {
                                             certificateCompetencyIlits
                                                 .examCenter = val;
                                             ilitsExamCenterId = val;
                                             homePageController
-                                                .haveIletsCertificate
-                                                .value = val != null || val.trim() != "";
+                                                    .haveIletsCertificate
+                                                    .value =
+                                                val != null || val.trim() != "";
                                           },
                                         ),
                                         // GetBuilder<ExamCentersController>(
@@ -474,23 +472,26 @@ class OtherInformation extends StatelessWidget {
                                             },
                                             width: 350,
                                             title:
-                                                "درجة امتحان الكفاءة الامتحان الوطني :"),
+                                                "درجة امتحان الوطني اللغة الانكليزية :"),
                                         const SizedBox(
                                           width: 35,
                                         ),
                                         TitleAndTextStyle(
-                                        width: 500,
-                                        initialValue: englishExamCenterId,
-                                        title: "اسم مركز الامتحاني",
-                                        validator: (value) =>
-                                        validateTextWithoutAnyCharacterNumber(value),
+                                          width: 500,
+                                          initialValue: englishExamCenterId,
+                                          title: "اسم مركز الامتحاني",
+                                          validator: (value) =>
+                                              validateTextWithoutAnyCharacterNumber(
+                                                  value),
                                           onchange: (val) {
                                             certificateCompetencyEnglish
                                                 .examCenter = val;
                                             englishExamCenterId = val;
                                             homePageController
                                                 .haveEnglishLanguageProficiencyCertificate
-                                                .value = val != null || val.trim() != "";
+                                                .value = val !=
+                                                    null ||
+                                                val.trim() != "";
                                           },
                                         ),
                                         // GetBuilder<ExamCentersController>(

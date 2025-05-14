@@ -107,7 +107,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
       widget.onChange?.call(picked);
     } else {
-      _effectiveController.text = 'حدد التاريخ';
+      _effectiveController.text = '';
     }
   }
 

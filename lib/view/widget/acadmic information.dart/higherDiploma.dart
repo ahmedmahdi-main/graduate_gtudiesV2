@@ -1,6 +1,6 @@
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-// import '../../../Enums/CertificateType.dart';
+// import '../../../Enums/certificate_type.dart';
 // import '../../../Models/academic_information.dart';
 // import '../../../Models/super_data.dart';
 // import '../../../controllers/AcademicInformationController.dart';

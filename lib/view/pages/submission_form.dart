@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../Models/pages.dart';
 import '../../controller/home_page_controller.dart';
-import '../../module/pages.dart';
+
 import '../../theme.dart';
 import '../widget/head.dart';
 import '../widget/tabpar.dart';

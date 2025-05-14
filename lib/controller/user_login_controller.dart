@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduate_gtudiesV2/module/user_profile.dart';
 import '../Models/user_info.dart';
+import '../Models/user_profile.dart';
 import '../Services/base_route.dart';
 import '../Services/DilogCostom.dart';
 

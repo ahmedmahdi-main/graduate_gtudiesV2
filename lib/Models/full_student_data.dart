@@ -1,4 +1,4 @@
-import '../module/Addresses.dart';
+import 'addresses.dart';
 import '../view/pages/PersonalInformation/student_personal_information.dart';
 import 'academic_information.dart';
 import 'career_Information.dart';

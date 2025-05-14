@@ -1,15 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Models/full_student_data.dart';
 import 'package:graduate_gtudiesV2/view/pages/DialogsWindows/loading_dialog.dart';
+import '../../../Models/cetiyclass.dart';
 import '../../../Services/DilogCostom.dart';
 import '../../../Services/base_route.dart';
 import '../../../controller/home_page_controller.dart';
-import '../../../module/Addresses.dart';
+import '../../../Models/addresses.dart';
 import '../../widget/GifImageCostom.dart';
 import 'Controller/personal_information_controller.dart';
 import 'student_personal_information.dart';
-import '../../../module/cetiyclass.dart';
+
 import '../../../theme.dart';
 import '../../widget/coustom_calender.dart';
 import '../../widget/buttonsyle.dart';
@@ -59,9 +62,9 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
 
   // Dependencies
   final _homeController = Get.find<HomePageController>();
-  final _personalInfoController = PersonalInformationController();
+  // final _personalInfoController = PersonalInformationController();
   late final StudentPersonalInformation _personalInformation;
-  late final Addresses _address;
+  Addresses _address = Addresses();  // Remove 'late final' and initialize directly
 
   @override
   void initState() {
@@ -276,7 +279,7 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
 
   Future<void> _savePersonalInformation() async {
     _prepareDataModels();
-    debugPrint('${_personalInformation.toJson()}');
+    // debugPrint('${_personalInformation.toJson()}');
     final success =
         await PersonalInformationController.insertPersonalInformation(
             _personalInformation);
@@ -287,31 +290,33 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
   }
 
   void _prepareDataModels() {
-    _address = Addresses(
-      state: _stateController.text,
-      district: _fieldControllers['district']!.text,
-      neighborhood: _fieldControllers['neighborhood']!.text,
-      mahalla: _fieldControllers['mahalla']!.text,
-      alley: _fieldControllers['alley']!.text,
-      houseNumber: int.tryParse(_fieldControllers['houseNumber']!.text) ?? 0,
-    );
-    _personalInformation = StudentPersonalInformation(
-      studentUUID: _homeController.session?['UUID'],
-      firstName: _fieldControllers['firstName']?.text,
-      secondName: _fieldControllers['secondName']?.text,
-      thirdName: _fieldControllers['thirdName']?.text,
-      fourthName: _fieldControllers['fourthName']?.text,
-      firstMothersName: _fieldControllers['firstMothersName']?.text,
-      secondMothersName: _fieldControllers['secondMothersName']?.text,
-      thirdMothersName: _fieldControllers['thirdMothersName']!.text,
-      nationality: _fieldControllers['nationality']?.text,
-      dateOfBirth: _fieldControllers['dateOfBirth']?.text,
-      gender: _selectedGender.value,
-      Phone: _fieldControllers['phone']?.text,
-      isBlind: _isBlind.value,
-      addresses: [_address],
-    );
+    final uuid = _homeController.session?['UUID'];
 
+    _address
+      ..state = _stateController.text
+      ..district = _fieldControllers['district']!.text
+      ..neighborhood = _fieldControllers['neighborhood']!.text
+      ..mahalla = _fieldControllers['mahalla']!.text
+      ..alley = _fieldControllers['alley']!.text
+      ..houseNumber = int.tryParse(_fieldControllers['houseNumber']!.text) ?? 0;
+
+    _personalInformation
+      ..studentUUID = uuid
+      ..firstName = _fieldControllers['firstName']?.text
+      ..secondName = _fieldControllers['secondName']?.text
+      ..thirdName = _fieldControllers['thirdName']?.text
+      ..fourthName = _fieldControllers['fourthName']?.text
+      ..firstMothersName = _fieldControllers['firstMothersName']?.text
+      ..secondMothersName = _fieldControllers['secondMothersName']?.text
+      ..thirdMothersName = _fieldControllers['thirdMothersName']!.text
+      ..nationality = _fieldControllers['nationality']?.text
+      ..dateOfBirth = _fieldControllers['dateOfBirth']?.text
+      ..gender = _selectedGender.value
+      ..Phone = _fieldControllers['phone']?.text
+      ..isBlind = _isBlind.value
+      ..addresses = [_address];
+    debugPrint('Sending: ${jsonEncode(_personalInformation.toJson())}');
+        // debugPrint('${_personalInformation.toJson()}');
     // _personalInformation = StudentPersonalInformation(
     //   studentUUID: _homeController.session?['UUID'],
     //   firstName: _fieldControllers['firstName']!.text,

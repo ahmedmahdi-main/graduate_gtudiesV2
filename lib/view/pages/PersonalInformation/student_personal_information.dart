@@ -1,4 +1,4 @@
-import '../../../module/Addresses.dart';
+import '../../../Models/addresses.dart';
 
 class StudentPersonalInformation {
   int? sPIId;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../Enums/CertificateType.dart';
-import '../../Enums/ChannelTypes.dart';
+import '../../Enums/certificate_type.dart';
+import '../../Enums/channel_types.dart';
 import '../../Models/academic_information.dart';
 import '../../Models/full_student_data.dart';
 import '../../Models/super_data.dart';
@@ -11,7 +11,7 @@ import '../../controller/dropdown_filter_controllers.dart';
 import '../../controller/submission_controller.dart';
 import '../../controller/home_page_controller.dart';
 import '../../theme.dart';
-import '../widget/AddDocumentsWidget.dart';
+import '../widget/add_documents_widget.dart';
 import '../widget/GifImageCostom.dart';
 import '../widget/buttonsyle.dart';
 import '../widget/dropdownlistt.dart';

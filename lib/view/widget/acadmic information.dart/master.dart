@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Services/DilogCostom.dart' show DilogCostom;
-import '../../../Enums/CertificateType.dart';
-import '../../../Enums/DocumentsTypes.dart';
+import '../../../Enums/certificate_type.dart';
+import '../../../Enums/documents_types.dart';
 import '../../../Models/academic_information.dart';
 import '../../../Models/full_student_data.dart';
 import '../../../ValidatorFunction/text_validator.dart';
@@ -172,7 +172,7 @@ class Master extends StatelessWidget {
                                                 return DropDownList(
                                                   value: int.tryParse(
                                                       universityId.toString()),
-                                                  width: 450,
+                                                  // width: 450,
                                                   title: "اسم الجامعة",
                                                   onchange: (value) {
                                                     academicInformation
@@ -206,7 +206,7 @@ class Master extends StatelessWidget {
                                                 );
                                               })
                                             : TitleAndTextStyle(
-                                                width: 300,
+                                                // width: 300,
                                                 initialValue:
                                                     universityId.toString(),
                                                 title: "اسم الجامعة",
@@ -264,7 +264,7 @@ class Master extends StatelessWidget {
                                             : TitleAndTextStyle(
                                                 initialValue:
                                                     collegesId.toString(),
-                                                width: 250,
+                                                // width: 250,
                                                 title: "الكلية",
                                                 validator: (value) =>
                                                     validateTextWithoutAnyCharacterNumber(
@@ -310,7 +310,7 @@ class Master extends StatelessWidget {
                                             : TitleAndTextStyle(
                                                 initialValue:
                                                     departmentId.toString(),
-                                                width: 250,
+                                                // width: 250,
                                                 title: "القسم",
                                                 validator: (value) =>
                                                     validateTextWithoutAnyCharacterNumber(
@@ -407,7 +407,7 @@ class Master extends StatelessWidget {
                                           validator: (value) =>
                                               validateTextAsNumberLessThan100(
                                                   value),
-                                          width: 350,
+                                          // width: 350,
                                           title: "معدل ماجستير",
                                         ),
                                         TitleAndTextStyle(
@@ -416,17 +416,17 @@ class Master extends StatelessWidget {
                                             universityMatterDocument
                                                 .documentsNumber = value;
                                           },
-                                          width: 460,
+                                          // width: 460,
                                           title:
-                                              " رقم الامر الجامعي الخاص بالماجستير او كتاب المعادلة",
+                                              " رقم الامر الجامعي الخاص\n بالماجستير او كتاب المعادلة",
                                         ),
                                         CustomCalendar(
-                                          constrainWidth: 460,
+                                          // constrainWidth: 460,
                                           controller:
                                               universityMatterController,
                                           title:
-                                              "تاريخ لامر الجامعي الخاص بالماجستير او كتاب المعادلة:",
-                                          width: 460,
+                                              "تاريخ لامر الجامعي الخاص\n بالماجستير او كتاب المعادلة:",
+                                          // width: 460,
                                         ),
                                         Obx(() {
                                           return CustomSwitcher(
@@ -452,7 +452,7 @@ class Master extends StatelessWidget {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Flexible(
                                               child: IconButtonostom(
@@ -468,15 +468,17 @@ class Master extends StatelessWidget {
                                                 icon: Icons.save_outlined,
                                                 title: 'حفظ الشهادة',
                                                 onTap: () async {
-                                                  academicInformation.documents =
-                                                      [];
+                                                  academicInformation
+                                                      .documents = [];
                                                   // Assign relevant certificate type and document details
                                                   academicInformation
                                                           .certificateTypeId =
-                                                      CertificateType.masters.id;
+                                                      CertificateType
+                                                          .masters.id;
                                                   universityMatterDocument
                                                           .documentsNumber =
-                                                      masterNumberController.text;
+                                                      masterNumberController
+                                                          .text;
                                                   universityMatterDocument
                                                           .documentsDate =
                                                       universityMatterController
@@ -485,21 +487,23 @@ class Master extends StatelessWidget {
                                                           .documentsTypeId =
                                                       DocumentsType
                                                           .masterDegreeOrder.id;
-                                                  academicInformation.nOBatch = 0;
+                                                  academicInformation.nOBatch =
+                                                      0;
                                                   // Clear existing documents and add the updated document
                                                   academicInformation.documents
                                                       ?.clear();
                                                   academicInformation.documents
                                                       ?.add(
                                                           universityMatterDocument);
-                                              
+
                                                   // Add or update academic information
                                                   academicInformationController
                                                       .addOrUpdateAcademicInformation(
                                                           academicInformation);
                                                   await DilogCostom.dilogSecss(
                                                     isErorr: false,
-                                                    title: "تم حفظ الشهادة بنجاح",
+                                                    title:
+                                                        "تم حفظ الشهادة بنجاح",
                                                     icons: Icons.close,
                                                     color: Colors.greenAccent,
                                                   );

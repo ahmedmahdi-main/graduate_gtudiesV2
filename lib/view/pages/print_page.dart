@@ -6,8 +6,8 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:printing/printing.dart';
 import 'package:intl/intl.dart' as ini;
-import '../../Enums/CertificateCompetency.dart';
-import '../../Enums/CertificateType.dart';
+import '../../Enums/certificate_competency.dart';
+import '../../Enums/certificate_type.dart';
 import '../../Models/full_student_data.dart';
 import '../../controller/PrintDataController.dart';
 
