@@ -6,7 +6,7 @@ import 'package:graduate_gtudiesV2/Models/full_student_data.dart';
 import 'package:graduate_gtudiesV2/Services/DilogCostom.dart';
 import '../../../Enums/documents_types.dart';
 import '../../../ValidatorFunction/text_validator.dart';
-import '../../../controller/AcademicInformationController.dart';
+import '../../../controller/academic_information_controller.dart';
 import '../../../controller/dropdown_filter_controllers.dart';
 import '../../../controller/home_page_controller.dart';
 import '../../../theme.dart';
@@ -15,7 +15,7 @@ import '../coustom_calender.dart';
 import '../GifImageCostom.dart';
 import '../IconButtonostom.dart';
 import '../buttonsyle.dart';
-import '../custom switcher.dart';
+import '../custom_switcher.dart';
 import '../dropdownlistt.dart';
 import '../titleandtextstyle.dart';
 

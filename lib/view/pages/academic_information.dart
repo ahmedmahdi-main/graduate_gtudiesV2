@@ -4,13 +4,13 @@ import 'package:graduate_gtudiesV2/Enums/certificate_type.dart';
 
 import '../../Models/full_student_data.dart';
 import '../../Services/DilogCostom.dart';
-import '../../controller/AcademicInformationController.dart';
+import '../../controller/academic_information_controller.dart';
 import '../../controller/home_page_controller.dart';
 import '../widget/acadmic information.dart/bachelors.dart';
 import '../widget/acadmic information.dart/master.dart';
 import '../widget/acadmic information.dart/diploma.dart';
 import '../widget/buttonsyle.dart';
-import '../widget/custom switcher.dart';
+import '../widget/custom_switcher.dart';
 
 Map<int, dynamic> dgreem = {};
 int indexx = 0;

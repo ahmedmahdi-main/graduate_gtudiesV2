@@ -92,7 +92,14 @@ class SystemConfigPageV2 extends StatelessWidget {
                             const SizedBox(height: 24),
                             _buildSystemStatusSection(),
                             const SizedBox(height: 24),
-                            _buildFormMessagesSection(),
+                            if (homePageController
+                                    .fullStudentData.value.serial !=
+                                null)
+                              _buildFormMessagesSection(),
+                            if (homePageController
+                                    .fullStudentData.value.serial ==
+                                null)
+                              _buildIncompleteFormMessage(),
                             const SizedBox(height: 16),
                           ],
                         ),
@@ -622,5 +629,67 @@ class SystemConfigPageV2 extends StatelessWidget {
         ],
       );
     });
+  }
+
+  // Method to display a message when the form is incomplete
+  Widget _buildIncompleteFormMessage() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(vertical: 16),
+      decoration: BoxDecoration(
+        color: Colors.amber[50],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.amber[200]!),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.amber[800]),
+              const SizedBox(width: 8),
+              Text(
+                'استمارة غير مكتملة',
+                style: GoogleFonts.tajawal(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.amber[800],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'عذرا فترة التقديم قد انتهت ',
+            style: GoogleFonts.tajawal(
+              fontSize: 14,
+              color: textColor,
+            ),
+          ),
+          const SizedBox(height: 16),
+          // ElevatedButton.icon(
+          //   onPressed: () {
+          //     // Navigate to form completion page or relevant section
+          //     Get.toNamed('/student-form');
+          //   },
+          //   style: ElevatedButton.styleFrom(
+          //     backgroundColor: Colors.amber[700],
+          //     foregroundColor: Colors.white,
+          //     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+          //     shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.circular(8),
+          //     ),
+          //   ),
+          //   icon: const Icon(Icons.edit_document, size: 20),
+          //   label: Text(
+          //     'إكمال الاستمارة',
+          //     style: GoogleFonts.tajawal(
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
+        ],
+      ),
+    );
   }
 }

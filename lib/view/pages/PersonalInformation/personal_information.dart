@@ -16,7 +16,7 @@ import 'student_personal_information.dart';
 import '../../../theme.dart';
 import '../../widget/coustom_calender.dart';
 import '../../widget/buttonsyle.dart';
-import '../../widget/custom switcher.dart';
+import '../../widget/custom_switcher.dart';
 import '../../widget/dropdownlistt.dart';
 import '../../widget/titleandtextstyle.dart';
 
@@ -95,7 +95,9 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
   @override
   void dispose() {
     _scrollController.dispose();
-    _fieldControllers.values.forEach((c) => c.dispose());
+    for (var c in _fieldControllers.values) {
+      c.dispose();
+    }
     super.dispose();
   }
 
@@ -429,7 +431,7 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
   void _handleError(dynamic error) {
     DilogCostom.dilogSecss(
       isErorr: true,
-      title: '${error.toString()}',
+      title: error.toString(),
       icons: Icons.error,
       color: Colors.redAccent,
     );

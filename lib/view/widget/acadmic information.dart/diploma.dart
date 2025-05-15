@@ -7,7 +7,7 @@ import '../../../Enums/certificate_type.dart';
 import '../../../Models/academic_information.dart';
 import '../../../Models/full_student_data.dart';
 import '../../../ValidatorFunction/text_validator.dart';
-import '../../../controller/AcademicInformationController.dart';
+import '../../../controller/academic_information_controller.dart';
 import '../../../controller/dropdown_filter_controllers.dart';
 import '../../../controller/home_page_controller.dart';
 import '../../../theme.dart';
@@ -15,7 +15,7 @@ import '../../pages/UploadImage/controller/UploadImageController.dart';
 import '../coustom_calender.dart';
 import '../GifImageCostom.dart';
 import '../buttonsyle.dart';
-import '../custom switcher.dart';
+import '../custom_switcher.dart';
 import '../dropdownlistt.dart';
 import '../titleandtextstyle.dart';
 

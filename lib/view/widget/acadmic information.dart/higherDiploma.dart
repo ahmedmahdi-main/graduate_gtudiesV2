@@ -3,7 +3,7 @@
 // import '../../../Enums/certificate_type.dart';
 // import '../../../Models/academic_information.dart';
 // import '../../../Models/super_data.dart';
-// import '../../../controllers/AcademicInformationController.dart';
+// import '../../../controllers/academic_information_controller.dart';
 // import '../../../controllers/dropdown_filter_controllers.dart';
 //
 // import '../../../controllers/home_page_controller.dart';
@@ -12,7 +12,7 @@
 // import '../GifImageCostom.dart';
 // import '../IconButtonostom.dart';
 // import '../buttonsyle.dart';
-// import '../custom switcher.dart';
+// import '../custom_switcher.dart';
 // import '../dropdownlistt.dart';
 // import '../titleandtextstyle.dart';
 //

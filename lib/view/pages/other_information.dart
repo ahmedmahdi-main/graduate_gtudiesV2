@@ -16,7 +16,7 @@ import '../../theme.dart';
 import '../widget/GifImageCostom.dart';
 import '../widget/buttonsyle.dart';
 import '../widget/coustom_calender.dart';
-import '../widget/custom switcher.dart';
+import '../widget/custom_switcher.dart';
 import '../widget/dropdownlistt.dart';
 import '../widget/titleandtextstyle.dart';
 import 'DialogsWindows/loading_dialog.dart';

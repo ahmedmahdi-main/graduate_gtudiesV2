@@ -8,7 +8,7 @@ import 'package:graduate_gtudiesV2/view/pages/DialogsWindows/loading_dialog.dart
 import 'package:graduate_gtudiesV2/view/pages/print_page.dart';
 import 'package:graduate_gtudiesV2/view/widget/GifImageCostom.dart';
 import 'package:graduate_gtudiesV2/view/widget/buttonsyle.dart';
-import 'package:graduate_gtudiesV2/view/widget/custom%20switcher.dart';
+import 'package:graduate_gtudiesV2/view/widget/custom_switcher.dart';
 import 'package:graduate_gtudiesV2/view/widget/titleandtextstyle.dart';
 import 'package:printing/printing.dart';
 import '../../theme.dart';
