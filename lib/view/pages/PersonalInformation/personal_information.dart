@@ -88,8 +88,8 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
     _initializeFormData();
 
     // Debug print to check if data is available
-    debugPrint(
-        'Personal Info available: ${_homeController.fullStudentData.value.personalInformation?.isNotEmpty == true}');
+    // debugPrint(
+    //     'Personal Info available: ${_homeController.fullStudentData.value.personalInformation?.isNotEmpty == true}');
   }
 
   @override
@@ -117,6 +117,7 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
   }
 
   void _updateControllersFromData(FullDataPersonalInformation data) {
+    // debugPrint('_updateControllersFromData ${data.toJson()}');
     // Update personal information fields
     _fieldControllers['firstName']!.text = data.firstName ?? '';
     _fieldControllers['secondName']!.text = data.secondName ?? '';
@@ -263,7 +264,9 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
         isleft: true,
         icon: Icons.arrow_forward_ios,
         title: "حفظ وانتقال للصفحة التالية",
-        onTap: _handleFormSubmission,
+        onTap:() async {
+          await _handleFormSubmission();
+        }
       );
 
   Future<void> _handleFormSubmission() async {
