@@ -713,7 +713,7 @@ class OtherInformation extends StatelessWidget {
                                         Get.back();
 
                                         if (status) {
-                                          // Change to the next page
+                                    
                                           homePageController.pageChange(
                                               homePageController
                                                   .uploadImagePage.index);

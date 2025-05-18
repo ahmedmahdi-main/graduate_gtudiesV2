@@ -23,25 +23,25 @@ class StudentPersonalInformation {
 
   StudentPersonalInformation(
       {this.sPIId,
-        this.studentUUID,
-        this.firstName,
-        this.secondName,
-        this.thirdName,
-        this.fourthName,
-        this.firstMothersName,
-        this.secondMothersName,
-        this.thirdMothersName,
-        this.nationality,
-        this.dateOfBirth,
-        this.gender,
-        this.isBlind,
-        this.aCId,
-        this.tSId,
-        this.oSId,
-        this.scientificBackgroundId,
-        //this.specializationId,
-        this.Phone,
-        this.addresses});
+      this.studentUUID,
+      this.firstName,
+      this.secondName,
+      this.thirdName,
+      this.fourthName,
+      this.firstMothersName,
+      this.secondMothersName,
+      this.thirdMothersName,
+      this.nationality,
+      this.dateOfBirth,
+      this.gender,
+      this.isBlind,
+      this.aCId,
+      this.tSId,
+      this.oSId,
+      this.scientificBackgroundId,
+      //this.specializationId,
+      this.Phone,
+      this.addresses});
 
   StudentPersonalInformation.fromJson(Map<String, dynamic> json) {
     sPIId = json['SPIId'];
@@ -71,7 +71,7 @@ class StudentPersonalInformation {
     }
   }
 
-  Map<String, dynamic> toJson() {
+  List<Map<String, dynamic>> toJson() {
     final Map<String, dynamic> data = {};
     data['SPIId'] = sPIId;
     data['StudentUUID'] = studentUUID;
@@ -90,12 +90,11 @@ class StudentPersonalInformation {
     data['TSId'] = tSId;
     data['Osid'] = oSId;
     data['ScientificBackgroundId'] = scientificBackgroundId;
-   // data['SpecializationId'] = specializationId;
+    // data['SpecializationId'] = specializationId;
     data['Phone'] = Phone;
     if (addresses != null) {
-    data['addresses'] = addresses!.map((v) => v.toJson()).toList();
+      data['addresses'] = addresses!.map((v) => v.toJson()).toList();
     }
-    return data;
+    return [data];
   }
 }
-

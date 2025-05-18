@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Services/base_route.dart';
 
 import '../../../../Services/DilogCostom.dart';
@@ -25,11 +24,10 @@ class PersonalInformationController {
         'Authorization': 'Bearer ${session['token']}',
       };
       var data = studentPersonalInformation.toJson();
+      // debugPrint('${data.toList()}');
       if (session['token'] == null) throw Exception('Token missing');
-
       var dio = Dio();
       dio.options.connectTimeout = Duration(seconds: 10); // Timeout added
-
       var response = await dio.request(
         '$baseRoute/personalinforminsert',
         options: Options(method: 'POST', headers: headers),
@@ -39,9 +37,9 @@ class PersonalInformationController {
       debugPrint('Response Status: ${response.statusCode}'); // Log status code
       debugPrint('Response Data: ${response.data}'); // Log full response
 
-      if (response.statusCode! == 200 ) {
+      if (response.statusCode! == 200) {
         // Success case
-       await DilogCostom.dilogSecss(
+        await DilogCostom.dilogSecss(
             isErorr: false,
             title: '${response.data['message']}',
             icons: Icons.check,
@@ -49,8 +47,9 @@ class PersonalInformationController {
         return true;
       } else {
         // Explicit handling of HTTP errors
-        final errorMsg = response.data?['message'] ?? 'Unknown server error (Status: ${response.statusCode})';
-      await  DilogCostom.dilogSecss(
+        final errorMsg = response.data?['message'] ??
+            'Unknown server error (Status: ${response.statusCode})';
+        await DilogCostom.dilogSecss(
           isErorr: true,
           title: errorMsg, // Show server's error message
           icons: Icons.close,
@@ -65,7 +64,7 @@ class PersonalInformationController {
       } else if (e.response != null) {
         errorMessage = 'Server error: ${e.response?.statusCode}';
       }
-    await  DilogCostom.dilogSecss(
+      await DilogCostom.dilogSecss(
         isErorr: true,
         title: errorMessage, // Show server's error message
         icons: Icons.close,
@@ -73,5 +72,7 @@ class PersonalInformationController {
       );
     } catch (e) {
       debugPrint('Unexpected error: $e');
-    }    return false;
-  }}
+    }
+    return false;
+  }
+}

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduate_gtudiesV2/Models/user_info.dart';
+import 'package:graduate_gtudiesV2/Models/user_profile.dart';
+import 'package:graduate_gtudiesV2/controller/user_login_controller.dart';
+import 'package:graduate_gtudiesV2/controller/user_register_controller.dart';
 
 import '../Services/Session.dart';
 
@@ -18,7 +22,7 @@ class AuthMiddleware extends GetMiddleware {
   RouteSettings? _checkSession() {
     // Start the async check but return immediately
     _performAsyncSessionCheck();
-    
+
     // Always return null initially to allow navigation to continue
     // The actual redirection will happen in the async check if needed
     return null;
@@ -28,13 +32,19 @@ class AuthMiddleware extends GetMiddleware {
   Future<void> _performAsyncSessionCheck() async {
     try {
       final session = await getSession();
-      
+
       debugPrint('AuthMiddleware: Checking session token: ${session['token']}');
-      
+
       // Check if token exists and is not empty
       if (session['token'] != null && session['token']!.isNotEmpty) {
         debugPrint('AuthMiddleware: Valid token found, user is authenticated');
         // If we're already on the home page, don't redirect
+        UserLogin userLogin = UserLogin();
+        UserProfile userProfile = await userLogin
+            .getUserProfile(UserInfo(accessToken: session['token']));
+        if (userProfile.code != 200 && Get.currentRoute != '/login') {
+        Get.offAllNamed('/login');
+        }
         if (Get.currentRoute != '/DesktopHomePage') {
           Get.offAllNamed('/DesktopHomePage');
         }

@@ -64,7 +64,8 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
   final _homeController = Get.find<HomePageController>();
   // final _personalInfoController = PersonalInformationController();
   late final StudentPersonalInformation _personalInformation;
-  Addresses _address = Addresses();  // Remove 'late final' and initialize directly
+  Addresses _address =
+      Addresses(); // Remove 'late final' and initialize directly
 
   @override
   void initState() {
@@ -259,15 +260,14 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
   // Similar methods for other dropdowns and fields
 
   Widget _buildSubmitButton() => ButtonStyleS(
-        colorBorder: Colors.greenAccent,
-        containborder: true,
-        isleft: true,
-        icon: Icons.arrow_forward_ios,
-        title: "حفظ وانتقال للصفحة التالية",
-        onTap:() async {
-          await _handleFormSubmission();
-        }
-      );
+      colorBorder: Colors.greenAccent,
+      containborder: true,
+      isleft: true,
+      icon: Icons.arrow_forward_ios,
+      title: "حفظ وانتقال للصفحة التالية",
+      onTap: () async {
+        await _handleFormSubmission();
+      });
 
   Future<void> _handleFormSubmission() async {
     if (!_formKey.currentState!.validate()) return;
@@ -291,6 +291,7 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
 
     if (success) {
       _homeController.updatePersonalInfo(_personalInformation);
+      _homeController.pageChange(_homeController.functionalInformation.index);
     }
   }
 
@@ -321,7 +322,7 @@ class _PersonalInformationFormState extends State<PersonalInformationForm> {
       ..isBlind = _isBlind.value
       ..addresses = [_address];
     debugPrint('Sending: ${jsonEncode(_personalInformation.toJson())}');
-        // debugPrint('${_personalInformation.toJson()}');
+    // debugPrint('${_personalInformation.toJson()}');
     // _personalInformation = StudentPersonalInformation(
     //   studentUUID: _homeController.session?['UUID'],
     //   firstName: _fieldControllers['firstName']!.text,

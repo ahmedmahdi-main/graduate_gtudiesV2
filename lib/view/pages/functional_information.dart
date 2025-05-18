@@ -479,8 +479,8 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
     }
 
     // Debug print to verify data before upload
-    debugPrint(
-        'Career Info before upload: ${_careerController.careerInformation.toJson()}');
+    // debugPrint(
+    //     'Career Info before upload: ${_careerController.careerInformation.toJson()}');
 
     final success = await _careerController.uploadData();
     _homeController.functionalInformation.isFull.value = success;

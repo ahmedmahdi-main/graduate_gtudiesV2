@@ -86,7 +86,7 @@ class UserLogin {
     }
 
     // Return an empty UserProfile or handle it in case of an error (fallback)
-    return UserProfile();
+    return UserProfile(code: 404);
   }
 
   Future<UserInfo?> login() async {

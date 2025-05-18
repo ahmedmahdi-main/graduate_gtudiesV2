@@ -18,8 +18,6 @@ class DropdownlistWithValedator extends StatefulWidget {
   // final List<dynamic> items;
   final List<DropdownMenuItem> DropdownMenuItems;
 
-
-
   dynamic? value;
 
   final Function(String?)? onsave;
@@ -253,8 +251,6 @@ class DropDownList extends StatefulWidget {
   // final List<dynamic> items;
   final List<DropdownMenuItem> DropdownMenuItems;
 
-
-
   dynamic value;
 
   final Function(String?)? onsave;
@@ -300,143 +296,144 @@ class _DropDownListState extends State<DropDownList> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: FormField(
-              validator: (value2){
-                debugPrint('initialValue =========== ${widget.value}');
-                if (widget.value != null) {
-                  return null;
-                }
-                String? StringVal =widget.validator?.call(value2.toString());
-                if (StringVal != null) {
-                  return StringVal;
-                }
+    return Directionality(
+        textDirection: TextDirection.rtl,
+        child: FormField(
+          validator: (value2) {
+            debugPrint('initialValue =========== ${widget.value}');
+            if (widget.value != null) {
+              return null;
+            }
+            String? StringVal = widget.validator?.call(value2.toString());
+            if (StringVal != null) {
+              return StringVal;
+            }
 
-                if (value2 == null) {
-
-                  return "الرجاء تحديد قيمة";
-                }
-                if (widget.value != null) {
-                  return null;
-                }
-                return null;
-              },
-            builder: (state) => Container(
-              constraints: BoxConstraints(
-                  maxWidth: widget.width ??
-                      (size.width < SizeR.MobileWidth ? double.infinity : 250)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      children: [
+            if (value2 == null) {
+              return "الرجاء تحديد قيمة";
+            }
+            if (widget.value != null) {
+              return null;
+            }
+            return null;
+          },
+          builder: (state) => Container(
+            constraints: BoxConstraints(
+                maxWidth: widget.width ??
+                    (size.width < SizeR.MobileWidth ? double.infinity : 250)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        widget.title,
+                        style: widget.textStyle ?? HeadLine1,
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      if (state.hasError)
                         Text(
-                          widget.title,
-                          style: widget.textStyle ?? HeadLine1,
+                          '${state.errorText}',
+                          style: HeadLine1.copyWith(color: Colors.red),
                         ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                      if( state.hasError )
-                             Text(
-                                '${state.errorText}',
-                                style: HeadLine1.copyWith(color: Colors.red),
-                              ),
-                      ],
-                    ),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 10,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: widget.width ??
+                        (size.width < SizeR.MobileWidth
+                            ? double.infinity
+                            : 250),
+                    maxHeight: size.width > SizeR.MobileWidth ? 54 : 62,
                   ),
-                  Container(
-                    constraints: BoxConstraints(
-                      maxWidth: widget.width ??
-                          (size.width < SizeR.MobileWidth ? double.infinity : 250),
-                      maxHeight: size.width > SizeR.MobileWidth ? 54 : 62,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(19),
-                      color: isValidate
-                          ? Colors.redAccent.withOpacity(0.5)
-                          : KSecondryColor,
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2(
-                              selectedItemBuilder: widget.selectedItemBuilder,
-                              value: widget.value,
-                              dropdownSearchData: DropDownSearchContained(),
-                              // onSaved: (newValue) {
-                              //   widget.onsave;
-                              // },
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(19),
+                    color: isValidate
+                        ? Colors.redAccent.withOpacity(0.5)
+                        : KSecondryColor,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton2(
+                            selectedItemBuilder: widget.selectedItemBuilder,
+                            value: widget.value,
+                            dropdownSearchData: DropDownSearchContained(),
+                            // onSaved: (newValue) {
+                            //   widget.onsave;
+                            // },
 
-                              items: widget.DropdownMenuItems,
-                              // widget.items
-                              //     .map((e) => DropdownMenuItem(
-                              //           value: e,
-                              //
-                              //           child: Center(
-                              //             child: Text(widget.ismap
-                              //                 ? e[widget.keyselected].toString()
-                              //                 : e.toString()),
-                              //           ),
-                              //         ))
-                              //     .toList(),
-                              // autovalidateMode: widget.autovalidateMode ??
-                              //     AutovalidateMode.disabled,
-                              onChanged: (value){
-                                widget.onchange?.call(value);
-                                debugPrint('value =========== $value');
+                            items: widget.DropdownMenuItems,
+                            // widget.items
+                            //     .map((e) => DropdownMenuItem(
+                            //           value: e,
+                            //
+                            //           child: Center(
+                            //             child: Text(widget.ismap
+                            //                 ? e[widget.keyselected].toString()
+                            //                 : e.toString()),
+                            //           ),
+                            //         ))
+                            //     .toList(),
+                            // autovalidateMode: widget.autovalidateMode ??
+                            //     AutovalidateMode.disabled,
+                            onChanged: (value) {
+                              widget.onchange?.call(value);
+                              debugPrint('value =========== $value');
 
-                                state.didChange(value); state.activate();
+                              state.didChange(value);
+                              state.activate();
+                            },
 
-                              },
+                            // validator: (value) {
+                            //   var m = widget.validator?.call(value.toString());
+                            //   if (m == null ||
+                            //       m.toString().toLowerCase() == "null" ||
+                            //       m == "") {
+                            //     setState(() {
+                            //       isValidate = false;
+                            //       return;
+                            //     });
+                            //   } else {
+                            //     setState(() {
+                            //       error = m.toString();
 
-                              // validator: (value) {
-                              //   var m = widget.validator?.call(value.toString());
-                              //   if (m == null ||
-                              //       m.toString().toLowerCase() == "null" ||
-                              //       m == "") {
-                              //     setState(() {
-                              //       isValidate = false;
-                              //       return;
-                              //     });
-                              //   } else {
-                              //     setState(() {
-                              //       error = m.toString();
+                            //       isValidate = true;
+                            //     });
+                            //   }
 
-                              //       isValidate = true;
-                              //     });
-                              //   }
-
-                              //   return m;
-                              // },
-                              // decoration: InputDecoration(
-                              //     focusedErrorBorder: outlinecostom(),
-                              //     hoverColor: Colors.transparent,
-                              //     filled: true,
-                              //     fillColor: Colors.transparent,
-                              //     border: outlinecostom(),
-                              //     errorStyle:
-                              //         const TextStyle(height: null, fontSize: 0),
-                              //     errorBorder: outlinecostom(),
-                              //     enabledBorder: outlinecostom(),
-                              //     focusedBorder: outlinecostom()),
-                            ),
+                            //   return m;
+                            // },
+                            // decoration: InputDecoration(
+                            //     focusedErrorBorder: outlinecostom(),
+                            //     hoverColor: Colors.transparent,
+                            //     filled: true,
+                            //     fillColor: Colors.transparent,
+                            //     border: outlinecostom(),
+                            //     errorStyle:
+                            //         const TextStyle(height: null, fontSize: 0),
+                            //     errorBorder: outlinecostom(),
+                            //     enabledBorder: outlinecostom(),
+                            //     focusedBorder: outlinecostom()),
                           ),
                         ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
-          ));
+          ),
+        ));
   }
 
   DropdownSearchData<dynamic> DropDownSearchContained() {
