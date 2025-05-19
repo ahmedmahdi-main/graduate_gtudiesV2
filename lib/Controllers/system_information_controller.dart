@@ -1,14 +1,14 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:graduate_gtudiesV2/Services/session_error_handler.dart';
 
-import '../Models/SystemInformation.dart';
+import '../Models/system_information.dart';
 import '../Services/base_route.dart';
-import '../Services/Session.dart';
+import '../Services/session.dart';
 
-class SystemInformationController extends GetxController {
+class SystemInformationController extends GetxController
+    with SessionErrorHandler {
   var systemInformation = SystemInformation();
   Map<String, String>? session;
   Rx<bool> isLoading = true.obs;
@@ -23,7 +23,8 @@ class SystemInformationController extends GetxController {
     update();
     super.onInit();
   }
-   Future<SystemInformation> getSystemInformation() async {
+
+  Future<SystemInformation> getSystemInformation() async {
     try {
       var headers = {'Authorization': 'Bearer ${session?['token']}'};
       var dio = Dio();
@@ -37,9 +38,8 @@ class SystemInformationController extends GetxController {
       if (response.statusCode == 200) {
         return SystemInformation.fromJson(response.data);
       }
-    } on DioException catch (dioex) {
-      debugPrint(
-          '------------getSystemInformation-------------------------- ${dioex.message}');
+    } on DioException catch (e) {
+      handleDioError(e);
     } on Exception catch (e) {
       debugPrint(
           '-----------------getSystemInformation--------------------- $e');

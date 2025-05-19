@@ -12,13 +12,8 @@ import 'package:graduate_gtudiesV2/Models/full_student_data.dart';
 import '../Models/data_information.dart';
 import '../Models/exam_centers.dart';
 import '../Models/super_data.dart';
-import '../Models/type_of_study.dart';
-import '../Services/base_route.dart';
-import '../Services/DilogCostom.dart';
 import '../Services/Failure.dart';
-import '../Services/Session.dart';
-import 'dropdown_filter_controllers.dart';
-import 'exam_centers_controller.dart';
+import '../Services/session.dart';
 import 'home_page_controller.dart';
 
 class StudentDataController extends GetxController {

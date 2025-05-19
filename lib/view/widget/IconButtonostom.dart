@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:graduate_gtudiesV2/Services/DilogCostom.dart';
+import 'package:graduate_gtudiesV2/Services/costom_dialog.dart';
 
-import '../../controller/home_page_controller.dart';
+import '../../Controllers/home_page_controller.dart';
 import 'buttonsyle.dart';
 
 class IconButtonostom extends StatelessWidget {

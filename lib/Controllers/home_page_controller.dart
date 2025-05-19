@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Enums/documents_types.dart';
+import 'package:graduate_gtudiesV2/Services/session_error_handler.dart';
 import '../Enums/certificate_type.dart';
 import '../Enums/channel_types.dart';
 import '../Enums/college_status.dart';
@@ -17,11 +18,12 @@ import '../Models/super_data.dart';
 import '../Models/type_of_study.dart';
 import '../Models/college_authorized.dart';
 import '../Services/base_route.dart';
-import '../Services/DilogCostom.dart';
+import '../Services/costom_dialog.dart';
 import '../Services/Failure.dart';
-import '../Services/PageStatus.dart';
-import '../Services/Session.dart';
-import '../view/pages/PersonalInformation/student_personal_information.dart' as page;
+import '../Services/page_status.dart';
+import '../Services/session.dart';
+import '../view/pages/PersonalInformation/student_personal_information.dart'
+    as page;
 import '../view/pages/academic_information.dart' as page;
 import '../view/pages/academic_information.dart';
 import '../view/pages/functional_information.dart' as page;
@@ -35,7 +37,7 @@ import 'package:graduate_gtudiesV2/view/pages/UploadImage/upload_image_page.dart
 
 import 'dropdown_filter_controllers.dart';
 
-class HomePageController extends GetxController {
+class HomePageController extends GetxController with SessionErrorHandler {
   int counter = 0;
   int degreeIndex = 0;
   Map<String, String>? session;
@@ -49,6 +51,7 @@ class HomePageController extends GetxController {
   RxBool haveInsertMasters = false.obs;
   RxBool haveInsertHighDiploma = false.obs;
   RxBool isEmployee = false.obs;
+
   /// *************Images*****************
 
   RxBool haveMartyrsFoundation = false.obs;
@@ -350,13 +353,14 @@ class HomePageController extends GetxController {
     dgreem.remove(index);
     update();
   }
+
   void updatePersonalInfo(page.StudentPersonalInformation info) {
     fullStudentData.value.personalInformation?.clear();
-    fullStudentData.value.personalInformation?.add(
-        FullDataPersonalInformation.fromStudentPersonalInformation(info)
-    );
+    fullStudentData.value.personalInformation
+        ?.add(FullDataPersonalInformation.fromStudentPersonalInformation(info));
     personalInformation.isFull.value = true;
   }
+
   Future<FullStudentData> fullStudent() async {
     debugPrint('fullStudent');
     if (session == null) {
@@ -390,6 +394,16 @@ class HomePageController extends GetxController {
           color: Colors.redAccent,
         );
         Get.toNamed('/OTP', arguments: {'token': session?['token']});
+      }
+      if (e.response?.statusCode == 401) {
+        DilogCostom.dilogSecss(
+          isErorr: true,
+          title: "انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى",
+          icons: Icons.lock_clock,
+          color: Colors.redAccent,
+        );
+        // Navigate to login page
+        Get.offAllNamed('/login');
       } else {
         debugPrint("------------DioException FullStudentData-------------");
         debugPrint(e.message);
@@ -455,9 +469,19 @@ class HomePageController extends GetxController {
             '-----------------getAllData--------------------- ${response.data}');
         return SuperData.fromJson(response.data);
       }
-    } on DioException catch (dioex) {
-      debugPrint('----------------getAllData---------------------- $dioex');
-      return null;
+    } on DioException catch (e) {
+      handleDioError(e);
+      // if (dioex.response?.statusCode == 401) {
+      //   DilogCostom.dilogSecss(
+      //     isErorr: true,
+      //     title: "انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى",
+      //     icons: Icons.lock_clock,
+      //     color: Colors.redAccent,
+      //   );
+      //   // Navigate to login page
+      //   Get.offAllNamed('/login');
+      //   return null;
+      // }
     } on Exception catch (e) {
       debugPrint('----------------getAllData---------------------- $e');
       return null;
@@ -482,8 +506,8 @@ class HomePageController extends GetxController {
         //debugPrint('-------------------TypeofStudy.fromJson(response.data)-----------------${TypeofStudy.fromJson(response.data)}');
         return null;
       }
-    } on DioException catch (dioex) {
-      debugPrint('------------getTypeofStudy-------------------------- $dioex');
+    } on DioException catch (e) {
+      handleDioError(e);
       return null;
     } on Exception catch (e) {
       debugPrint('-----------------getTypeofStudy--------------------- $e');
@@ -505,9 +529,8 @@ class HomePageController extends GetxController {
       if (response.statusCode == 200) {
         return DataInformation.fromJson(response.data);
       }
-    } on DioException catch (dioex) {
-      debugPrint(
-          '------------getDataInformation-------------------------- ${dioex.message}');
+    } on DioException catch (e) {
+      handleDioError(e);
       return DataInformation();
     } on Exception catch (e) {
       debugPrint('-----------------getDataInformation--------------------- $e');
@@ -536,14 +559,8 @@ class HomePageController extends GetxController {
         return ExamCenters();
       }
     } on DioException catch (e) {
-      debugPrint("-------------------------");
-      debugPrint(e.response?.data.toString());
-      debugPrint("-------------------------");
-      DilogCostom.dilogSecss(
-          isErorr: true,
-          title: Failure.dioexeptiontype(e)!,
-          icons: Icons.close,
-          color: Colors.redAccent);
+      handleDioError(e);
+      return null;
     } catch (e) {
       DilogCostom.dilogSecss(
           isErorr: true,
@@ -575,6 +592,9 @@ class HomePageController extends GetxController {
       } else {
         debugPrint(response.statusMessage);
       }
+    } on DioException catch (e) {
+      handleDioError(e);
+      return null;
     } on Exception catch (e) {
       debugPrint('$e');
     }

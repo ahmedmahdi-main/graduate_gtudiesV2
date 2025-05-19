@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../Models/user_info.dart';
 import '../Models/user_profile.dart';
 import '../Services/base_route.dart';
-import '../Services/DilogCostom.dart';
+import '../Services/costom_dialog.dart';
 
 class UserLogin {
   String? email;

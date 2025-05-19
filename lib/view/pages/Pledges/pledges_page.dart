@@ -5,14 +5,14 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduate_gtudiesV2/controller/serial_controller.dart';
+import 'package:graduate_gtudiesV2/Controllers/serial_controller.dart';
 import 'package:graduate_gtudiesV2/theme.dart';
 import 'package:printing/printing.dart';
 
-import '../../../Services/DilogCostom.dart';
+import '../../../Services/costom_dialog.dart';
 import '../../../Services/base_route.dart';
-import '../../../controller/home_page_controller.dart';
-import '../../../controller/PrintDataController.dart';
+import '../../../Controllers/home_page_controller.dart';
+import '../../../Controllers/PrintDataController.dart';
 import '../../widget/buttonsyle.dart';
 import '../DialogsWindows/loading_dialog.dart';
 import '../print_page.dart';

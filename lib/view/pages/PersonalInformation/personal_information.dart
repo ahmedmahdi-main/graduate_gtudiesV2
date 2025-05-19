@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Models/full_student_data.dart';
 import 'package:graduate_gtudiesV2/view/pages/DialogsWindows/loading_dialog.dart';
 import '../../../Models/cetiyclass.dart';
-import '../../../Services/DilogCostom.dart';
+import '../../../Services/costom_dialog.dart';
 import '../../../Services/base_route.dart';
-import '../../../controller/home_page_controller.dart';
+import '../../../Controllers/home_page_controller.dart';
 import '../../../Models/addresses.dart';
 import '../../widget/GifImageCostom.dart';
 import 'Controller/personal_information_controller.dart';
@@ -506,7 +506,7 @@ class Validators {
 //     Size size = MediaQuery.of(context).size;
 //     return GetBuilder(
 //         init: HomePageController(),
-//         builder: (controller) {
+//         builder: (Controllers) {
 //           if (homePageController.fullStudentData.value.academicInformation !=
 //                   null &&
 //               homePageController
@@ -561,7 +561,7 @@ class Validators {
 //                   ),
 //                 )
 //               : SingleChildScrollView(
-//                   controller: scrollController,
+//                   Controllers: scrollController,
 //                   child: Container(
 //                     decoration: BoxDecoration(
 //                         color: KprimeryColor,
@@ -592,36 +592,36 @@ class Validators {
 //                                             : 10)),
 //                                     child: TitleAndTextStyle(
 //                                         title: "اسم الطالب :",
-//                                         controller: firstName,
+//                                         Controllers: firstName,
 //                                         validator: (value) =>
 //                                             isTextValid(value))),
 //                                 TitleAndTextStyle(
 //                                     title: "اسم الاب :",
-//                                     controller: secondName,
+//                                     Controllers: secondName,
 //                                     validator: (value) => isTextValid(value!)),
 //                                 TitleAndTextStyle(
 //                                   title: "اسم الجد :",
-//                                   controller: thirdName,
+//                                   Controllers: thirdName,
 //                                   validator: (value) => isTextValid(value),
 //                                 ),
 //                                 TitleAndTextStyle(
 //                                   title: "الاسم الرابع :",
-//                                   controller: fourthName,
+//                                   Controllers: fourthName,
 //                                   validator: (value) => isTextValid(value),
 //                                 ),
 //                                 TitleAndTextStyle(
 //                                   title: "اسم الام :",
-//                                   controller: firstMothersName,
+//                                   Controllers: firstMothersName,
 //                                   validator: (value) => isTextValid(value),
 //                                 ),
 //                                 TitleAndTextStyle(
 //                                   title: "اسم والد الام :",
-//                                   controller: secondMothersName,
+//                                   Controllers: secondMothersName,
 //                                   validator: (value) => isTextValid(value),
 //                                 ),
 //                                 TitleAndTextStyle(
 //                                   title: "اسم جد الام :",
-//                                   controller: thirdMothersName,
+//                                   Controllers: thirdMothersName,
 //                                   validator: (value) => isTextValid(value),
 //                                 ),
 //                                 Container(
@@ -630,7 +630,7 @@ class Validators {
 //                                 TitleAndTextStyle(
 //                                     //initialValue: personalinformation?.phone ?? '',
 //                                     title: "رقم الهاتف :",
-//                                     controller: phoneController,
+//                                     Controllers: phoneController,
 //                                     validator: (value) =>
 //                                         phoneNumberValidator(value)),
 //                                 // TitleAndTextStyle(
@@ -639,7 +639,7 @@ class Validators {
 //                                 // ),
 //                                 TitleAndTextStyle(
 //                                     title: "الجنسية :",
-//                                     controller: nationality,
+//                                     Controllers: nationality,
 //                                     validator: (value) => isTextValid(value)),
 //                                 Container(
 //                                   width: double.infinity,
@@ -647,7 +647,7 @@ class Validators {
 //                                 CustomCalendar(
 //                                   constrainWidth: 300,
 //                                   title: "تاريخ الميلاد",
-//                                   controller: dateOfBirth,
+//                                   Controllers: dateOfBirth,
 //                                 ),
 //                                 Obx(() {
 //                                   return DropDownList(
@@ -694,23 +694,23 @@ class Validators {
 //
 //                                 TitleAndTextStyle(
 //                                     title: 'القضاء:',
-//                                     controller: district,
+//                                     Controllers: district,
 //                                     validator: (value) => isTextValid(value)),
 //                                 TitleAndTextStyle(
 //                                     title: " الحي:",
-//                                     controller: neighborhood,
+//                                     Controllers: neighborhood,
 //                                     validator: (value) => isTextValid(value)),
 //                                 TitleAndTextStyle(
 //                                     title: " المحلة:",
-//                                     controller: mahalla,
+//                                     Controllers: mahalla,
 //                                     validator: (value) => isTextValid(value)),
 //                                 TitleAndTextStyle(
 //                                     title: " الزقاق:",
-//                                     controller: alley,
+//                                     Controllers: alley,
 //                                     validator: (value) => isTextValid(value)),
 //                                 TitleAndTextStyle(
 //                                   title: " رقم الدار:",
-//                                   controller: houseNumber,
+//                                   Controllers: houseNumber,
 //                                   validator: (value) =>
 //                                       houseNumberValidator(value),
 //                                 ),

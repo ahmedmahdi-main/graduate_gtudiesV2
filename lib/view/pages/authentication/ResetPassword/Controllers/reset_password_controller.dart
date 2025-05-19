@@ -4,12 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Models/user_info.dart';
-import 'package:graduate_gtudiesV2/UserProfileInformaition/HashPassword.dart';
+import 'package:graduate_gtudiesV2/UserProfileInformaition/hash_password.dart';
 
-import '../../../../../Services/Session.dart';
+import '../../../../../Services/session.dart';
 import '../../../../../Services/base_route.dart';
+import '../../../../../Services/session_error_handler.dart';
 
-class ResetPasswordController extends GetxController {
+class ResetPasswordController extends GetxController with SessionErrorHandler {
   String email = '';
 
   Future<bool> passwordReset(String newPassword) async {
@@ -49,7 +50,11 @@ class ResetPasswordController extends GetxController {
       } else {
         return null;
       }
-    } on Exception catch (e) {
+    } on DioException catch (e){
+      handleDioError(e);
+      return null;
+    }
+    on Exception catch (e) {
       debugPrint(e.toString());
       return null;
     }
@@ -69,9 +74,8 @@ class ResetPasswordController extends GetxController {
         return response
             .statusCode; // Assumes response has data for DataInformation
       }
-    } on DioException catch (dioex) {
-      debugPrint(
-          '------------passwordResetCheck-------------------------- ${dioex.message}');
+    } on DioException catch (e) {
+     handleDioError(e);
       return null; // Returns default DataInformation on error
     } on Exception catch (e) {
       debugPrint('-----------------passwordResetCheck--------------------- $e');

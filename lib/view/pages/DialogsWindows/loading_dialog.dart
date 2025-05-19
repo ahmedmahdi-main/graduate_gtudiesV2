@@ -11,7 +11,7 @@ class LoadingDialog {
     // Show a modern, compact loading dialog
     Get.dialog(
       Dialog(
-        elevation: 0,
+        elevation: 1,
         backgroundColor: Colors.transparent,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -31,8 +31,8 @@ class LoadingDialog {
             children: [
               // Modern loading indicator
               SizedBox(
-                width: 24,
-                height: 24,
+                width: 22,
+                height: 22,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.5,
                   valueColor:
@@ -45,7 +45,7 @@ class LoadingDialog {
                 child: Text(
                   message,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.black87,
                   ),

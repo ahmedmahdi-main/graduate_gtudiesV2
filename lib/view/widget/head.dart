@@ -1,10 +1,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduate_gtudiesV2/Services/Session.dart';
+import 'package:graduate_gtudiesV2/Services/session.dart';
 
 
-import '../../controller/LogoutController.dart';
+import '../../Controllers/LogoutController.dart';
 import '../../theme.dart';
 
 class Head extends StatelessWidget {

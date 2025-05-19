@@ -1,4 +1,4 @@
-import '../controller/home_page_controller.dart';
+import '../Controllers/home_page_controller.dart';
 
 enum ChannelTypes {
   general,

@@ -3,15 +3,15 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../Services/DilogCostom.dart';
-import '../../../Services/Session.dart';
+import '../../../Services/costom_dialog.dart';
+import '../../../Services/session.dart';
 import '../../../Services/base_route.dart';
-import '../../../UserProfileInformaition/CreateUUID.dart';
-import '../../../UserProfileInformaition/HashPassword.dart';
+import '../../../UserProfileInformaition/create_uuid.dart';
+import '../../../UserProfileInformaition/hash_password.dart';
 import '../../../ValidatorFunction/password_validator.dart';
 import '../../../ValidatorFunction/text_validator.dart';
 
-import '../../../controller/user_register_controller.dart';
+import '../../../Controllers/user_register_controller.dart';
 import '../../../theme.dart';
 import '../../widget/buttonsyle.dart';
 import '../../widget/titleandtextstyle.dart';

@@ -4,14 +4,15 @@ import 'package:dio/dio.dart';
 import 'package:dio/dio.dart' as dioo;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduate_gtudiesV2/Services/session_error_handler.dart';
 import 'package:http/http.dart' as http;
 
 import '../Models/user_info.dart';
 import '../Services/base_route.dart';
-import '../Services/DilogCostom.dart';
+import '../Services/costom_dialog.dart';
 import '../Services/Failure.dart';
 
-class UserRegisterController extends GetxController {
+class UserRegisterController extends GetxController with SessionErrorHandler {
   String? fullName;
   String? uUID;
   String? email;
@@ -50,15 +51,10 @@ class UserRegisterController extends GetxController {
         return user.accessToken;
       }
     } on DioException catch (e) {
-      debugPrint("-------------------------");
-      debugPrint('${e.response?.data}');
-      debugPrint("-------------------------");
-      await DilogCostom.dilogSecss(
-          isErorr: true,
-          title: "${e.response?.data['message'][0]}",
-          icons: Icons.close,
-          color: Colors.redAccent);
+      handleDioError(e);
+      return null;
     } catch (e) {
+
       await DilogCostom.dilogSecss(
           isErorr: true,
           title: '${e.toString()}',
@@ -81,14 +77,19 @@ class UserRegisterController extends GetxController {
       );
       return response.statusCode;
     } on DioException catch (e) {
-      debugPrint("-------------------------");
-      debugPrint(e.response?.data.toString());
-      debugPrint("-------------------------");
-      DilogCostom.dilogSecss(
-          isErorr: true,
-          title: Failure.dioexeptiontype(e)!,
-          icons: Icons.close,
-          color: Colors.redAccent);
+      debugPrint('Error: ${e.message}');
+      debugPrint('Response: ${e.response?.data}');
+      // Check for 401 Unauthorized response
+      if (e.response?.statusCode == 401) {
+        DilogCostom.dilogSecss(
+            isErorr: true,
+            title: "انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى",
+            icons: Icons.lock_clock,
+            color: Colors.redAccent);
+        // Navigate to login page
+        Get.offAllNamed('/login');
+        return null;
+      }
     } catch (e) {
       DilogCostom.dilogSecss(
           isErorr: true,
@@ -112,6 +113,9 @@ class UserRegisterController extends GetxController {
       );
       debugPrint(response.data.toString());
       return response.data['code'];
+    } on DioException catch (e) {
+      handleDioError(e);
+      return null;
     } on http.ClientException catch (e) {
       debugPrint(e.message);
       return 0;

@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import '../../../Services/DilogCostom.dart';
-import '../../../Services/Session.dart';
+import '../../../Services/costom_dialog.dart';
+import '../../../Services/session.dart';
 import '../../../Services/base_route.dart';
 
-import '../../../controller/user_register_controller.dart';
+import '../../../Controllers/user_register_controller.dart';
 import '../../../theme.dart';
 import '../DialogsWindows/loading_dialog.dart';
 

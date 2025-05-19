@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Middlewares/auth_middleware.dart';
 import 'package:graduate_gtudiesV2/view/pages/loading_page.dart';
-import 'package:graduate_gtudiesV2/view/system_config_page_v2.dart';
+import 'package:graduate_gtudiesV2/view/system_config_page.dart';
 
 import 'view/pages/Desktop/desktop_home_page.dart';
 import 'view/pages/authentication/signup.dart';
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/login',
           page: () => Login(),
-          middlewares: [AuthMiddleware()],
+          //middlewares: [AuthMiddleware()],
         ),
 
         // Home page with middleware to ensure user is authenticated
@@ -47,13 +47,13 @@ class MyApp extends StatelessWidget {
 
         // Other pages
         GetPage(name: '/SignUp', page: () => SignUp()),
-        GetPage(name: '/LoadingPage', page: () => const LoadingPage()),
+        // GetPage(name: '/LoadingPage', page: () => const LoadingPage()),
         GetPage(name: '/OTP', page: () => OTP()),
 
         // Splash screen that will check authentication status
         GetPage(name: SplashScreen.SplashPage, page: () => SplashScreen()),
         GetPage(
-            name: '/SystemConfigPageRout', page: () => SystemConfigPageV2()),
+            name: '/SystemConfigPageRout', page: () => SystemConfigPage()),
         // GetPage(
         //     name: ResetPasswordMain.resetPassword,
         //     page: () =>  ResetPasswordMain(),

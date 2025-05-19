@@ -4,38 +4,37 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dioo;
-import '../Models/career_Information.dart';
+import 'package:graduate_gtudiesV2/Services/session_error_handler.dart';
+import '../Models/submission.dart';
 import '../Services/base_route.dart';
-import '../Services/DilogCostom.dart';
+import '../Services/costom_dialog.dart';
 import '../Services/Failure.dart';
-import '../Services/Session.dart';
+import '../Services/session.dart';
 
-class CareerInformationController extends GetxController {
-  CareerInformation careerInformation = CareerInformation();
+class SubmissionController extends GetxController with SessionErrorHandler {
+  Submission submission = Submission();
   Map<String, String>? session;
 
   Future<void> getSessionInfo() async {
+    submission = Submission();
     session = await getSession();
   }
 
   @override
-  void onInit() {
-    careerInformation = CareerInformation();
-    getSessionInfo();
+  void onInit() async {
+    //getSessionInfo();
+    await getSessionInfo();
     super.onInit();
   }
 
   Future<bool> uploadData() async {
     try {
-      var headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${session!['token']}'
-      };
-      var data = '[${json.encode(careerInformation.toJson())}]';
-      print('[${json.encode(careerInformation.toJson())}]');
+      debugPrint("session!['token'] ==============   ${session!['token']}");
+      var headers = {'Authorization': 'Bearer ${session!['token']}'};
+      var data = json.encode([submission.toJson()]);
       var dio = Dio();
       var response = await dio.request(
-        '$baseRoute/Careerinformation',
+        '$baseRoute/Submission',
         options: Options(
           method: 'POST',
           headers: headers,
@@ -46,30 +45,31 @@ class CareerInformationController extends GetxController {
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
         DilogCostom.dilogSecss(
             isErorr: false,
-            title: response.data["message"],
+            title: 'response.data["message"]',
             icons: Icons.check,
             color: Colors.greenAccent);
         return true;
       } else {
         DilogCostom.dilogSecss(
             isErorr: true,
-            title: response.data["message"],
+            title: 'response.data["message"]',
             icons: Icons.close,
             color: Colors.redAccent);
       }
     } on dioo.DioException catch (e) {
-      print("-------------------------");
-      print(e.response?.data.toString());
-      print("-------------------------");
-      DilogCostom.dilogSecss(
-          isErorr: true,
-          title: Failure.dioexeptiontype(e)!,
-          icons: Icons.close,
-          color: Colors.redAccent);
+      handleDioError(e);
+      // debugPrint("-------------------------");
+      // debugPrint(e.response?.data.toString());
+      // debugPrint("-------------------------");
+      // DilogCostom.dilogSecss(
+      //     isErorr: true,
+      //     title: Failure.dioexeptiontype(e)!,
+      //     icons: Icons.close,
+      //     color: Colors.redAccent);
     } catch (e) {
       DilogCostom.dilogSecss(
           isErorr: true,
-          title: 'هناك خطأ',
+          title: " ${e.toString()} هناك خطأ",
           icons: Icons.close,
           color: Colors.redAccent);
     }

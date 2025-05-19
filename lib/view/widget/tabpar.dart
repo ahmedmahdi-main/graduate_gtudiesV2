@@ -7,14 +7,13 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 import '../../Services/base_route.dart';
-import '../../controller/home_page_controller.dart';
-import '../../controller/PrintDataController.dart';
+import '../../Controllers/home_page_controller.dart';
+import '../../Controllers/PrintDataController.dart';
 import '../../theme.dart';
 import '../pages/DialogsWindows/loading_dialog.dart';
 import '../pages/print_page.dart';
 import 'buttonsyle.dart';
 import 'printing desgin.dart';
-
 
 class TabPar extends StatelessWidget {
   const TabPar({super.key});
@@ -167,7 +166,8 @@ class TabPar extends StatelessWidget {
                           await controller.getDataToPrint();
                           if (homePageController.informationModule != null) {
                             await Printing.sharePdf(
-                              filename: '${controller.homePageController.fullStudentData.value.serial ?? 'document'}',
+                                filename:
+                                    '${controller.homePageController.fullStudentData.value.serial ?? 'document'}',
                                 bytes: await PrintingUserPage()
                                     .printingPage(controller));
                             debugPrint("PDF shared successfully!");

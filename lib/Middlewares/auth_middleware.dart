@@ -1,66 +1,193 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduate_gtudiesV2/Models/user_info.dart';
-import 'package:graduate_gtudiesV2/Models/user_profile.dart';
-import 'package:graduate_gtudiesV2/controller/user_login_controller.dart';
-import 'package:graduate_gtudiesV2/controller/user_register_controller.dart';
-
-import '../Services/Session.dart';
+import '../Services/session.dart';
 
 class AuthMiddleware extends GetMiddleware {
-  // Higher priority number means this middleware will be executed first
+  static bool _isRedirecting = false;
+
   @override
   int? get priority => 1;
 
   @override
   RouteSettings? redirect(String? route) {
-    // This is the key method that determines if we should redirect
-    return _checkSession();
-  }
-
-  // Helper method to check session synchronously
-  RouteSettings? _checkSession() {
-    // Start the async check but return immediately
-    _performAsyncSessionCheck();
-
-    // Always return null initially to allow navigation to continue
-    // The actual redirection will happen in the async check if needed
+    if (!_isRedirecting) {
+      _performAsyncSessionCheck();
+    }
     return null;
   }
 
-  // This method handles the actual session check asynchronously
   Future<void> _performAsyncSessionCheck() async {
+    if (_isRedirecting) return;
+    _isRedirecting = true;
+
     try {
       final session = await getSession();
+      final String? token = session['token'];
+      final String? timestampStr = session['expiresIn'];
 
-      debugPrint('AuthMiddleware: Checking session token: ${session['token']}');
+      debugPrint('AuthMiddleware: Token: $token, Timestamp: $timestampStr');
 
-      // Check if token exists and is not empty
-      if (session['token'] != null && session['token']!.isNotEmpty) {
-        debugPrint('AuthMiddleware: Valid token found, user is authenticated');
-        // If we're already on the home page, don't redirect
-        UserLogin userLogin = UserLogin();
-        UserProfile userProfile = await userLogin
-            .getUserProfile(UserInfo(accessToken: session['token']));
-        if (userProfile.code != 200 && Get.currentRoute != '/login') {
-        Get.offAllNamed('/login');
-        }
-        if (Get.currentRoute != '/DesktopHomePage') {
-          Get.offAllNamed('/DesktopHomePage');
-        }
+      // Check for missing token or timestamp
+      if (token == null || token.isEmpty || timestampStr == null) {
+        await _forceLogout();
+        return;
+      }
+
+      // Parse epoch timestamp
+      final int? timestamp = int.tryParse(timestampStr);
+      if (timestamp == null) {
+        debugPrint('Invalid timestamp format');
+        await _forceLogout();
+        return;
+      }
+
+      // Convert to DateTime (UTC)
+      final DateTime storedTime =
+          DateTime.fromMillisecondsSinceEpoch(timestamp, isUtc: true);
+      final DateTime currentTime = DateTime.now().toUtc();
+      final Duration difference = currentTime.difference(storedTime);
+
+      debugPrint('Token age: ${difference.inSeconds} seconds');
+
+      // Check expiration (2 hours = 7200 seconds)
+      if (difference.inSeconds > 7200) {
+        await _forceLogout();
       } else {
-        debugPrint('AuthMiddleware: No valid token found, user needs to login');
-        // If we're already on the login page, don't redirect
-        if (Get.currentRoute != '/login') {
-          Get.offAllNamed('/login');
-        }
+        await _redirectToHome();
       }
-    } catch (error) {
-      debugPrint('AuthMiddleware: Error checking session: $error');
-      // On error, redirect to login page
-      if (Get.currentRoute != '/login') {
-        Get.offAllNamed('/login');
-      }
+    } catch (e) {
+      debugPrint('AuthMiddleware error: $e');
+      await _forceLogout();
+    } finally {
+      _isRedirecting = false;
+    }
+  }
+
+  Future<void> _forceLogout() async {
+    await clearSession();
+    if (Get.currentRoute != '/login') {
+      await Get.offAllNamed('/login');
+    }
+  }
+
+  Future<void> _redirectToHome() async {
+    if (Get.currentRoute != '/DesktopHomePage') {
+      await Get.offAllNamed('/DesktopHomePage');
     }
   }
 }
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+
+// import '../Services/session.dart';
+
+// class AuthMiddleware extends GetMiddleware {
+//   static bool _isRedirecting = false;
+
+//   @override
+//   int? get priority => 1;
+
+//   @override
+//   RouteSettings? redirect(String? route) {
+//     _performAsyncSessionCheck();
+//     return null;
+//   }
+
+//   Future<void> _performAsyncSessionCheck() async {
+//     if (_isRedirecting) return; // Prevent multiple redirections
+
+//     try {
+//       final session = await getSession();
+//       debugPrint('AuthMiddleware: Checking session token: ${session['token']}');
+
+//       if (session['token'] != null && session['token']!.isNotEmpty) {
+//         debugPrint('AuthMiddleware: Valid token found, user is authenticated');
+//         if (Get.currentRoute != '/DesktopHomePage') {
+//           _isRedirecting = true;
+//           await Get.offAllNamed('/DesktopHomePage');
+//           _isRedirecting = false;
+//         }
+//       } else {
+//         debugPrint('AuthMiddleware: No valid token found, user needs to login');
+//         if (Get.currentRoute != '/login') {
+//           _isRedirecting = true;
+//           await Get.offAllNamed('/login');
+//           _isRedirecting = false;
+//         }
+//       }
+//     } catch (error) {
+//       debugPrint('AuthMiddleware: Error checking session: $error');
+//       if (!_isRedirecting && Get.currentRoute != '/login') {
+//         _isRedirecting = true;
+//         await Get.offAllNamed('/login');
+//         _isRedirecting = false;
+//       }
+//     }
+//   }
+// }
+// // import 'package:flutter/material.dart';
+// // import 'package:get/get.dart';
+// // import '../Services/session.dart';
+
+// // class AuthMiddleware extends GetMiddleware {
+// //   @override
+// //   int? get priority => 1;
+
+// //   @override
+// //   RouteSettings? redirect(String? route) {
+// //     _performAsyncSessionCheck();
+// //     return null;
+// //   }
+
+// //   Future<void> _performAsyncSessionCheck() async {
+// //     try {
+// //       final session = await getSession();
+// //       final String? token = session['token'];
+// //       final String? timestampStr = session['expiresIn'];
+
+// //       debugPrint('AuthMiddleware: Token: $token, Timestamp: $timestampStr');
+
+// //       if (token == null || token.isEmpty || timestampStr == null) {
+// //         debugPrint('AuthMiddleware: Token or timestamp missing');
+// //         _redirectToLogin();
+// //         return;
+// //       }
+
+// //       try {
+// //         final DateTime storedTime = DateTime.parse(timestampStr);
+// //         final DateTime currentTime = DateTime.now().toUtc();
+// //         final Duration difference = currentTime.difference(storedTime);
+
+// //         debugPrint(
+// //             'AuthMiddleware: Token age: ${difference.inSeconds} seconds');
+
+// //         if (difference.inSeconds > 7200) {
+// //           // 2 hours = 7200 seconds
+// //           debugPrint('AuthMiddleware: Token expired');
+// //           _redirectToLogin();
+// //         } else {
+// //           debugPrint('AuthMiddleware: Valid token');
+// //           _redirectToHome();
+// //         }
+// //       } catch (e) {
+// //         debugPrint('AuthMiddleware: Error parsing timestamp: $e');
+// //         _redirectToLogin();
+// //       }
+// //     } catch (error) {
+// //       debugPrint('AuthMiddleware: Error checking session: $error');
+// //       _redirectToLogin();
+// //     }
+// //   }
+
+// //   void _redirectToLogin() {
+// //     if (Get.currentRoute != '/login') {
+// //       Get.offAllNamed('/login');
+// //     }
+// //   }
+
+// //   void _redirectToHome() {
+// //     if (Get.currentRoute != '/DesktopHomePage') {
+// //       Get.offAllNamed('/DesktopHomePage');
+// //     }
+// //   }
+// // }

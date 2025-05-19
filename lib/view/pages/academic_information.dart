@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Enums/certificate_type.dart';
 
 import '../../Models/full_student_data.dart';
-import '../../Services/DilogCostom.dart';
-import '../../controller/academic_information_controller.dart';
-import '../../controller/home_page_controller.dart';
+import '../../Services/costom_dialog.dart';
+import '../../Controllers/academic_information_controller.dart';
+import '../../Controllers/home_page_controller.dart';
 import '../widget/acadmic information.dart/bachelors.dart';
 import '../widget/acadmic information.dart/master.dart';
 import '../widget/acadmic information.dart/diploma.dart';

@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Enums/documents_types.dart';
 import 'package:graduate_gtudiesV2/Enums/scientific_titles.dart';
 import 'package:graduate_gtudiesV2/Models/academic_information.dart';
-import '../../Services/DilogCostom.dart';
+import '../../Services/costom_dialog.dart';
 import '../../Services/base_route.dart';
-import '../../controller/career_information_controller.dart';
-import '../../controller/dropdown_filter_controllers.dart';
-import '../../controller/home_page_controller.dart';
+import '../../Controllers/career_information_controller.dart';
+import '../../Controllers/dropdown_filter_controllers.dart';
+import '../../Controllers/home_page_controller.dart';
 import '../../theme.dart';
 import '../widget/coustom_calender.dart';
 import '../widget/GifImageCostom.dart';
@@ -71,7 +71,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
       final careerInfo =
           _homeController.fullStudentData.value.careerInformation!.first;
 
-      // Set the career information in the controller
+      // Set the career information in the Controllers
       _careerController.careerInformation = careerInfo.toCareerInformation();
 
       // Update employment status
@@ -281,7 +281,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
     return TitleAndTextStyle(
       controller: _organizationNameController,
       title: "اسم الؤسسة :",
-      // Don't use onchange here, let the controller handle the text
+      // Don't use onchange here, let the Controllers handle the text
     );
   }
 
@@ -336,7 +336,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
     return TitleAndTextStyle(
       controller: _promotionOrderNumberController,
       title: "رقم امر الترقية :",
-      // Don't use onchange here, let the controller handle the text
+      // Don't use onchange here, let the Controllers handle the text
     );
   }
 
@@ -394,7 +394,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
   }
 // Add these methods inside the _FunctionalInformationState class
 
-  // These methods are no longer needed since we're using controller listeners
+  // These methods are no longer needed since we're using Controllers listeners
   // void _handlePromotionNumberChange(dynamic value) {
   //   _promotionOrderNumberController.text = value ?? '';
   //   _promotionOrderDoc.documentsNumber = value;
@@ -455,14 +455,14 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
     // Always initialize documents as an empty array
     _careerController.careerInformation.documents = [];
 
-    // Ensure the commencement date is set from the controller
+    // Ensure the commencement date is set from the Controllers
     if (_commencementDateController.text.isNotEmpty) {
       _careerController.careerInformation.dateCommencement =
           _commencementDateController.text;
       _homeController.dateCommencement = _commencementDateController.text;
     }
 
-    // Ensure organization name is set from the controller
+    // Ensure organization name is set from the Controllers
     if (_organizationNameController.text.isNotEmpty) {
       _careerController.careerInformation.organizationName =
           _organizationNameController.text;
@@ -660,7 +660,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                             GetBuilder<DropdownListController>(
 //                                 //
 //                                 id: 'الحالة الوظيفية',
-//                                 builder: (controller) => DropDownList(
+//                                 builder: (Controllers) => DropDownList(
 //                                     value: employmentStatusId,
 //                                     title: "الحالة الوظيفية",
 //                                     onchange: (val) {
@@ -684,10 +684,10 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                           .careerInformation
 //                                           .employmentStatusId = val;
 //                                       employmentStatusId = val;
-//                                       controller.update();
+//                                       Controllers.update();
 //                                     },
 //                                     DropdownMenuItems:
-//                                         controller.employmentStatusData!
+//                                         Controllers.employmentStatusData!
 //                                             .map((e) => DropdownMenuItem(
 //                                                   value: e.employmentStatusId,
 //                                                   child: Center(
@@ -722,7 +722,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                                   : GetBuilder<
 //                                                           DropdownListController>(
 //                                                       id: 'نوع الموافقة الدراسية',
-//                                                       builder: (controller) {
+//                                                       builder: (Controllers) {
 //                                                         return DropDownList(
 //                                                           value: typeConsentId,
 //                                                           width: 550,
@@ -733,10 +733,10 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                                                 .careerInformation
 //                                                                 .typeConsentId = val;
 //                                                             typeConsentId = val;
-//                                                             controller.update();
+//                                                             Controllers.update();
 //                                                           },
 //                                                           DropdownMenuItems:
-//                                                               controller!
+//                                                               Controllers!
 //                                                                   .typeConsentForStudy!
 //                                                                   .map((e) =>
 //                                                                       DropdownMenuItem(
@@ -756,7 +756,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                         //   width: double.infinity,
 //                                         // ),
 //                                         CustomCalendar(
-//                                           controller: CommencementDate,
+//                                           Controllers: CommencementDate,
 //                                           width: 300,
 //                                           constrainWidth: 300,
 //                                           title:
@@ -769,7 +769,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                         ),
 //                                         GetBuilder<DropdownListController>(
 //                                             id: 'اسم الوزارة',
-//                                             builder: (controller) {
+//                                             builder: (Controllers) {
 //                                               return DropDownList(
 //                                                 value: ministryId,
 //                                                 width: 500,
@@ -780,7 +780,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                                       .ministryId = val;
 //                                                   ministryId = val;
 //                                                   haveUniversityService
-//                                                       .value = controller
+//                                                       .value = Controllers
 //                                                           .ministry!
 //                                                           .where((m) =>
 //                                                               m.ministryId ==
@@ -794,9 +794,9 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                                       haveUniversityService
 //                                                           .value;
 //
-//                                                   controller.update();
+//                                                   Controllers.update();
 //                                                 },
-//                                                 DropdownMenuItems: controller
+//                                                 DropdownMenuItems: Controllers
 //                                                     .ministry!
 //                                                     .map((e) =>
 //                                                         DropdownMenuItem(
@@ -810,7 +810,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                               );
 //                                             }),
 //                                         TitleAndTextStyle(
-//                                           controller:
+//                                           Controllers:
 //                                               organizationNameController,
 //                                           onchange: (value) {
 //                                             careerInformationController
@@ -851,7 +851,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                                   GetBuilder<
 //                                                           DropdownListController>(
 //                                                       id: 'اللقب العلمي',
-//                                                       builder: (controller) {
+//                                                       builder: (Controllers) {
 //                                                         return DropDownList(
 //                                                           value:
 //                                                               scientificTitleId,
@@ -873,9 +873,9 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                                                 .scientificTitleId = val;
 //                                                             scientificTitleId =
 //                                                                 val;
-//                                                             controller.update();
+//                                                             Controllers.update();
 //                                                           },
-//                                                           DropdownMenuItems: controller
+//                                                           DropdownMenuItems: Controllers
 //                                                               .scientificTitles!
 //                                                               .map((e) =>
 //                                                                   DropdownMenuItem(
@@ -897,7 +897,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                                     Row(
 //                                                       children: [
 //                                                         TitleAndTextStyle(
-//                                                           controller:
+//                                                           Controllers:
 //                                                               PromotionOrderNumber,
 //                                                           title:
 //                                                               "رقم امر الترقية :",
@@ -913,7 +913,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
 //                                                         CustomCalendar(
 //                                                           title:
 //                                                               "تاريخ امر الترقية :",
-//                                                           controller:
+//                                                           Controllers:
 //                                                               PromotionOrderDate,
 //                                                         ),
 //                                                       ],

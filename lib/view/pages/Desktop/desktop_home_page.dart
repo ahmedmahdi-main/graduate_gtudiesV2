@@ -1,9 +1,7 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controller/home_page_controller.dart';
+import '../../../Controllers/home_page_controller.dart';
 import '../../../theme.dart';
 import '../../widget/tabpar.dart';
 import '../submission_form.dart';
@@ -14,8 +12,7 @@ class DesktopHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-     // _controller.checkAndNavigate();
+    // _controller.checkAndNavigate();
     var size = MediaQuery.of(context).size;
     return Directionality(
       textDirection: TextDirection.rtl,

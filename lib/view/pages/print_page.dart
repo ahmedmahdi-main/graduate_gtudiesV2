@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Models/college_authorized.dart';
-import 'package:graduate_gtudiesV2/controller/home_page_controller.dart';
+import 'package:graduate_gtudiesV2/Controllers/home_page_controller.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:printing/printing.dart';
@@ -9,7 +9,7 @@ import 'package:intl/intl.dart' as ini;
 import '../../Enums/certificate_competency.dart';
 import '../../Enums/certificate_type.dart';
 import '../../Models/full_student_data.dart';
-import '../../controller/PrintDataController.dart';
+import '../../Controllers/PrintDataController.dart';
 
 class PrintingUserPage {
   HomePageController homePageController = Get.find();
@@ -485,13 +485,13 @@ class PrintingUserPage {
   }
 }
 
-//   Future<Uint8List> printingpage(StudentDataController controllers) async {
+//   Future<Uint8List> printingpage(StudentDataController Controllers) async {
 //     collegeAuthorized = await homePageController.getCollageAuth();
 //     print('${collegeAuthorized?.collegeAuthorized?.name}');
 //     final doc = Document();
 //     var base = await PdfGoogleFonts.changaRegular();
-//     final netImage = await controllers.fetchImage(
-//         controllers.studentSingleDataModule?.imageInformation?.personalPhoto);
+//     final netImage = await Controllers.fetchImage(
+//         Controllers.studentSingleDataModule?.imageInformation?.personalPhoto);
 //     final img = await rootBundle.load('assets/icons/Logo.png');
 //     // final True = await rootBundle.load('assets/icons/true.svg');
 //     String DateTimeStamp(int? unixTimestamp) {
@@ -547,7 +547,7 @@ class PrintingUserPage {
 //                         Text("وزارة التعليم العالي والبحث العلمي",
 //                             style: TextStyle(font: base)),
 //                         Text(
-//                             '${controllers.universities(universitiesId: controllers.department(departmentId: controllers.studentSingleDataModule?.personalInformation?.first.submission?.departmentId)?.universityId)?.universityName}/${controllers.colleges(collegesId: controllers.department(departmentId: controllers.studentSingleDataModule?.personalInformation?.first.submission?.departmentId)?.collegesId)?.collegesName}',
+//                             '${Controllers.universities(universitiesId: Controllers.department(departmentId: Controllers.studentSingleDataModule?.personalInformation?.first.submission?.departmentId)?.universityId)?.universityName}/${Controllers.colleges(collegesId: Controllers.department(departmentId: Controllers.studentSingleDataModule?.personalInformation?.first.submission?.departmentId)?.collegesId)?.collegesName}',
 //                             style: TextStyle(font: base)),
 //                         Text("قسم الدراسات العليا",
 //                             style: TextStyle(font: base)),
@@ -574,7 +574,7 @@ class PrintingUserPage {
 //                             height: 65,
 //                             color: PdfColors.black,
 //                             data:
-//                                 "Serial : ${controllers.studentSingleDataModule?.serial}\n Date : ${DateTimeStamp(controllers.studentSingleDataModule?.serial)} \n Time : ${TimeStamp(controllers.studentSingleDataModule?.serial)}",
+//                                 "Serial : ${Controllers.studentSingleDataModule?.serial}\n Date : ${DateTimeStamp(Controllers.studentSingleDataModule?.serial)} \n Time : ${TimeStamp(Controllers.studentSingleDataModule?.serial)}",
 //                             barcode: Barcode.qrCode()),
 //                       ]),
 //                 ),
@@ -597,9 +597,9 @@ class PrintingUserPage {
 //                         child: Image(MemoryImage(netImage),
 //                             height: 80, width: 60)),
 //                   SizedBox(width: 10),
-//                   if (controllers.studentSingleDataModule?.personalInformation !=
+//                   if (Controllers.studentSingleDataModule?.personalInformation !=
 //                       null)
-//                     for (var personalInformation in controllers
+//                     for (var personalInformation in Controllers
 //                         .studentSingleDataModule!.personalInformation!)
 //                       Container(
 //                           child: Column(
@@ -644,27 +644,27 @@ class PrintingUserPage {
 //                           ])),
 //                 ]),
 //
-//             if (controllers.studentSingleDataModule?.personalInformation != null)
+//             if (Controllers.studentSingleDataModule?.personalInformation != null)
 //               Container(
 //                   //معلومات القبول
 //                   child: Column(
 //                       crossAxisAlignment: CrossAxisAlignment.start,
 //                       children: [
-//                     for (var personalinfo in controllers
+//                     for (var personalinfo in Controllers
 //                         .studentSingleDataModule!.personalInformation!)
 //                       Column(children: [
 //                         titleText(title: "معلومات القبول"),
 //                         textWithTitle(
 //                             title: "الدراسة المطلوبة",
 //                             text:
-//                                 "${personalinfo.typeofStudy!.isEmpty ? "" : personalinfo.typeofStudy?[0].typeofStudy} / ${controllers.universities(universitiesId: controllers.department(departmentId: controllers.studentSingleDataModule?.personalInformation?.first.submission?.departmentId)?.universityId)?.universityName}  /  ${controllers.colleges(collegesId: controllers.department(departmentId: controllers.studentSingleDataModule?.personalInformation?.first.submission?.departmentId)?.collegesId)?.collegesName} /  ${controllers.department(departmentId: controllers.studentSingleDataModule?.personalInformation?.first.submission?.departmentId)?.departmentName} "),
+//                                 "${personalinfo.typeofStudy!.isEmpty ? "" : personalinfo.typeofStudy?[0].typeofStudy} / ${Controllers.universities(universitiesId: Controllers.department(departmentId: Controllers.studentSingleDataModule?.personalInformation?.first.submission?.departmentId)?.universityId)?.universityName}  /  ${Controllers.colleges(collegesId: Controllers.department(departmentId: Controllers.studentSingleDataModule?.personalInformation?.first.submission?.departmentId)?.collegesId)?.collegesName} /  ${Controllers.department(departmentId: Controllers.studentSingleDataModule?.personalInformation?.first.submission?.departmentId)?.departmentName} "),
 //                         Row(
 //                             mainAxisAlignment: MainAxisAlignment.start,
 //                             children: [
 //                               textWithTitle(
 //                                   title: "قناة التقديم",
 //                                   text:
-//                                       "${personalinfo.admissionChannel != null && personalinfo.admissionChannel!.isNotEmpty ? controllers.channelsData(channelsDataId: personalinfo.admissionChannel?.first.channelsId)?.name : ""}"),
+//                                       "${personalinfo.admissionChannel != null && personalinfo.admissionChannel!.isNotEmpty ? Controllers.channelsData(channelsDataId: personalinfo.admissionChannel?.first.channelsId)?.name : ""}"),
 //                               textWithTitle(
 //                                   title: "عدد المقاعد",
 //                                   text:
@@ -673,7 +673,7 @@ class PrintingUserPage {
 //                                 textWithTitle(
 //                                     title: "صلة القرابة",
 //                                     text:
-//                                         "${controllers.Relative(id: personalinfo.submission?.relativeId)?.namerelation}"),
+//                                         "${Controllers.Relative(id: personalinfo.submission?.relativeId)?.namerelation}"),
 //                             ]),
 //                         textWithTitle(
 //                             title:
@@ -684,13 +684,13 @@ class PrintingUserPage {
 //                       ])
 //                   ])),
 //             //معلومات القبول
-//             if (controllers.studentSingleDataModule?.academicInformation != null)
+//             if (Controllers.studentSingleDataModule?.academicInformation != null)
 //               Container(
 //                   child: Column(
 //                       crossAxisAlignment: CrossAxisAlignment.start,
 //                       children: [
 //                     titleText(title: "الشهادات الحاصل عليها"),
-//                     for (FullDataAcademicInformation acinfo in controllers
+//                     for (FullDataAcademicInformation acinfo in Controllers
 //                         .studentSingleDataModule!.academicInformation!)
 //                       Column(
 //                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -705,7 +705,7 @@ class PrintingUserPage {
 //                               textWithTitle(
 //                                   title: "الجهة المانحة للشهادة",
 //                                   text:
-//                                       "${acinfo.certificateIssuedBy}/${controllers.universities(universitiesId: int.tryParse("${acinfo.universityId}"))?.universityName ?? acinfo.universityId}/${controllers.colleges(collegesId: int.tryParse("${acinfo.collegesId}"))?.collegesName ?? acinfo.collegesId}/${controllers.department(departmentId: int.tryParse('${acinfo.departmentId}'))?.departmentName ?? acinfo.departmentId}"),
+//                                       "${acinfo.certificateIssuedBy}/${Controllers.universities(universitiesId: int.tryParse("${acinfo.universityId}"))?.universityName ?? acinfo.universityId}/${Controllers.colleges(collegesId: int.tryParse("${acinfo.collegesId}"))?.collegesName ?? acinfo.collegesId}/${Controllers.department(departmentId: int.tryParse('${acinfo.departmentId}'))?.departmentName ?? acinfo.departmentId}"),
 //                               Row(
 //                                   mainAxisAlignment: MainAxisAlignment.start,
 //                                   children: [
@@ -729,8 +729,8 @@ class PrintingUserPage {
 //                   ])),
 //             //هل لديك ترقين قيد
 //
-//             if (controllers.studentSingleDataModule?.sportChampion != null &&
-//                 controllers.studentSingleDataModule!.sportChampion!.isNotEmpty)
+//             if (Controllers.studentSingleDataModule?.sportChampion != null &&
+//                 Controllers.studentSingleDataModule!.sportChampion!.isNotEmpty)
 //               Container(
 //                   child: Column(
 //                       mainAxisAlignment: MainAxisAlignment.start,
@@ -740,24 +740,24 @@ class PrintingUserPage {
 //                     textWithTitle(
 //                         title: 'الاسم',
 //                         text:
-//                             '${controllers.studentSingleDataModule?.sportChampion?.first.name}'),
+//                             '${Controllers.studentSingleDataModule?.sportChampion?.first.name}'),
 //                     Row(mainAxisAlignment: MainAxisAlignment.start, children: [
 //                       textWithTitle(
 //                           title: 'رقم الكتاب',
 //                           text:
-//                               '${controllers.studentSingleDataModule?.sportChampion?.first.documents?.documentsNumber}'),
+//                               '${Controllers.studentSingleDataModule?.sportChampion?.first.documents?.documentsNumber}'),
 //                       textWithTitle(
 //                           title: 'تاريخ الكتاب',
 //                           text:
-//                               '${controllers.studentSingleDataModule?.sportChampion?.first.documents?.documentsDate}'),
+//                               '${Controllers.studentSingleDataModule?.sportChampion?.first.documents?.documentsDate}'),
 //                     ])
 //                   ])),
-//             controllers.studentSingleDataModule?.certificateCompetency != null &&
-//                     controllers.studentSingleDataModule!.certificateCompetency!
+//             Controllers.studentSingleDataModule?.certificateCompetency != null &&
+//                     Controllers.studentSingleDataModule!.certificateCompetency!
 //                         .isNotEmpty
 //                 ? Container()
 //                 : Column(children: [
-//                     for (var elemnt in controllers
+//                     for (var elemnt in Controllers
 //                         .studentSingleDataModule!.careerInformation!)
 //                       Container(
 //                           child: Column(
@@ -767,8 +767,8 @@ class PrintingUserPage {
 //                             textWithTitle(
 //                                 title: "نوع التوضيف",
 //                                 text:
-//                                     "${controllers.employmentStatusData(employmentstatusDataid: elemnt.employmentStatusId)?.statusName}"),
-//                             if (controllers
+//                                     "${Controllers.employmentStatusData(employmentstatusDataid: elemnt.employmentStatusId)?.statusName}"),
+//                             if (Controllers
 //                                     .ministries(ministriesId: elemnt.ministryId)
 //                                     ?.name !=
 //                                 null)
@@ -776,7 +776,7 @@ class PrintingUserPage {
 //                                 textWithTitle(
 //                                     title: "محل العمل",
 //                                     text:
-//                                         "${controllers.ministries(ministriesId: elemnt.ministryId)?.name}/${elemnt.organizationName ?? ''}"),
+//                                         "${Controllers.ministries(ministriesId: elemnt.ministryId)?.name}/${elemnt.organizationName ?? ''}"),
 //                                 textWithTitle(
 //                                     title: "تاريخ المباشرة بعد اخر شهادة",
 //                                     text: "${elemnt.dateCommencement}"),
@@ -791,7 +791,7 @@ class PrintingUserPage {
 //                                                 textWithTitle(
 //                                                     title: "نوع الكتاب",
 //                                                     text:
-//                                                         "${controllers.documentstypes(doc.documentsTypeId)?.documentsTypeName}"),
+//                                                         "${Controllers.documentstypes(doc.documentsTypeId)?.documentsTypeName}"),
 //                                                 textWithTitle(
 //                                                     title: "رقم الكتاب",
 //                                                     text:
@@ -808,26 +808,26 @@ class PrintingUserPage {
 //                                 textWithTitle(
 //                                     title: "العنوان الوظيفي",
 //                                     text:
-//                                         "${controllers.scientificTitles(scientifictitlesid: controllers.studentSingleDataModule?.careerInformation?.first.scientificTitleId)?.name}")
+//                                         "${Controllers.scientificTitles(scientifictitlesid: Controllers.studentSingleDataModule?.careerInformation?.first.scientificTitleId)?.name}")
 //                               ])
 //                           ]))
 //                     //معلومات شهادات الكفائة
 //                     ,
 //                   ]), //معلومات الوظيفة
 //
-//             if (controllers.studentSingleDataModule?.certificateCompetency !=
+//             if (Controllers.studentSingleDataModule?.certificateCompetency !=
 //                 null)
 //               Container(
 //                 child: Column(
 //                     crossAxisAlignment: CrossAxisAlignment.start,
 //                     children: [
 //                       titleText(title: "معلومات شهادات الكفائة"),
-//                       for (var certificatecompetency in controllers
+//                       for (var certificatecompetency in Controllers
 //                           .studentSingleDataModule!.certificateCompetency!)
 //                         textWithTitle(
 //                           iscotation: true,
 //                           title:
-//                               "حاصل على شهادة  ${CertificateCompetencyTypes.values.where((c) => c.id == certificatecompetency.certificateCompetencyTypeId).first.name} من ${controllers.centers(centersId: certificatecompetency.examCenterId)?.name} وبدرجة ${certificatecompetency.appreciation}",
+//                               "حاصل على شهادة  ${CertificateCompetencyTypes.values.where((c) => c.id == certificatecompetency.certificateCompetencyTypeId).first.name} من ${Controllers.centers(centersId: certificatecompetency.examCenterId)?.name} وبدرجة ${certificatecompetency.appreciation}",
 //                         ),
 //                     ]),
 //               )
@@ -871,15 +871,15 @@ class PrintingUserPage {
 //                             iscotation: true,
 //                             title: " \n ",
 //                           ),
-//                           if (controllers.studentSingleDataModule
+//                           if (Controllers.studentSingleDataModule
 //                                       ?.personalInformation !=
 //                                   null &&
-//                               controllers.studentSingleDataModule!
+//                               Controllers.studentSingleDataModule!
 //                                   .personalInformation!.isNotEmpty)
 //                             textWithTitle(
 //                               iscotation: true,
 //                               title:
-//                                   "${controllers.studentSingleDataModule?.personalInformation?.first.firstName} ${controllers.studentSingleDataModule?.personalInformation?.first.secondName} ${controllers.studentSingleDataModule?.personalInformation?.first.thirdName} ${controllers.studentSingleDataModule?.personalInformation?.first.fourthName}",
+//                                   "${Controllers.studentSingleDataModule?.personalInformation?.first.firstName} ${Controllers.studentSingleDataModule?.personalInformation?.first.secondName} ${Controllers.studentSingleDataModule?.personalInformation?.first.thirdName} ${Controllers.studentSingleDataModule?.personalInformation?.first.fourthName}",
 //                             ),
 //                         ])
 //                   ])),
@@ -899,10 +899,10 @@ class PrintingUserPage {
 //                             iscotation: true,
 //                             title: " \n ",
 //                           ),
-//                           // if (controllers.studentSingleDataModule
+//                           // if (Controllers.studentSingleDataModule
 //                           //             ?.personalInformation !=
 //                           //         null &&
-//                           //     controllers.studentSingleDataModule!
+//                           //     Controllers.studentSingleDataModule!
 //                           //         .personalInformation!.isNotEmpty)
 //                             textWithTitle(
 //                               iscotation: true,

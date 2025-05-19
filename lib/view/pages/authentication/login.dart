@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Models/user_info.dart';
 
-
 import 'package:graduate_gtudiesV2/view/pages/authentication/ResetPassword/reset_Password_email.dart';
 import '../../../Models/user_profile.dart';
-import '../../../Services/DilogCostom.dart';
-import '../../../Services/Session.dart';
+import '../../../Services/costom_dialog.dart';
+import '../../../Services/session.dart';
 import '../../../Services/base_route.dart';
-import '../../../UserProfileInformaition/HashPassword.dart';
+import '../../../UserProfileInformaition/hash_password.dart';
 import '../../../ValidatorFunction/password_validator.dart';
 import '../../../ValidatorFunction/text_validator.dart';
-import '../../../controller/user_login_controller.dart';
-import '../../../controller/user_register_controller.dart';
+import '../../../Controllers/user_login_controller.dart';
+import '../../../Controllers/user_register_controller.dart';
 import '../../../theme.dart';
 import '../../widget/buttonsyle.dart';
 import '../DialogsWindows/loading_dialog.dart';
@@ -59,7 +58,7 @@ class _LoginState extends State<Login> {
                   opacity: 0.05,
                   child: Center(
                     child:
-                    Image(image: ExactAssetImage("assets/icons/Logo.png")),
+                        Image(image: ExactAssetImage("assets/icons/Logo.png")),
                   ),
                 ),
                 SingleChildScrollView(
@@ -93,7 +92,7 @@ class _LoginState extends State<Login> {
                   fontWeight: FontWeight.w900,
                   fontFamily: "Cairo"),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
             // TitleAndTextStyle(
             //   textStyle: authinticationColorText.copyWith(color: KTextColor),
             //   width: double.infinity,
@@ -124,13 +123,13 @@ class _LoginState extends State<Login> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: KBorderColor),
                     ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 14),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
             // Modified Password Field with Visibility Toggle
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,7 +142,7 @@ class _LoginState extends State<Login> {
                 TextFormField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
-                  validator: (value) => passwordValidator(value?? ''),
+                  validator: (value) => passwordValidator(value ?? ''),
                   onFieldSubmitted: (value) async => await login(),
                   decoration: InputDecoration(
                     filled: true,
@@ -165,13 +164,13 @@ class _LoginState extends State<Login> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: KBorderColor),
                     ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 14),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 40),
             Column(
               children: [
                 ButtonStyleS(
@@ -194,7 +193,7 @@ class _LoginState extends State<Login> {
                       SelectedbackgroundColorafter: Colors.blueAccent,
                       aliment: Alignment.center,
                       title: "انشاء حساب",
-                      onTap:   () => Get.offNamed('/SignUp'),
+                      onTap: () => Get.offNamed('/SignUp'),
                     ),
                     // InkWell(
                     //   child: Text(
@@ -240,21 +239,24 @@ class _LoginState extends State<Login> {
         // await clearSession();
         UserProfile userProfile = await login.getUserProfile(userInfo!);
         // debugPrint('userProfile.code ===================== ${userProfile?.code}');
-        if(userProfile?.code == 406){
+        if (userProfile.code == 406) {
           // debugPrint('userProfile.code ===================== ${userInfo?.accessToken}');
-          int? code = await UserRegisterController.resendVerifyEmail(userInfo!.accessToken ?? '');
+          int? code = await UserRegisterController.resendVerifyEmail(
+              userInfo.accessToken ?? '');
           if (code == 200) {
-            Get.offAllNamed(
-                '/OTP', arguments: {'token': userInfo?.accessToken});
+            Get.offAllNamed('/OTP', arguments: {'token': userInfo.accessToken});
           }
           return;
         }
-        await saveSession(userInfo.accessToken!, userProfile.studentUuid!,
-            studentName: userProfile.fullName);
-
+        await saveSession(
+          userInfo.accessToken!,
+          userProfile.studentUuid!,
+          studentName: userProfile.fullName,
+          expiresIn: DateTime.now().toUtc().millisecondsSinceEpoch.toString(),
+        );
 
         Get.back();
-        Get.offNamed('/LoadingPage');
+        Get.offNamed('/DesktopHomePage');
       } else {
         Get.back();
         Get.back();

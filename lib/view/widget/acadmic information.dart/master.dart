@@ -2,16 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduate_gtudiesV2/Services/DilogCostom.dart' show DilogCostom;
+import 'package:graduate_gtudiesV2/Services/costom_dialog.dart' show DilogCostom;
 import '../../../Enums/certificate_type.dart';
 import '../../../Enums/documents_types.dart';
 import '../../../Models/academic_information.dart';
 import '../../../Models/full_student_data.dart';
 import '../../../ValidatorFunction/text_validator.dart';
-import '../../../controller/academic_information_controller.dart';
-import '../../../controller/dropdown_filter_controllers.dart';
+import '../../../Controllers/academic_information_controller.dart';
+import '../../../Controllers/dropdown_filter_controllers.dart';
 
-import '../../../controller/home_page_controller.dart';
+import '../../../Controllers/home_page_controller.dart';
 import '../../../theme.dart';
 import '../coustom_calender.dart';
 import '../GifImageCostom.dart';

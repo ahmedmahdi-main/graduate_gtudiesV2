@@ -1,17 +1,16 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dioo;
+import 'package:graduate_gtudiesV2/Services/session_error_handler.dart';
 import '../Models/academic_information.dart';
 import '../Services/base_route.dart';
-import '../Services/DilogCostom.dart';
+import '../Services/costom_dialog.dart';
 import '../Services/Failure.dart';
-import '../Services/Session.dart';
+import '../Services/session.dart';
 
-class AcademicInformationController extends GetxController {
+class AcademicInformationController extends GetxController with SessionErrorHandler{
   AcademicInformationModel? academicInformationModel;
 
   AcademicInformation academicInformation = AcademicInformation();
@@ -31,7 +30,7 @@ class AcademicInformationController extends GetxController {
     session = await getSession();
   }
   void addOrUpdateAcademicInformation(AcademicInformation newAcademicInfo) {
-    debugPrint('Adding/Updating Academic Info');
+    //debugPrint('Adding/Updating Academic Info');
     if (academicInformationModel == null) {
       debugPrint('-----------academicInformationModel is null-----------');
       return;
@@ -53,7 +52,7 @@ class AcademicInformationController extends GetxController {
   }
   Future<bool> printAcademicInformation() async {
     getSessionInfo();
-    debugPrint('academicInformationModel ===== ${academicInformationModel!.toJson()}');
+    //debugPrint('academicInformationModel ===== ${academicInformationModel!.toJson()}');
     academicInformationModel?.academicInformation!.map((e) => e.documents!.map(
         (e) => debugPrint(
             '\n  documentsNumber = ${e.documentsNumber}  \n  documentsDate = ${e.documentsDate}')));
@@ -94,9 +93,11 @@ class AcademicInformationController extends GetxController {
             color: Colors.redAccent);
       }
     } on dioo.DioException catch (e) {
-      debugPrint("-------------------------");
-      debugPrint(e.response?.data.toString());
-      debugPrint("-------------------------");
+      debugPrint('Error: ${e.message}');
+      debugPrint('Response: ${e.response?.data}');
+      // Check for 401 Unauthorized response
+      handleDioError(e);
+      
       DilogCostom.dilogSecss(
           isErorr: true,
           title: Failure.dioexeptiontype(e)!,

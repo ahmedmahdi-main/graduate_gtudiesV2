@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Services/base_route.dart';
 import '../../../../Models/image_Information.dart';
-import '../../../../Services/DilogCostom.dart';
-import '../../../../Services/Session.dart';
-import '../../../../controller/home_page_controller.dart';
+import '../../../../Services/costom_dialog.dart';
+import '../../../../Services/session.dart';
+import '../../../../Services/session_error_handler.dart';
+import '../../../../Controllers/home_page_controller.dart';
 
-class UploadingImagesController extends GetxController {
+class UploadingImagesController extends GetxController with SessionErrorHandler{
   
   FilePickerResult? martyrsFoundation;
   FilePickerResult? peopleWithSpecialNeeds;
@@ -143,14 +144,7 @@ class UploadingImagesController extends GetxController {
             color: Colors.redAccent);
       }
     } on dioo.DioException catch (e) {
-      debugPrint("-------------------------");
-      debugPrint(e.response?.data.toString());
-      debugPrint("-------------------------");
-      DilogCostom.dilogSecss(
-          isErorr: true,
-          title: '$eهناك خطأ',
-          icons: Icons.close,
-          color: Colors.redAccent);
+      handleDioError(e);
     } catch (e) {
       DilogCostom.dilogSecss(
           isErorr: true,

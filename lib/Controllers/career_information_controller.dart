@@ -3,32 +3,26 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import '../Models/certificate_data.dart';
+import 'package:dio/dio.dart' as dioo;
+import 'package:graduate_gtudiesV2/Services/session_error_handler.dart';
+import '../Models/career_Information.dart';
 import '../Services/base_route.dart';
-import '../Services/DilogCostom.dart';
+import '../Services/costom_dialog.dart';
 import '../Services/Failure.dart';
-import '../Services/Session.dart';
+import '../Services/session.dart';
 
-class CertificateDataController extends GetxController {
-  CertificateData certificateData = CertificateData();
+class CareerInformationController extends GetxController
+    with SessionErrorHandler {
+  CareerInformation careerInformation = CareerInformation();
   Map<String, String>? session;
-  bool isLoading = true;
 
   Future<void> getSessionInfo() async {
-    isLoading = true;
-    update();
     session = await getSession();
-    isLoading = false;
-    update();
   }
 
   @override
   void onInit() {
-    certificateData = CertificateData();
-    certificateData.certificateCompetency = [];
-    certificateData.documents = [];
-
+    careerInformation = CareerInformation();
     getSessionInfo();
     super.onInit();
   }
@@ -37,13 +31,13 @@ class CertificateDataController extends GetxController {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer  ${session!['token']}'
+        'Authorization': 'Bearer ${session!['token']}'
       };
-      var data = json.encode([certificateData.toJson()]);
-      debugPrint(data);
+      var data = '[${json.encode(careerInformation.toJson())}]';
+      // print('[${json.encode(careerInformation.toJson())}]');
       var dio = Dio();
       var response = await dio.request(
-        '$baseRoute/CertificateData',
+        '$baseRoute/Careerinformation',
         options: Options(
           method: 'POST',
           headers: headers,
@@ -65,15 +59,8 @@ class CertificateDataController extends GetxController {
             icons: Icons.close,
             color: Colors.redAccent);
       }
-    } on DioException catch (e) {
-      debugPrint("-------------------------");
-      debugPrint(e.response?.data.toString());
-      debugPrint("-------------------------");
-      DilogCostom.dilogSecss(
-          isErorr: true,
-          title: Failure.dioexeptiontype(e)!,
-          icons: Icons.close,
-          color: Colors.redAccent);
+    } on dioo.DioException catch (e) {
+      handleDioError(e);
     } catch (e) {
       DilogCostom.dilogSecss(
           isErorr: true,

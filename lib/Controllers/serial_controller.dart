@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduate_gtudiesV2/Services/session_error_handler.dart';
 
 import '../Services/base_route.dart';
-import '../Services/DilogCostom.dart';
-import '../Services/Failure.dart';
-import '../Services/Session.dart';
+import '../Services/costom_dialog.dart';
+import '../Services/session.dart';
 
-class SerialController extends GetxController {
+class SerialController extends GetxController with SessionErrorHandler {
   Map<String, String>? session;
   bool isLoading = true;
 
@@ -59,14 +59,7 @@ class SerialController extends GetxController {
             color: Colors.redAccent);
       }
     } on DioException catch (e) {
-      debugPrint("-------------------------");
-      debugPrint(e.message);
-      debugPrint("-------------------------");
-      DilogCostom.dilogSecss(
-          isErorr: true,
-          title: Failure.dioexeptiontype(e)!,
-          icons: Icons.close,
-          color: Colors.redAccent);
+      handleDioError(e);
     } catch (e) {
       DilogCostom.dilogSecss(
           isErorr: true,
@@ -105,14 +98,8 @@ class SerialController extends GetxController {
             color: Colors.redAccent);
       }
     } on DioException catch (e) {
-      debugPrint("-------------------------");
-      debugPrint(e.message);
-      debugPrint("-------------------------");
-      DilogCostom.dilogSecss(
-          isErorr: true,
-          title: Failure.dioexeptiontype(e)!,
-          icons: Icons.close,
-          color: Colors.redAccent);
+      handleDioError(e);
+      return; // Add this return statemen;
     } catch (e) {
       DilogCostom.dilogSecss(
           isErorr: true,

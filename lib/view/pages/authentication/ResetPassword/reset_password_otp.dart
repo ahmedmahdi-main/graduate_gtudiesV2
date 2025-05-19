@@ -9,7 +9,7 @@ import 'package:graduate_gtudiesV2/view/pages/authentication/ResetPassword/reset
 import 'package:graduate_gtudiesV2/view/pages/authentication/signup.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../../../Services/Session.dart';
+import '../../../../Services/session.dart';
 import '../../../../Services/base_route.dart';
 import '../../../../theme.dart';
 import '../../DialogsWindows/DilogCostom.dart';

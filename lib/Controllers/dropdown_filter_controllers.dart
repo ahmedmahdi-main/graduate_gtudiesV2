@@ -2,15 +2,18 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Models/super_data.dart';
+import 'package:graduate_gtudiesV2/Services/costom_dialog.dart';
+import 'package:graduate_gtudiesV2/Services/session_error_handler.dart';
 
 import '../Models/data_information.dart';
 import '../Models/type_of_study.dart';
 import '../Services/base_route.dart';
-import '../Services/Session.dart';
+import '../Services/session.dart';
 
-class DropdownListController extends GetxController {
+class DropdownListController extends GetxController with SessionErrorHandler {
   SuperData? superData;
   Map<String, String>? session;
   final isLoading = false.obs;
@@ -55,9 +58,10 @@ class DropdownListController extends GetxController {
     session = await getSession();
     await setSuperData();
     await setDataInformation();
+    setOpenStudiesValue();
     isLoading.value = false;
     update();
-    setOpenStudiesValue();
+
     super.onInit();
   }
 
@@ -113,21 +117,28 @@ class DropdownListController extends GetxController {
 
   void fillterColleges(int value, String id) {
     colleges = superData!.colleges!.toList();
-    colleges = colleges!.where((element) => element.universityId == value).toList();
+    colleges =
+        colleges!.where((element) => element.universityId == value).toList();
 
-    var departmentId = superData!.openStudies!.map((e) => e.departmentId).toList();
-    var collegesId = superData!.department!.where((e)=> departmentId.contains(e.departmentId)).map((e) => e.collegesId).toList();
+    var departmentId =
+        superData!.openStudies!.map((e) => e.departmentId).toList();
+    var collegesId = superData!.department!
+        .where((e) => departmentId.contains(e.departmentId))
+        .map((e) => e.collegesId)
+        .toList();
 
     // Corrected line: filter colleges where their ID is in collegesId
-    colleges = colleges?.where((e) => collegesId.contains(e.collegesId)).toList();
+    colleges =
+        colleges?.where((e) => collegesId.contains(e.collegesId)).toList();
 
     update([id]);
   }
 
-  void fillterDepartments(int value,String id) {
+  void fillterDepartments(int value, String id) {
     specializations = superData!.specializations!.toList();
-    specializations =
-        specializations!.where((element) => element.departmentId == value).toList();
+    specializations = specializations!
+        .where((element) => element.departmentId == value)
+        .toList();
     update([id]);
   }
 
@@ -140,30 +151,36 @@ class DropdownListController extends GetxController {
           .first
           .universityId!;
       universities = superData?.universities;
-      /*
-      *
-      * */
-
       colleges = superData?.colleges
           ?.where((element) => element.universityId == universityId)
           .toList();
-      var departmentId = superData!.openStudies!.map((e) => e.departmentId).toList();
-      var collegesId = superData!.department!.where((e)=> departmentId.contains(e.departmentId)).map((e) => e.collegesId).toList();
+      var departmentId =
+          superData!.openStudies!.map((e) => e.departmentId).toList();
+      var collegesId = superData!.department!
+          .where((e) => departmentId.contains(e.departmentId))
+          .map((e) => e.collegesId)
+          .toList();
 
       // Corrected line: filter colleges where their ID is in collegesId
-      colleges = colleges?.where((e) => collegesId.contains(e.collegesId)).toList();
+      colleges =
+          colleges?.where((e) => collegesId.contains(e.collegesId)).toList();
 
-      departments = superData?.department?.where((e)=> departmentId.contains(e.departmentId)).toList();
-      specializations = superData?.specializations?.where((e)=> departmentId.contains(e.departmentId)).toList();
+      departments = superData?.department
+          ?.where((e) => departmentId.contains(e.departmentId))
+          .toList();
+      specializations = superData?.specializations
+          ?.where((e) => departmentId.contains(e.departmentId))
+          .toList();
       subSpecializations = superData?.subSpecializations;
       admissionChannel = superData?.admissionchannel;
       channelsData = superData?.channelsData;
-        scientificBackgrounds =superData!.scientificBackgrounds != null ? superData!.scientificBackgrounds!
-          .where((element) => element.universityId == universityId)
-          .toList() : [];
-
+      scientificBackgrounds = superData!.scientificBackgrounds != null
+          ? superData!.scientificBackgrounds!
+              .where((element) => element.universityId == universityId)
+              .toList()
+          : [];
     }
-    
+
     // universityId = superData!.universities!
     //     .where((element) => element.status == 1)
     //     .first
@@ -186,7 +203,6 @@ class DropdownListController extends GetxController {
     // update(['نوع الدراسة المطلوبة']);
     // update(['التخصص']);
     // update(['الاختصاص الحاصل عليه (الخلفيةالعلمية)']);
-
   }
 
   void specializationsData(int index) {
@@ -231,8 +247,7 @@ class DropdownListController extends GetxController {
         .where((element) => element.universityId == universityId)
         .toList();
     scientificBackgrounds = scientificBackgrounds!
-        .where((element) =>
-            element.departmentId == departmentValue )
+        .where((element) => element.departmentId == departmentValue)
         .toList();
     update(['الاختصاص الحاصل عليه (الخلفيةالعلمية)']);
   }
@@ -265,7 +280,8 @@ class DropdownListController extends GetxController {
         return SuperData.fromJson(response.data);
       }
     } on DioException catch (dioex) {
-      debugPrint('----------------getAllData---------------------- $dioex');
+      handleDioError(dioex);
+
       return null;
     } on Exception catch (e) {
       debugPrint('----------------getAllData---------------------- $e');
@@ -291,7 +307,8 @@ class DropdownListController extends GetxController {
         return null;
       }
     } on DioException catch (dioex) {
-      debugPrint('------------getTypeofStudy-------------------------- $dioex');
+      handleDioError(dioex);
+
       return null;
     } on Exception catch (e) {
       debugPrint('-----------------getTypeofStudy--------------------- $e');
@@ -315,7 +332,7 @@ class DropdownListController extends GetxController {
         return DataInformation.fromJson(response.data);
       }
     } on DioException catch (dioex) {
-      debugPrint('------------getDataInformation-------------------------- ${dioex.message}');
+      handleDioError(dioex);
       return DataInformation();
     } on Exception catch (e) {
       debugPrint('-----------------getDataInformation--------------------- $e');

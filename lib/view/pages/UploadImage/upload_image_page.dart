@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Models/full_student_data.dart';
-import '../../../controller/home_page_controller.dart';
+import '../../../Controllers/home_page_controller.dart';
 import '../../widget/buttonsyle.dart';
 import '../DialogsWindows/loading_dialog.dart';
 import 'controller/UploadImageController.dart';

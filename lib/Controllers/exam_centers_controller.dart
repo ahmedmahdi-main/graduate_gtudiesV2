@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:graduate_gtudiesV2/Services/session_error_handler.dart';
 
 import '../Models/exam_centers.dart';
 import '../Services/base_route.dart';
-import '../Services/DilogCostom.dart';
-import '../Services/Failure.dart';
-import '../Services/Session.dart';
+import '../Services/costom_dialog.dart';
+import '../Services/session.dart';
 
-class ExamCentersController extends GetxController {
+class ExamCentersController extends GetxController with SessionErrorHandler{
   bool isLoading = true;
   ExamCenters? examCenters;
   Map<String, String>? session;
@@ -57,14 +58,8 @@ class ExamCentersController extends GetxController {
         return ExamCenters();
       }
     } on DioException catch (e) {
-      debugPrint("-------------------------");
-      debugPrint(e.response?.data.toString());
-      debugPrint("-------------------------");
-      DilogCostom.dilogSecss(
-          isErorr: true,
-          title: Failure.dioexeptiontype(e)!,
-          icons: Icons.close,
-          color: Colors.redAccent);
+        handleDioError(e);
+
     } catch (e) {
       DilogCostom.dilogSecss(
           isErorr: true,
