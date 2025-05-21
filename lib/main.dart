@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Middlewares/auth_middleware.dart';
-import 'package:graduate_gtudiesV2/view/pages/loading_page.dart';
 import 'package:graduate_gtudiesV2/view/system_config_page.dart';
 
 import 'view/pages/Desktop/desktop_home_page.dart';

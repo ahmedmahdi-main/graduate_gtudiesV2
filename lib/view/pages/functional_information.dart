@@ -61,10 +61,18 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
       _promotionOrderDoc.documentsNumber = _promotionOrderNumberController.text;
     });
 
-    _initializeFormData();
+    // Initialize data after the widget is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeFormData();
+    });
   }
 
   void _initializeFormData() {
+    // Check if data is loaded
+    if (_homeController.fullStudentData.value == null) {
+      return;
+    }
+
     // Check if career information exists
     if (_homeController.fullStudentData.value.careerInformation != null &&
         _homeController.fullStudentData.value.careerInformation!.isNotEmpty) {
@@ -509,7 +517,7 @@ class _FunctionalInformationState extends State<FunctionalInformation> {
         borderRadius: const BorderRadius.all(Radius.circular(19)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withAlpha(100),
             spreadRadius: 2,
             blurRadius: 5,
             offset: const Offset(0, 3),

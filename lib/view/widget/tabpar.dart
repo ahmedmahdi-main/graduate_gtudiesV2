@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 import '../../Services/base_route.dart';
@@ -13,7 +12,6 @@ import '../../theme.dart';
 import '../pages/DialogsWindows/loading_dialog.dart';
 import '../pages/print_page.dart';
 import 'buttonsyle.dart';
-import 'printing desgin.dart';
 
 class TabPar extends StatelessWidget {
   const TabPar({super.key});

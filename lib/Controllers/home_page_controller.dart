@@ -217,7 +217,7 @@ class HomePageController extends GetxController with SessionErrorHandler {
     await dropdownListController.setSuperData();
     await dropdownListController.setDataInformation();
     try {
-      debugPrint('${fullStudentData.value.personalInformation?.length}');
+      //debugPrint('${fullStudentData.value.personalInformation?.length}');
       if (fullStudentData.value.personalInformation!.isEmpty) {
         return;
       }
@@ -242,7 +242,7 @@ class HomePageController extends GetxController with SessionErrorHandler {
       final careerInfo = fullStudentData.value.careerInformation?.firstOrNull;
       if (careerInfo != null && careerInfo.employmentStatusId != 3) {
         haveStudyApproval.value = true;
-        debugPrint('haveStudyApproval.value = ${haveStudyApproval.value}');
+        //debugPrint('haveStudyApproval.value = ${haveStudyApproval.value}');
         typeConsentId.value = careerInfo.typeConsentId;
         dateCommencement = careerInfo.dateCommencement;
         var filteredMinistries = dropdownListController.ministry!
@@ -378,8 +378,8 @@ class HomePageController extends GetxController with SessionErrorHandler {
         ),
       );
 
-      debugPrint(
-          'response.statusCode ------------------------ ${response.statusCode}');
+      // debugPrint(
+      //     'response.statusCode ------------------------ ${response.statusCode}');
 
       if (response.statusCode == 200) {
         var data = FullStudentData.fromJson(response.data);

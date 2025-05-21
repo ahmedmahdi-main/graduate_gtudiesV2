@@ -26,8 +26,9 @@ mixin SessionErrorHandler {
           if (e.response?.statusCode == 401) {
             errorMessage = "انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى";
             await clearSession();
+            Get.offAllNamed("/login");
             if (Get.currentRoute != '/login') {
-              await Get.offAllNamed('/login');
+              await Get.offAllNamed("/login");
               return;
             }
             _isHandlingError = false;

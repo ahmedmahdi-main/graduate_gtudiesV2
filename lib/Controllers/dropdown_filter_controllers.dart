@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Models/super_data.dart';
-import 'package:graduate_gtudiesV2/Services/costom_dialog.dart';
 import 'package:graduate_gtudiesV2/Services/session_error_handler.dart';
 
 import '../Models/data_information.dart';

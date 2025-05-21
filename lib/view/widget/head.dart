@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduate_gtudiesV2/Services/session.dart';
 
-
 import '../../Controllers/LogoutController.dart';
 import '../../theme.dart';
 
@@ -14,9 +13,7 @@ class Head extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery
-        .of(context)
-        .size;
+    var size = MediaQuery.of(context).size;
     return SafeArea(
       child: Container(
         padding: const EdgeInsets.only(right: 30, left: 8),
@@ -28,10 +25,10 @@ class Head extends StatelessWidget {
             size.width > SizeR.TabletWidth
                 ? Container()
                 : IconButton(
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                icon: const Icon(Icons.menu)),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    icon: const Icon(Icons.menu)),
             size.width < SizeR.TabletWidth ? Container() : rightside(),
             leftSide()
           ],
@@ -84,7 +81,7 @@ class Head extends StatelessWidget {
         onChanged: (val) async {
           await logoutController.logout();
           await clearSession();
-          Get.offAllNamed("/");
+          Get.offAllNamed("/login");
         },
       ),
     );

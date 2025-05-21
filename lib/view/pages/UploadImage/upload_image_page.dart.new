@@ -1,0 +1,430 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../../Models/full_student_data.dart';
+import '../../../Controllers/home_page_controller.dart';
+import '../../widget/buttonsyle.dart';
+import '../DialogsWindows/loading_dialog.dart';
+import 'controller/UploadImageController.dart';
+import 'widget/upload_image_widget.dart';
+
+class UploadImagePage extends StatefulWidget {
+  const UploadImagePage({super.key});
+
+  @override
+  State<UploadImagePage> createState() => _UploadImagePageState();
+}
+
+class _UploadImagePageState extends State<UploadImagePage> {
+  final HomePageController homePageController = Get.put(HomePageController());
+  late final UploadingImagesController _uploadController;
+  final _formKey = GlobalKey<FormState>();
+  bool _isLoading = true;
+  ImageInformation? _imageInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    _initController();
+  }
+
+  Future<void> _initController() async {
+    try {
+      _uploadController = UploadingImagesController();
+      await _loadInitialData();
+    } catch (e) {
+      debugPrint('Error initializing upload page: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('حدث خطأ في تحميل الصفحة'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Future<void> _loadInitialData() async {
+    if (homePageController.fullStudentData.value.imageInformation != null) {
+      _imageInfo = homePageController.fullStudentData.value.imageInformation;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final uploadController = Get.put(UploadingImagesController());
+    final homePageController = Get.find<HomePageController>();
+
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('رفع المستندات'),
+          centerTitle: true,
+        ),
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Personal Photo
+                      UploadImageWidget(
+                        title: 'إضافة صورة شخصية',
+                        image: uploadController.personalPhoto,
+                        initialImage: _imageInfo?.personalPhoto,
+                        onTap: () => _handleImagePick((file) {
+                          uploadController.personalPhoto = file;
+                        }),
+                      ),
+                      
+                      // Nationality Card - Front
+                      UploadImageWidget(
+                        title: 'إضافة البطاقة الوطنية (الوجه الأمامي)',
+                        image: uploadController.nationalityCardFace1,
+                        initialImage: _imageInfo?.nationalityCardFace1,
+                        onTap: () => _handleImagePick((file) {
+                          uploadController.nationalityCardFace1 = file;
+                        }),
+                      ),
+
+                      // Nationality Card - Back
+                      UploadImageWidget(
+                        title: 'إضافة البطاقة الوطنية (الوجه الخلفي)',
+                        image: uploadController.nationalityCardFace2,
+                        initialImage: _imageInfo?.nationalityCardFace2,
+                        onTap: () => _handleImagePick((file) {
+                          uploadController.nationalityCardFace2 = file;
+                        }),
+                      ),
+                      
+                      // Residence Card - Front
+                      UploadImageWidget(
+                        title: "إضافة بطاقة سكن (الوجه الأمامي)",
+                        image: uploadController.residenceCardFace1,
+                        initialImage: _imageInfo?.residenceCardFace1,
+                        onTap: () => _handleImagePick((file) {
+                          uploadController.residenceCardFace1 = file;
+                        }),  ),
+                          initialImage: _imageInfo?.residenceCardFace2,
+                          onTap: () async {
+                            try {
+                              final result = await controller.pickImage();
+                              if (result != null) {
+                                controller.residenceCardFace2 = result;
+                                controller.update();
+                              }
+                            } catch (e) {
+                              debugPrint('Error picking image: $e');
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('حدث خطأ أثناء تحميل الصورة'),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
+                            }
+                            return controller.residenceCardFace2;
+                          },
+                        ),
+
+                        // Graduation Document
+                        UploadImageWidget(
+                          title: "إضافة وثيقة التخرج",
+                          image: controller.graduationDocument,
+                          initialImage: _imageInfo?.graduationDocument,
+                          onTap: () async {
+                            try {
+                              final result = await controller.pickImage();
+                              if (result != null) {
+                                controller.graduationDocument = result;
+                                controller.update();
+                              }
+                            } catch (e) {
+                              debugPrint('Error picking image: $e');
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('حدث خطأ أثناء تحميل الصورة'),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
+                            }
+                            return controller.graduationDocument;
+                          },
+                        ),
+
+                        // Conditional upload fields based on user type/status
+                        if (homePageController.haveFirstStudentAverage.value)
+                          UploadImageWidget(
+                            title: "إضافة كتاب معدل الطالب الأول",
+                            image: controller.firstStudentAverage,
+                            initialImage: _imageInfo?.firstStudentAverage,
+                            onTap: () async {
+                              try {
+                                final result = await controller.pickImage();
+                                if (result != null) {
+                                  controller.firstStudentAverage = result;
+                                  controller.update();
+                                }
+                              } catch (e) {
+                                debugPrint('Error picking image: $e');
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('حدث خطأ أثناء تحميل الصورة'),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              }
+                              return controller.firstStudentAverage;
+                            },
+                          ),
+
+                        if (homePageController.haveUniversityOrderForDiploma.value)
+                          UploadImageWidget(
+                            title: "إضافة الأمر الجامعي للدبلوم",
+                            image: controller.universityOrderForDiploma,
+                            initialImage: _imageInfo?.universityOrderForDiploma,
+                            onTap: () async {
+                              try {
+                                final result = await controller.pickImage();
+                                if (result != null) {
+                                  controller.universityOrderForDiploma = result;
+                                  controller.update();
+                                }
+                              } catch (e) {
+                                debugPrint('Error picking image: $e');
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('حدث خطأ أثناء تحميل الصورة'),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              }
+                              return controller.universityOrderForDiploma;
+                            },
+                          ),
+
+                        if (homePageController.haveUniversityOrderForTheMastersDegree.value)
+                          UploadImageWidget(
+                            title: "إضافة الأمر الجامعي للماجستير",
+                            image: controller.universityOrderForTheMastersDegree,
+                            initialImage: _imageInfo?.universityOrderForTheMastersDegree,
+                            onTap: () async {
+                              try {
+                                final result = await controller.pickImage();
+                                if (result != null) {
+                                  controller.universityOrderForTheMastersDegree = result;
+                                  controller.update();
+                                }
+                              } catch (e) {
+                                debugPrint('Error picking image: $e');
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('حدث خطأ أثناء تحميل الصورة'),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              }
+                              return controller.universityOrderForTheMastersDegree;
+                            },
+                          ),
+
+                        if (homePageController.havePeopleWithSpecialNeeds.value)
+                          UploadImageWidget(
+                            title: "إضافة كتاب ذوي الاحتياجات الخاصة",
+                            image: controller.peopleWithSpecialNeeds,
+                            initialImage: _imageInfo?.peopleWithSpecialNeeds,
+                            onTap: () async {
+                              try {
+                                final result = await controller.pickImage();
+                                if (result != null) {
+                                  controller.peopleWithSpecialNeeds = result;
+                                  controller.update();
+                                }
+                              } catch (e) {
+                                debugPrint('Error picking image: $e');
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('حدث خطأ أثناء تحميل الصورة'),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              }
+                              return controller.peopleWithSpecialNeeds;
+                            },
+                          ),
+
+                        if (homePageController.haveMartyrsFoundation.value)
+                          UploadImageWidget(
+                            title: "إضافة كتاب شهداء المؤسسة",
+                            image: controller.martyrsFoundation,
+                            initialImage: _imageInfo?.martyrsFoundation,
+                            onTap: () async {
+                              try {
+                                final result = await controller.pickImage();
+                                if (result != null) {
+                                  controller.martyrsFoundation = result;
+                                  controller.update();
+                                }
+                              } catch (e) {
+                                debugPrint('Error picking image: $e');
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('حدث خطأ أثناء تحميل الصورة'),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              }
+                              return controller.martyrsFoundation;
+                            },
+                          ),
+
+                        if (homePageController.haveStudyApproval.value)
+                          UploadImageWidget(
+                            title: "إضافة الموافقة الدراسية",
+                            image: controller.studyApproval,
+                            initialImage: _imageInfo?.studyApproval,
+                            onTap: () async {
+                              try {
+                                final result = await controller.pickImage();
+                                if (result != null) {
+                                  controller.studyApproval = result;
+                                  controller.update();
+                                }
+                              } catch (e) {
+                                debugPrint('Error picking image: $e');
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('حدث خطأ أثناء تحميل الصورة'),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              }
+                              return controller.studyApproval;
+                            },
+                          ),
+                      ],
+                    ),
+                  ),
+                  
+                  // Submit Button
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => const LoadingDialog(),
+                          );
+                          
+                          try {
+                            final success = await controller.uploadFiles();
+                            Navigator.of(context).pop();
+                            
+                            if (success && mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('تم رفع الملفات بنجاح'),
+                                  backgroundColor: Colors.green,
+                                ),
+                              );
+                            }
+                          } catch (e) {
+                            Navigator.of(context).pop();
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('حدث خطأ: ${e.toString()}'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
+                          }
+                        }
+                      },
+                      child: const Text('حفظ التغييرات'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+  
+  @override
+  void dispose() {
+    Get.delete<UploadingImagesController>();
+    super.dispose();
+  }
+
+  // Helper method to show error message
+  void _showError(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
+  }
+
+  // Helper method to show success message
+  void _showSuccess(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  // Helper method to handle image picking
+  Future<File?> _handleImagePick(Function(File) onImagePicked) async {
+    try {
+      final result = await _uploadController.pickImage();
+      if (result != null) {
+        onImagePicked(result);
+        if (mounted) {
+          setState(() {});
+        }
+        return result;
+      }
+    } catch (e) {
+      debugPrint('Error picking image: $e');
+      _showError('حدث خطأ أثناء تحميل الصورة');
+    }
+    return null;
+  }
+}

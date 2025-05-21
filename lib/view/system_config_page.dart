@@ -40,7 +40,6 @@ class SystemConfigPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final isSmallScreen = size.width < 600;
-
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -85,24 +84,32 @@ class SystemConfigPage extends StatelessWidget {
                       // Content
                       SingleChildScrollView(
                         padding: EdgeInsets.all(isSmallScreen ? 16.0 : 24.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            _buildHeaderSection(),
-                            const SizedBox(height: 24),
-                            _buildSystemStatusSection(),
-                            const SizedBox(height: 24),
-                            if (homePageController
-                                    .fullStudentData.value.serial !=
-                                null)
-                              _buildFormMessagesSection(),
-                            if (homePageController
-                                    .fullStudentData.value.serial ==
-                                null)
-                              _buildIncompleteFormMessage(),
-                            const SizedBox(height: 16),
-                          ],
-                        ),
+                        child: Obx(() {
+                          // Show loading indicator while data is being loaded
+                          if (homePageController.isLoading.value) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              _buildHeaderSection(),
+                              const SizedBox(height: 24),
+                              _buildSystemStatusSection(),
+                              const SizedBox(height: 24),
+                              if (homePageController
+                                      .fullStudentData.value.serial !=
+                                  null)
+                                _buildFormMessagesSection(),
+                              if (homePageController
+                                      .fullStudentData.value.serial ==
+                                  null)
+                                _buildIncompleteFormMessage(),
+                              const SizedBox(height: 16),
+                            ],
+                          );
+                        }),
                       ),
                     ],
                   ),
@@ -204,7 +211,7 @@ class SystemConfigPage extends StatelessWidget {
                     onPressed: () async {
                       await logoutController.logout();
                       await clearSession();
-                      Get.offAllNamed("/Login");
+                      Get.offAllNamed("/login");
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: errorColor.withOpacity(0.9),
@@ -460,7 +467,7 @@ class SystemConfigPage extends StatelessWidget {
                           'رقم الاستمارة: ${message.serial ?? 'N/A'}',
                           style: GoogleFonts.tajawal(
                             color: Colors.grey[600],
-                            fontSize: 12,
+                            fontSize: 14,
                           ),
                         ),
                       ],

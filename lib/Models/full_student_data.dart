@@ -864,9 +864,11 @@ class ImageInformation {
   String? politicalPrisoners;
   String? peopleWithSpecialNeeds;
   String? martyrsFoundation;
+  String? cooperationMechanismOfNajafGovernorate;
 
   ImageInformation(
       {this.personalPhoto,
+      this.cooperationMechanismOfNajafGovernorate,
       this.nationalCardFace1,
       this.nationalCardFace2,
       this.residenceCardFace1,
@@ -910,6 +912,7 @@ class ImageInformation {
     politicalPrisoners = json['Political_prisoners'];
     peopleWithSpecialNeeds = json['People_with_special_needs'];
     martyrsFoundation = json['Martyrs_Foundation'];
+    cooperationMechanismOfNajafGovernorate = json['Cooperation_mechanism_of_Najaf_Governorate'];
   }
 
   Map<String, dynamic> toJson() {
@@ -937,6 +940,7 @@ class ImageInformation {
     data['Political_prisoners'] = politicalPrisoners;
     data['People_with_special_needs'] = peopleWithSpecialNeeds;
     data['Martyrs_Foundation'] = martyrsFoundation;
+    data['Cooperation_mechanism_of_Najaf_Governorate'] = cooperationMechanismOfNajafGovernorate;
     return data;
   }
 }
