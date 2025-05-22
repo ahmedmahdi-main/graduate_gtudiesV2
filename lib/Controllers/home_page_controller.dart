@@ -120,7 +120,6 @@ class HomePageController extends GetxController with SessionErrorHandler {
     if (images == null) {
       return;
     }
-    //TODO change image data
     if (fullStudentData.value.academicInformation!.isNotEmpty) {
       haveUniversityOrderForTheMastersDegree.value = fullStudentData
           .value.academicInformation!
@@ -180,6 +179,7 @@ class HomePageController extends GetxController with SessionErrorHandler {
   Rx<double?> averageMaster = 0.0.obs;
 
   bool checkDateCommencement() {
+    //TODO change this function
     if (!haveMaster.value) {
       return true;
     }
@@ -190,9 +190,7 @@ class HomePageController extends GetxController with SessionErrorHandler {
     var date = DateTime.parse(dateCommencement!.replaceAll('/', '-'));
     var newDate = DateTime(date.year + 2, date.month, date.day);
     var date1 = DateTime(DateTime.now().year, 10, 1);
-    debugPrint('haveUniversityService.value = ${haveUniversityService.value}');
     if (haveUniversityService.value) {
-      debugPrint('haveUniversityService.value');
       return true;
     }
 
@@ -274,7 +272,7 @@ class HomePageController extends GetxController with SessionErrorHandler {
     // TODO: implement onReady
     await setVariablesValues();
     setImagesValue();
-    await checkAndNavigate();
+    checkAndNavigate();
     setPageStatus();
     super.onReady();
   }
@@ -303,33 +301,67 @@ class HomePageController extends GetxController with SessionErrorHandler {
     return false;
   }
 
-  Future<void> checkAndNavigate() async {
-    var serial = fullStudentData.value.serial;
-    bool hasSerialNumber = serial != null;
-    bool haveAudit = false;
+  // Future<void> checkAndNavigate() async {
+  //   var serial = fullStudentData.value.serial;
+  //   bool hasSerialNumber = serial != null;
+  //   bool haveAudit = false;
+  //   haveSerialNumber.value = hasSerialNumber;
+  //   final hasAction =
+  //       fullStudentData.value.systemConfig?.formmessage?.first.approveAt !=
+  //               null &&
+  //           fullStudentData.value.systemConfig?.formmessage?.first.modifiedAt ==
+  //               null;
+  //   // Check if the system is set to 'off'
+  //   bool systemOpen = fullStudentData.value.systemConfig?.opensystem == 'off';
+
+  //   // Ensure formmessage is not null or empty before accessing .first
+  //   bool approveAt = false;
+  //   var formMessage = fullStudentData.value.systemConfig?.formmessage;
+
+  //   if (formMessage != null && formMessage.isNotEmpty) {
+  //     var firstFormMessage = formMessage.first;
+  //     var audit = firstFormMessage.audit;
+  //     haveAudit = audit == 'تعديل' || audit == 'طلب تعديل';
+  //     approveAt = (firstFormMessage.approveAt?.isNotEmpty ?? false) &&
+  //         (firstFormMessage.modifiedAt?.isEmpty ?? true);
+  //   }
+  //   if (approveAt) {
+  //     Get.offNamed('/DesktopHomePage');
+  //   } else if (systemOpen || hasSerialNumber) {
+  //     // Navigate to SystemConfigPageRout if system is 'off' or serial exists, and there's no audit
+  //     // Get.offNamed('/DesktopHomePage');
+  //     Get.offNamed('/SystemConfigPageRout');
+  //   } else {
+  //     // Otherwise, load the DesktopHomePage
+  //     Get.offNamed('/DesktopHomePage');
+  //   }
+  // }
+  void checkAndNavigate() {
+    final studentData = fullStudentData.value;
+    final config = studentData.systemConfig;
+
+    final hasSerialNumber = studentData.serial != null;
     haveSerialNumber.value = hasSerialNumber;
+    var haveAudit = false;
+    final isSystemClosed = config?.opensystem == 'off';
+    final formMessage = config?.formmessage;
 
-    // Check if the system is set to 'off'
-    bool systemOpen = fullStudentData.value.systemConfig?.opensystem == 'off';
+    bool shouldApprove = false;
 
-    // Ensure formmessage is not null or empty before accessing .first
-    bool approveAt = false;
-    var formMessage = fullStudentData.value.systemConfig?.formmessage;
-
-    if (formMessage != null && formMessage.isNotEmpty) {
-      var firstFormMessage = formMessage.first;
-      var audit = firstFormMessage.audit;
-      haveAudit = audit == 'تعديل' || audit == 'طلب تعديل';
-      approveAt = (firstFormMessage.approveAt?.isNotEmpty ?? false) &&
-          (firstFormMessage.modifiedAt?.isEmpty ?? true);
+    // Check form message conditions
+    if (formMessage?.isNotEmpty ?? false) {
+      final firstMessage = formMessage!.first;
+      haveAudit =
+          firstMessage.audit == 'تعديل' || firstMessage.audit == 'طلب تعديل';
+      shouldApprove = (firstMessage.approveAt?.isNotEmpty ?? false) &&
+          (firstMessage.modifiedAt?.isEmpty ?? true);
     }
 
-    if (systemOpen || hasSerialNumber) {
-      // Navigate to SystemConfigPageRout if system is 'off' or serial exists, and there's no audit
-      // Get.offNamed('/DesktopHomePage');
+    if (shouldApprove || haveAudit) {
+      Get.offNamed('/DesktopHomePage');
+    } else if (isSystemClosed || hasSerialNumber) {
       Get.offNamed('/SystemConfigPageRout');
     } else {
-      // Otherwise, load the DesktopHomePage
       Get.offNamed('/DesktopHomePage');
     }
   }

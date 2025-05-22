@@ -10,7 +10,7 @@ class TitleAndTextStyle extends StatefulWidget {
   final TextStyle? textStyle;
   final Function(String?)? validator;
   final TextEditingController? controller;
-  final  AutovalidateMode? autovalidateMode;
+  final AutovalidateMode? autovalidateMode;
   final bool? readOnly, isPassword;
   final double? width;
   final MouseCursor? mouseCursor;
@@ -20,6 +20,8 @@ class TitleAndTextStyle extends StatefulWidget {
   final bool? obscureText;
   final Future<void> Function()? onEnter; // Accept asynchronous callback
   final bool enabled;
+  final FocusNode? focusNode;
+  final bool? autofocus;
 
   const TitleAndTextStyle({
     super.key,
@@ -39,7 +41,9 @@ class TitleAndTextStyle extends StatefulWidget {
     this.obscureText,
     this.isPassword,
     this.onEnter,
-    this.enabled = true, // Add onEnter as a constructor parameter
+    this.enabled = true,
+    this.focusNode,
+    this.autofocus = false,
   });
 
   @override
@@ -50,11 +54,25 @@ class _TitleAndTextStyleState extends State<TitleAndTextStyle> {
   TextEditingController textEditingController = TextEditingController();
   var erorr;
   bool isValid = false;
-  FocusNode _keyboardFocusNode = FocusNode();
+  late FocusNode _keyboardFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _keyboardFocusNode = widget.focusNode ?? FocusNode();
+    if (widget.autofocus == true) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _keyboardFocusNode.requestFocus();
+      });
+    }
+  }
 
   @override
   void dispose() {
-    _keyboardFocusNode.dispose();
+    // Only dispose the focus node if it was created by this widget
+    if (widget.focusNode == null) {
+      _keyboardFocusNode.dispose();
+    }
     super.dispose();
   }
 
@@ -113,6 +131,8 @@ class _TitleAndTextStyleState extends State<TitleAndTextStyle> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        focusNode: _keyboardFocusNode,
+                        autofocus: widget.autofocus ?? false,
                         enabled: widget.enabled,
                         style: widget.enabled
                             ? null

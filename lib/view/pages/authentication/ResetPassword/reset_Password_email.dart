@@ -11,11 +11,36 @@ import '../../DialogsWindows/DilogCostom.dart';
 import '../../DialogsWindows/loading_dialog.dart';
 import 'controllers/reset_password_controller.dart';
 
-class ResetPasswordEmail extends StatelessWidget {
-  ResetPasswordEmail({super.key});
+class ResetPasswordEmail extends StatefulWidget {
+  const ResetPasswordEmail({super.key});
 
-  TextEditingController emailTextEditingController = TextEditingController();
-  ResetPasswordController controller = Get.put(ResetPasswordController());
+  @override
+  State<ResetPasswordEmail> createState() => _ResetPasswordEmailState();
+}
+
+class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
+  late final TextEditingController emailTextEditingController;
+  late final FocusNode _emailFocusNode;
+  final ResetPasswordController controller = Get.put(ResetPasswordController());
+
+  @override
+  void initState() {
+    super.initState();
+    emailTextEditingController = TextEditingController();
+    _emailFocusNode = FocusNode();
+    // Request focus after the widget is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _emailFocusNode.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    emailTextEditingController.dispose();
+    _emailFocusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -69,6 +94,8 @@ class ResetPasswordEmail extends StatelessWidget {
                               title: 'ادخل البريد الالكتروني',
                               validator: (value) => isEmailValid(value),
                               controller: emailTextEditingController,
+                              focusNode: _emailFocusNode,
+                              autofocus: true,
                             ),
                           ),
                           const SizedBox(
@@ -127,7 +154,7 @@ class ResetPasswordEmail extends StatelessWidget {
     );
   }
 
-  Container Logo() {
+  Widget Logo() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       child: Row(

@@ -61,7 +61,7 @@ class SystemConfigPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 20,
                       offset: const Offset(0, 10),
                     ),
@@ -214,7 +214,7 @@ class SystemConfigPage extends StatelessWidget {
                       Get.offAllNamed("/login");
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: errorColor.withOpacity(0.9),
+                      backgroundColor: errorColor.withValues(alpha: 0.9),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       shape: RoundedRectangleBorder(
@@ -246,7 +246,7 @@ class SystemConfigPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withValues(alpha: 0.1),
               spreadRadius: 2,
               blurRadius: 8,
               offset: const Offset(0, 4),
@@ -254,8 +254,8 @@ class SystemConfigPage extends StatelessWidget {
           ],
           border: Border.all(
             color: isOpen
-                ? Colors.green.withOpacity(0.3)
-                : Colors.grey.withOpacity(0.3),
+                ? Colors.green.withValues(alpha: 0.3)
+                : Colors.grey.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
@@ -289,12 +289,12 @@ class SystemConfigPage extends StatelessWidget {
             ),
             if (systemConfig?.formmessage?.isNotEmpty == true) ...[
               const SizedBox(height: 12),
-              _buildStatusCard(
-                'عدد الرسائل',
-                '${systemConfig?.formmessage?.length ?? 0} رسالة',
-                Icons.message,
-                primaryColor,
-              ),
+              // _buildStatusCard(
+              //   'عدد الرسائل',
+              //   '${systemConfig?.formmessage?.length ?? 0} رسالة',
+              //   Icons.message,
+              //   primaryColor,
+              // ),
             ],
           ],
         ),
@@ -307,9 +307,9 @@ class SystemConfigPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3), width: 1),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
       ),
       child: Row(
         children: [
@@ -356,7 +356,7 @@ class SystemConfigPage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: primaryColor.withOpacity(0.1),
+                  color: primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(Icons.notes, color: primaryColor, size: 24),
@@ -410,7 +410,7 @@ class SystemConfigPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
+                    color: Colors.grey.withValues(alpha: 0.1),
                     spreadRadius: 2,
                     blurRadius: 8,
                     offset: const Offset(0, 4),
@@ -449,8 +449,8 @@ class SystemConfigPage extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             color: hasAction
-                                ? primaryColor.withOpacity(0.1)
-                                : Colors.orange.withOpacity(0.1),
+                                ? primaryColor.withValues(alpha: 0.1)
+                                : Colors.orange.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -466,8 +466,8 @@ class SystemConfigPage extends StatelessWidget {
                         Text(
                           'رقم الاستمارة: ${message.serial ?? 'N/A'}',
                           style: GoogleFonts.tajawal(
-                            color: Colors.grey[600],
-                            fontSize: 14,
+                            color: Colors.black.withValues(alpha: 0.9),
+                            fontSize: 16,
                           ),
                         ),
                       ],
@@ -483,7 +483,7 @@ class SystemConfigPage extends StatelessWidget {
                           Text(
                             message.message!,
                             style: GoogleFonts.tajawal(
-                              fontSize: 14,
+                              fontSize: 16,
                               color: textColor,
                               height: 1.6,
                             ),
@@ -523,6 +523,8 @@ class SystemConfigPage extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
+                            // homePageController.fullStudentData.value =
+
                             Get.offNamed('/DesktopHomePage');
                           },
                           style: ElevatedButton.styleFrom(
@@ -576,7 +578,7 @@ class SystemConfigPage extends StatelessWidget {
                       dataStatus.value = value;
                     },
                     activeColor: primaryColor,
-                    activeTrackColor: primaryColor.withOpacity(0.5),
+                    activeTrackColor: primaryColor.withValues(alpha: 0.5),
                   ),
                 ],
               ),
